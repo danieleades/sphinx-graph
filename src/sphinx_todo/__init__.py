@@ -10,11 +10,11 @@ from sphinx.environment import BuildEnvironment
 from sphinx.locale import _
 from sphinx.util.docutils import SphinxDirective
 
-from sphinx_todo.config import Config as TodoConfig
+from sphinx_todo.config import Config
 from sphinx_todo.util import unwrap
 
 __all__ = [
-    "TodoConfig",
+    "Config",
 ]
 
 
@@ -62,7 +62,7 @@ class TodoDirective(SphinxDirective):
 
     def run(self) -> Sequence[nodes.Node]:
         """Run the directive and return a ToDo node."""
-        todo_all_todos: List[TodoInfo] = getattr(self.env, "todo_all_todos", [])
+        all_todos: List[TodoInfo] = getattr(self.env, "todo_all_todos", [])
 
         targetid = f"todo-{self.env.new_serialno('todo')}"
         targetnode = nodes.target("", "", ids=[targetid])
@@ -71,7 +71,7 @@ class TodoDirective(SphinxDirective):
         todo_node += nodes.title(_("Todo"), _("Todo"))
         self.state.nested_parse(self.content, self.content_offset, todo_node)
 
-        todo_all_todos.append(
+        all_todos.append(
             TodoInfo(
                 docname=self.env.docname,
                 lineno=self.lineno,
@@ -80,7 +80,7 @@ class TodoDirective(SphinxDirective):
             )
         )
 
-        self.env.todo_all_todos = todo_all_todos  # type: ignore[attr-defined]
+        self.env.todo_all_todos = all_todos  # type: ignore[attr-defined]
 
         return [targetnode, todo_node]
 
@@ -91,24 +91,24 @@ def purge_todos(_app: Sphinx, env: BuildEnvironment, docname: str) -> None:
 
     If there are todos left in the document, they will be added again during parsing.
     """
-    todo_all_todos: List[TodoInfo] = getattr(env, "todo_all_todos", [])
+    all_todos: List[TodoInfo] = getattr(env, "todo_all_todos", [])
 
-    todo_all_todos = [todo for todo in todo_all_todos if todo.docname != docname]
-    env.todo_all_todos = todo_all_todos  # type: ignore[attr-defined]
+    all_todos = [todo for todo in all_todos if todo.docname != docname]
+    env.todo_all_todos = all_todos  # type: ignore[attr-defined]
 
 
 def merge_todos(
     _app: Sphinx, env: BuildEnvironment, _docnames: List[str], other: BuildEnvironment
 ) -> None:
     """Merge the todos from multiple environments during parallel builds."""
-    todo_all_todos: List[TodoInfo] = getattr(env, "todo_all_todos", [])
-    todo_all_todos.extend(getattr(other, "todo_all_todos", []))
+    all_todos: List[TodoInfo] = getattr(env, "todo_all_todos", [])
+    all_todos.extend(getattr(other, "todo_all_todos", []))
 
-    env.todo_all_todos = todo_all_todos  # type: ignore[attr-defined]
+    env.todo_all_todos = all_todos  # type: ignore[attr-defined]
 
 
 def process_todo_nodes(app: Sphinx, doctree: nodes.document, fromdocname: str) -> None:
-    config: TodoConfig = app.config.todo_config
+    config: Config = app.config.todo_config
     if not config.include_todos:
         for todo_node in doctree.findall(ToDo):
             todo_node.parent.remove(todo_node)
@@ -119,7 +119,7 @@ def process_todo_nodes(app: Sphinx, doctree: nodes.document, fromdocname: str) -
     env = unwrap(builder.env)
 
     # get the list of todos from the environment
-    todo_all_todos: List[TodoInfo] = getattr(env, "todo_all_todos", [])
+    all_todos: List[TodoInfo] = getattr(env, "todo_all_todos", [])
 
     for todolist_node in doctree.findall(ToDoList):
         if not config.include_todos:
@@ -128,7 +128,7 @@ def process_todo_nodes(app: Sphinx, doctree: nodes.document, fromdocname: str) -
 
         content: List[nodes.Node] = []
 
-        for todo_info in todo_all_todos:
+        for todo_info in all_todos:
             para = nodes.paragraph()
             filename = env.doc2path(todo_info.docname, base=False)
             description = _(
@@ -154,7 +154,7 @@ def process_todo_nodes(app: Sphinx, doctree: nodes.document, fromdocname: str) -
         todolist_node.replace_self(content)
 
     # update the environment with the latest todos
-    env.todo_all_todos = todo_all_todos  # type: ignore[attr-defined]
+    env.todo_all_todos = all_todos  # type: ignore[attr-defined]
 
 
 class ExtensionMetadata(TypedDict):
@@ -165,7 +165,7 @@ class ExtensionMetadata(TypedDict):
 
 
 def setup(app: Sphinx) -> ExtensionMetadata:
-    app.add_config_value("todo_config", TodoConfig(), "", types=(TodoConfig))
+    app.add_config_value("todo_config", Config(), "", types=(Config))
 
     app.add_node(ToDoList)
     app.add_node(
