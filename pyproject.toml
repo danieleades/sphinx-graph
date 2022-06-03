@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "sphinx-todo"
+version = "0.1.0"
+description = ""
+authors = ["Daniel Eades <danieleades@hotmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+Sphinx = "^5.0.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.2"
+mypy = "^0.960"
+black = "^22.3.0"
+isort = "^5.10.1"
+flake8 = "^4.0.1"
+pep8-naming = "^0.13.0"
+flake8-bugbear = "^22.4.25"
+flake8-simplify = "^0.19.2"
+flake8-comprehensions = "^3.10.0"
+types-docutils = "^0.18.3"
+docutils-stubs = "^0.0.22"
+flake8-unused-arguments = "^0.0.10"
+flake8-use-fstring = "^1.3"
+pyupgrade = "^2.32.1"
+flake8-docstrings = "^1.6.0"
+
+[tool.mypy]
+strict = true
+show_error_codes = true
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
