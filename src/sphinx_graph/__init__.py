@@ -24,8 +24,6 @@ __all__ = [
 class VertexList(nodes.General, nodes.Element):  # type: ignore[misc]
     """An RST node representing a list of Vertex items."""
 
-    pass
-
 
 def visit_vertex_node(self: nodes.GenericNodeVisitor, node: VertexList) -> None:
     self.visit_admonition(node)
@@ -71,6 +69,7 @@ def build_vertex_list(
     fromdocname: str,
     all_vertices: Iterable[VertexInfo],
 ) -> Iterable[nodes.Node]:
+    """Build a VertexList node."""
     for vertex_info in all_vertices:
         para = nodes.paragraph()
         filename = env.doc2path(vertex_info.docname, base=False)
@@ -98,6 +97,7 @@ def build_vertex_list(
 def process_vertex_nodes(
     app: Sphinx, doctree: nodes.document, fromdocname: str
 ) -> None:
+    """Process Vertex nodes into VertexList nodes."""
     config: Config = app.config.graph_config
     if not config.include_vertices:
         for vertex_node in doctree.findall(Vertex):
@@ -132,20 +132,22 @@ def generate_graph(app: Sphinx, _doctree: nodes.document, _fromdocname: str) -> 
     # get the list of vertices from the environment and compose them into a directed graph
     with get_context(env) as context:
         graph = context.graph
-        for id, vertex_info in context.all_vertices.items():
+        for uid, vertex_info in context.all_vertices.items():
             # add each node
-            graph.add_node(id)
+            graph.add_node(uid)
 
             # add all 'child' edges
             for child in vertex_info.children:
-                graph.add_edge(child, id)
+                graph.add_edge(child, uid)
 
             # add all 'parent' edges
             for parent in vertex_info.parents:
-                graph.add_edge(id, parent)
+                graph.add_edge(uid, parent)
 
 
 class ExtensionMetadata(TypedDict):
+    """The metadata returned by this extension."""
+
     version: str
     env_version: int
     parallel_read_safe: bool
@@ -153,6 +155,7 @@ class ExtensionMetadata(TypedDict):
 
 
 def setup(app: Sphinx) -> ExtensionMetadata:
+    """Set up the sphinx-graph extension."""
     app.add_config_value("graph_config", Config(), "", types=(Config))
 
     app.add_node(VertexList)

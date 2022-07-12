@@ -24,15 +24,15 @@ class GraphContext:
     all_vertices: Dict[str, VertexInfo]
     graph: DiGraph
 
-    def insert_vertex(self, id: str, info: VertexInfo) -> None:
+    def insert_vertex(self, uid: str, info: VertexInfo) -> None:
         """Insert a vertex into the context.
 
         Raises:
             DuplicateIdError: If the vertex already exists.
         """
-        if id in self.all_vertices:
-            raise DuplicateIdError(f"Vertex {id} already exists.")
-        self.all_vertices[id] = info
+        if uid in self.all_vertices:
+            raise DuplicateIdError(f"Vertex {uid} already exists.")
+        self.all_vertices[uid] = info
 
 
 @contextmanager
