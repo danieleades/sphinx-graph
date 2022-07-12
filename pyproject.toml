@@ -15,7 +15,7 @@ isort = "^5.10.1"
 pyupgrade = "^2.32.1"
 
 mypy = "^0.960"
-types-docutils = "^0.18.3"
+types-docutils = "^0.19.0"
 docutils-stubs = "^0.0.22"
 
 flake8 = "^4.0.1"
