@@ -50,9 +50,11 @@ def purge_vertices(_app: Sphinx, env: BuildEnvironment, docname: str) -> None:
     If there are vertices left in the document, they will be added again during parsing.
     """
     with get_context(env) as context:
-        context.all_vertices = [
-            vertex for vertex in context.all_vertices if vertex.docname != docname
-        ]
+        context.all_vertices = {
+            vertex.id: vertex
+            for vertex in context.all_vertices.values()
+            if vertex.docname != docname
+        }
 
 
 def merge_vertices(
@@ -60,7 +62,7 @@ def merge_vertices(
 ) -> None:
     """Merge the vertices from multiple environments during parallel builds."""
     with get_context(env) as context, get_context(other) as other_context:
-        context.all_vertices.extend(other_context.all_vertices)
+        context.all_vertices.update(other_context.all_vertices)
 
 
 def build_vertex_list(
@@ -115,7 +117,9 @@ def process_vertex_nodes(
                 continue
 
             content = list(
-                build_vertex_list(builder, env, fromdocname, context.all_vertices)
+                build_vertex_list(
+                    builder, env, fromdocname, context.all_vertices.values()
+                )
             )
             vertexlist_node.replace_self(content)
 
