@@ -2,3 +2,5 @@
 .vscode
 .mypy_cache
 poetry.lock
+**/__pycache__
+coverage.xml
