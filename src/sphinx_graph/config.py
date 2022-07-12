@@ -8,7 +8,7 @@ class Config:
     """Configuration object for Sphinx Graph.
 
     Args:
-        include_todos: Whether to include todos in the output.
+        include_vertices: Whether to include vertices in the output.
     """
 
-    include_todos: bool = False
+    include_vertices: bool = False
