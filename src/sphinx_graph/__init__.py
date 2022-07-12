@@ -51,8 +51,8 @@ def purge_vertices(_app: Sphinx, env: BuildEnvironment, docname: str) -> None:
     """
     with get_context(env) as context:
         context.all_vertices = {
-            vertex.id: vertex
-            for vertex in context.all_vertices.values()
+            id: vertex
+            for id, vertex in context.all_vertices.items()
             if vertex.docname != docname
         }
 
@@ -91,7 +91,7 @@ def build_vertex_list(
         para += nodes.Text(".)")
 
         # Insert into the VertexList
-        yield vertex_info.vertex
+        yield vertex_info.node
         yield para
 
 
@@ -124,6 +124,27 @@ def process_vertex_nodes(
             vertexlist_node.replace_self(content)
 
 
+def generate_graph(app: Sphinx, _doctree: nodes.document, _fromdocname: str) -> None:
+    """Generate a graph of all vertices in the document."""
+    builder = unwrap(app.builder)
+    env = unwrap(builder.env)
+
+    # get the list of vertices from the environment and compose them into a directed graph
+    with get_context(env) as context:
+        graph = context.graph
+        for id, vertex_info in context.all_vertices.items():
+            # add each node
+            graph.add_node(id)
+
+            # add all 'child' edges
+            for child in vertex_info.children:
+                graph.add_edge(child, id)
+
+            # add all 'parent' edges
+            for parent in vertex_info.parents:
+                graph.add_edge(id, parent)
+
+
 class ExtensionMetadata(TypedDict):
     version: str
     env_version: int
@@ -145,6 +166,7 @@ def setup(app: Sphinx) -> ExtensionMetadata:
     app.add_directive("vertexlist", VertexlistDirective)
     app.add_directive("vertex", VertexDirective)
     app.connect("doctree-resolved", process_vertex_nodes)
+    app.connect("doctree-resolved", generate_graph)
     app.connect("env-purge-doc", purge_vertices)
     app.connect("env-merge-info", merge_vertices)
 
