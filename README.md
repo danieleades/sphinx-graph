@@ -1,6 +1,6 @@
-# Sphinx Todo
+# Sphinx Graph
 
-A proof-of-concept modern, strongly-typed implementation of the Sphinx 'todo extension' example.
+A proof-of-concept modern, strongly-typed implementation of the 'Sphinx-Needs' extension (Very early prototype).
 
 a typed API provides
 
@@ -14,7 +14,7 @@ custom configuration object is fully typed, providing a self-documenting configu
 
 *conf.py*
 ```python
-from sphinx_todo import Config as TodoConfig
+from sphinx_graph import Config
 
-todo_config = TodoConfig(include_todos=True)
+graph_config = Config(include_vertices=True)
 ```
