@@ -1,9 +1,10 @@
 """Shared state for the sphinx-graph extension."""
 
 from contextlib import contextmanager
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Dict, Iterator
 
+from networkx import DiGraph
 from sphinx.environment import BuildEnvironment
 from sphinx.errors import DocumentError
 
@@ -20,23 +21,26 @@ class DuplicateIdError(DocumentError):
 class GraphContext:
     """Context object for Sphinx Graph."""
 
-    all_vertices: Dict[str, VertexInfo] = field(default_factory=dict)
+    all_vertices: Dict[str, VertexInfo]
+    graph: DiGraph
 
-    def insert_vertex(self, vertex_info: VertexInfo) -> None:
+    def insert_vertex(self, id: str, info: VertexInfo) -> None:
         """Insert a vertex into the context.
 
         Raises:
             DuplicateIdError: If the vertex already exists.
         """
-        if vertex_info.id in self.all_vertices:
-            raise DuplicateIdError(f"Vertex {vertex_info.id} already exists.")
-        self.all_vertices[vertex_info.id] = vertex_info
+        if id in self.all_vertices:
+            raise DuplicateIdError(f"Vertex {id} already exists.")
+        self.all_vertices[id] = info
 
 
 @contextmanager
 def get_context(env: BuildEnvironment) -> Iterator[GraphContext]:
     """Get the GraphContext object for the given environment."""
     all_vertices = getattr(env, "graph_all_vertices", {})
-    context = GraphContext(all_vertices)
+    graph = getattr(env, "graph_graph", DiGraph())
+    context = GraphContext(all_vertices, graph)
     yield context
     env.graph_all_vertices = context.all_vertices  # type: ignore[attr-defined]
+    env.graph_graph = context.graph  # type: ignore[attr-defined]

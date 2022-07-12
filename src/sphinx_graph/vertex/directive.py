@@ -26,7 +26,6 @@ def parse_list(input: Optional[str]) -> List[str]:
 class Args:
     id: str
     parents: List[str] = field(default_factory=list)
-    siblings: List[str] = field(default_factory=list)
     children: List[str] = field(default_factory=list)
 
 
@@ -37,7 +36,6 @@ class VertexDirective(SphinxDirective):
     required_arguments = 1
     option_spec = {
         "parents": parse_list,
-        "siblings": parse_list,
         "children": parse_list,
     }
 
@@ -54,13 +52,15 @@ class VertexDirective(SphinxDirective):
 
         with get_context(self.env) as context:
             context.insert_vertex(
+                args.id,
                 VertexInfo(
-                    id=args.id,
                     docname=self.env.docname,
                     lineno=self.lineno,
-                    vertex=vertex_node.deepcopy(),
+                    node=vertex_node.deepcopy(),
                     target=targetnode,
-                )
+                    parents=args.parents,
+                    children=args.children,
+                ),
             )
 
         return [targetnode, vertex_node]
