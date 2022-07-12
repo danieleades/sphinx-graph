@@ -17,6 +17,7 @@ __all__ = [
 
 
 def parse_list(input: Optional[str]) -> List[str]:
+    """Parse a comma-separated list of strings."""
     if input is None:
         return []
     return [link.strip() for link in input.split(",")]
@@ -24,7 +25,9 @@ def parse_list(input: Optional[str]) -> List[str]:
 
 @dataclass
 class Args:
-    id: str
+    """Parsed arguments for the Vertex directive."""
+
+    uid: str
     parents: List[str] = field(default_factory=list)
     children: List[str] = field(default_factory=list)
 
@@ -48,11 +51,11 @@ class VertexDirective(SphinxDirective):
         vertex_node += nodes.title(_("Vertex"), _("Vertex"))
         self.state.nested_parse(self.content, self.content_offset, vertex_node)
 
-        args = Args(id=self.arguments[0], **self.options)
+        args = Args(uid=self.arguments[0], **self.options)
 
         with get_context(self.env) as context:
             context.insert_vertex(
-                args.id,
+                args.uid,
                 VertexInfo(
                     docname=self.env.docname,
                     lineno=self.lineno,
