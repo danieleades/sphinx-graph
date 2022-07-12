@@ -11,6 +11,7 @@ from sphinx_graph.vertex.node import Vertex
 class VertexInfo:
     """Vertex information dataclass."""
 
+    id: str
     docname: str
     lineno: int
     vertex: Vertex

@@ -43,7 +43,6 @@ class VertexDirective(SphinxDirective):
 
     def run(self) -> Sequence[nodes.Node]:
         """Run the directive and return a Vertex node."""
-        # _args = Args(id=self.arguments[0], **self.options)
         targetid = f"vertex-{self.env.new_serialno('graph')}"
         targetnode = nodes.target("", "", ids=[targetid])
 
@@ -51,9 +50,12 @@ class VertexDirective(SphinxDirective):
         vertex_node += nodes.title(_("Vertex"), _("Vertex"))
         self.state.nested_parse(self.content, self.content_offset, vertex_node)
 
+        args = Args(id=self.arguments[0], **self.options)
+
         with get_context(self.env) as context:
-            context.all_vertices.append(
+            context.insert_vertex(
                 VertexInfo(
+                    id=args.id,
                     docname=self.env.docname,
                     lineno=self.lineno,
                     vertex=vertex_node.deepcopy(),
