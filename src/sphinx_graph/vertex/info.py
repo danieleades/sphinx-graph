@@ -5,7 +5,7 @@ from typing import List
 
 from docutils import nodes
 
-from sphinx_graph.vertex.node import Vertex
+from sphinx_graph.vertex.node import VertexNode
 
 
 @dataclass
@@ -14,7 +14,7 @@ class VertexInfo:
 
     docname: str
     lineno: int
-    node: Vertex
+    node: VertexNode
     target: nodes.target
     parents: List[str]
-    children: List[str]
+

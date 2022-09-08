@@ -1,4 +1,4 @@
-"""Entrypoint for the sphinx-todo extension."""
+"""Entrypoint for the sphinx-graph extension."""
 
 from typing import Iterable, List, TypedDict
 
@@ -14,7 +14,8 @@ from sphinx_graph.context import get_context
 from sphinx_graph.util import unwrap
 from sphinx_graph.vertex.directive import VertexDirective
 from sphinx_graph.vertex.info import VertexInfo
-from sphinx_graph.vertex.node import Vertex
+from sphinx_graph.vertex.node import VertexNode
+from sphinx_graph.vertex.directive import process as process_vertices
 
 __all__ = [
     "Config",
@@ -25,11 +26,11 @@ class VertexList(nodes.General, nodes.Element):  # type: ignore[misc]
     """An RST node representing a list of Vertex items."""
 
 
-def visit_vertex_node(self: nodes.GenericNodeVisitor, node: VertexList) -> None:
+def visit_vertex_node(self: nodes.GenericNodeVisitor, node: VertexNode) -> None:
     self.visit_admonition(node)
 
 
-def depart_vertex_node(self: nodes.GenericNodeVisitor, node: Vertex) -> None:
+def depart_vertex_node(self: nodes.GenericNodeVisitor, node: VertexNode) -> None:
     self.depart_admonition(node)
 
 
@@ -100,7 +101,7 @@ def process_vertex_nodes(
     """Process Vertex nodes into VertexList nodes."""
     config: Config = app.config.graph_config
     if not config.include_vertices:
-        for vertex_node in doctree.findall(Vertex):
+        for vertex_node in doctree.findall(VertexNode):
             vertex_node.parent.remove(vertex_node)  # type: ignore[union-attr]
 
     # Replace all VertexList nodes with a list of the collected vertices.
@@ -129,20 +130,8 @@ def generate_graph(app: Sphinx, _doctree: nodes.document, _fromdocname: str) -> 
     builder = unwrap(app.builder)
     env = unwrap(builder.env)
 
-    # get the list of vertices from the environment and compose them into a directed graph
     with get_context(env) as context:
-        graph = context.graph
-        for uid, vertex_info in context.all_vertices.items():
-            # add each node
-            graph.add_node(uid)
-
-            # add all 'child' edges
-            for child in vertex_info.children:
-                graph.add_edge(child, uid)
-
-            # add all 'parent' edges
-            for parent in vertex_info.parents:
-                graph.add_edge(uid, parent)
+        context.build_graph()
 
 
 class ExtensionMetadata(TypedDict):
@@ -160,7 +149,7 @@ def setup(app: Sphinx) -> ExtensionMetadata:
 
     app.add_node(VertexList)
     app.add_node(
-        Vertex,
+        VertexNode,
         html=(visit_vertex_node, depart_vertex_node),
         latex=(visit_vertex_node, depart_vertex_node),
         text=(visit_vertex_node, depart_vertex_node),
@@ -168,8 +157,8 @@ def setup(app: Sphinx) -> ExtensionMetadata:
 
     app.add_directive("vertexlist", VertexlistDirective)
     app.add_directive("vertex", VertexDirective)
-    app.connect("doctree-resolved", process_vertex_nodes)
     app.connect("doctree-resolved", generate_graph)
+    app.connect("doctree-resolved", process_vertices)
     app.connect("env-purge-doc", purge_vertices)
     app.connect("env-merge-info", merge_vertices)
 

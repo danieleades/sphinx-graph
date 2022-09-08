@@ -4,12 +4,13 @@ from dataclasses import dataclass, field
 from typing import List, Optional, Sequence
 
 from docutils import nodes
-from sphinx.locale import _
 from sphinx.util.docutils import SphinxDirective
 
 from sphinx_graph.context import get_context
 from sphinx_graph.vertex.info import VertexInfo
-from sphinx_graph.vertex.node import Vertex
+from sphinx_graph.vertex.node import VertexNode
+from sphinx.application import Sphinx
+from sphinx_graph.util import unwrap
 
 __all__ = [
     "VertexDirective",
@@ -44,14 +45,13 @@ class VertexDirective(SphinxDirective):
 
     def run(self) -> Sequence[nodes.Node]:
         """Run the directive and return a Vertex node."""
-        targetid = f"vertex-{self.env.new_serialno('graph')}"
-        targetnode = nodes.target("", "", ids=[targetid])
-
-        vertex_node = Vertex("\n".join(self.content))
-        vertex_node += nodes.title(_("Vertex"), _("Vertex"))
-        self.state.nested_parse(self.content, self.content_offset, vertex_node)
-
         args = Args(uid=self.arguments[0], **self.options)
+
+        content_node = VertexNode("\n".join(self.content))
+        self.state.nested_parse(self.content, self.content_offset, content_node)
+
+        targetnode = nodes.target("", "", ids=[args.uid])
+        placeholder_node = VertexNode(ids=[args.uid])
 
         with get_context(self.env) as context:
             context.insert_vertex(
@@ -59,11 +59,32 @@ class VertexDirective(SphinxDirective):
                 VertexInfo(
                     docname=self.env.docname,
                     lineno=self.lineno,
-                    node=vertex_node.deepcopy(),
+                    node=content_node,
                     target=targetnode,
                     parents=args.parents,
-                    children=args.children,
                 ),
             )
 
-        return [targetnode, vertex_node]
+        return [targetnode, placeholder_node]
+
+
+def process(
+    app: Sphinx, doctree: nodes.document, _fromdocname: str
+) -> None:
+    """Process Vertex nodes by formatting and adding links to graph neighbours."""
+
+    builder = unwrap(app.builder)
+    env = unwrap(builder.env)
+
+    # get the list of todos from the environment
+    with get_context(env) as context:
+
+        print("test")
+
+        for vertex_node in doctree.findall(VertexNode):
+            id = vertex_node.attributes["ids"][0]
+            info = context.all_vertices[id]
+
+            print(info.node)
+
+            vertex_node.replace_self(info.node)
