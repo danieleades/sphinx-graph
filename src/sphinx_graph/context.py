@@ -8,7 +8,7 @@ from networkx import DiGraph
 from sphinx.environment import BuildEnvironment
 from sphinx.errors import DocumentError
 
-from sphinx_graph.vertex.info import VertexInfo
+from sphinx_graph.directives import vertex
 
 
 class DuplicateIdError(DocumentError):
@@ -21,10 +21,10 @@ class DuplicateIdError(DocumentError):
 class Context:
     """Context object for Sphinx Graph."""
 
-    all_vertices: Dict[str, VertexInfo]
+    all_vertices: Dict[str, vertex.Info]
     graph: DiGraph
 
-    def insert_vertex(self, uid: str, info: VertexInfo) -> None:
+    def insert_vertex(self, uid: str, info: vertex.Info) -> None:
         """Insert a vertex into the context.
 
         Raises:
