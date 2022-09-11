@@ -6,8 +6,8 @@ from sphinx.environment import BuildEnvironment
 
 from sphinx_graph.directives.vertex.context import get_context
 from sphinx_graph.directives.vertex.directive import format_node
-from sphinx_graph.util import unwrap
 from sphinx_graph.directives.vertex.node import Node
+from sphinx_graph.util import unwrap
 
 
 def visit_node(_self: nodes.GenericNodeVisitor, _node: Node) -> None:

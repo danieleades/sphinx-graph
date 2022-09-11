@@ -7,6 +7,7 @@ from typing import Dict, Iterator
 from networkx import DiGraph
 from sphinx.environment import BuildEnvironment
 from sphinx.errors import DocumentError
+
 from sphinx_graph.directives.vertex.info import Info as VertexInfo
 
 

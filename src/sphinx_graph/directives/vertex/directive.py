@@ -1,11 +1,12 @@
 """Sphinx Directive for Vertex objects."""
 
 from dataclasses import dataclass, field
-from typing import List, Optional, Sequence
+from typing import List, Sequence
 
 from docutils import nodes
 from sphinx.util.docutils import SphinxDirective
 
+from sphinx_graph import parse
 from sphinx_graph.directives.vertex.context import get_context
 from sphinx_graph.directives.vertex.info import Info
 from sphinx_graph.directives.vertex.node import Node
@@ -13,13 +14,6 @@ from sphinx_graph.directives.vertex.node import Node
 __all__ = [
     "Directive",
 ]
-
-
-def parse_list(input: Optional[str]) -> List[str]:
-    """Parse a comma-separated list of strings."""
-    if input is None:
-        return []
-    return [link.strip() for link in input.split(",")]
 
 
 @dataclass
@@ -36,7 +30,7 @@ class Directive(SphinxDirective):
     has_content = True
     required_arguments = 1
     option_spec = {
-        "parents": parse_list,
+        "parents": parse.list,
     }
 
     def run(self) -> Sequence[nodes.Node]:
