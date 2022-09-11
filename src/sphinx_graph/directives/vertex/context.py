@@ -18,8 +18,8 @@ class DuplicateIdError(DocumentError):
 
 
 @dataclass
-class Context:
-    """Context object for Sphinx Graph."""
+class State:
+    """State object for Sphinx Graph vertices."""
 
     all_vertices: Dict[str, VertexInfo]
     graph: DiGraph
@@ -50,11 +50,11 @@ class Context:
 
 
 @contextmanager
-def get_context(env: BuildEnvironment) -> Iterator[Context]:
+def get_state(env: BuildEnvironment) -> Iterator[State]:
     """Get the GraphContext object for the given environment."""
     all_vertices = getattr(env, "graph_all_vertices", {})
     graph = getattr(env, "graph_graph", DiGraph())
-    context = Context(all_vertices, graph)
-    yield context
-    env.graph_all_vertices = context.all_vertices  # type: ignore[attr-defined]
-    env.graph_graph = context.graph  # type: ignore[attr-defined]
+    state = State(all_vertices, graph)
+    yield state
+    env.graph_all_vertices = state.all_vertices  # type: ignore[attr-defined]
+    env.graph_graph = state.graph  # type: ignore[attr-defined]

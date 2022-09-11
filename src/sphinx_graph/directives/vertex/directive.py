@@ -7,7 +7,7 @@ from docutils import nodes
 from sphinx.util.docutils import SphinxDirective
 
 from sphinx_graph import parse
-from sphinx_graph.directives.vertex.context import get_context
+from sphinx_graph.directives.vertex.context import get_state
 from sphinx_graph.directives.vertex.info import Info
 from sphinx_graph.directives.vertex.node import Node
 
@@ -43,8 +43,8 @@ class Directive(SphinxDirective):
         targetnode = nodes.target("", "", ids=[args.uid])
         placeholder_node = Node(ids=[args.uid])
 
-        with get_context(self.env) as context:
-            context.insert_vertex(
+        with get_state(self.env) as state:
+            state.insert_vertex(
                 args.uid,
                 Info(
                     docname=self.env.docname,

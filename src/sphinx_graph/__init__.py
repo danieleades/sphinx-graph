@@ -7,7 +7,6 @@ from sphinx.application import Sphinx
 
 from sphinx_graph.config import Config
 from sphinx_graph.directives import vertex
-from sphinx_graph.directives.vertex.context import get_context
 from sphinx_graph.util import unwrap
 
 __all__ = [
@@ -20,8 +19,8 @@ def generate_graph(app: Sphinx, _doctree: nodes.document, _fromdocname: str) -> 
     builder = unwrap(app.builder)
     env = unwrap(builder.env)
 
-    with get_context(env) as context:
-        context.build_graph()
+    with vertex.get_state(env) as state:
+        state.build_graph()
 
 
 class ExtensionMetadata(TypedDict):

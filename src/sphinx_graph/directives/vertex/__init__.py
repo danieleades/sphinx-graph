@@ -1,3 +1,4 @@
+from sphinx_graph.directives.vertex.context import get_state
 from sphinx_graph.directives.vertex.directive import Directive
 from sphinx_graph.directives.vertex.events import (
     depart_node,
@@ -9,6 +10,7 @@ from sphinx_graph.directives.vertex.events import (
 from sphinx_graph.directives.vertex.node import Node
 
 __all__ = [
+    "get_state",
     "Directive",
     "depart_node",
     "merge",
