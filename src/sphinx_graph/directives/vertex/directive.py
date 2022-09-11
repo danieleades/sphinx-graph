@@ -4,31 +4,15 @@ from dataclasses import dataclass, field
 from typing import List, Optional, Sequence
 
 from docutils import nodes
-from sphinx.application import Sphinx
 from sphinx.util.docutils import SphinxDirective
-from sphinx.environment import BuildEnvironment
 
-from sphinx_graph.context import get_context
-from sphinx_graph.util import unwrap
+from sphinx_graph.directives.vertex.context import get_context
+from sphinx_graph.directives.vertex.info import Info
+from sphinx_graph.directives.vertex.node import Node
 
 __all__ = [
     "Directive",
 ]
-
-
-class Node(nodes.General, nodes.Element):  # type: ignore[misc]
-    """An RST node representing a Vertex."""
-
-
-@dataclass
-class Info:
-    """Vertex information dataclass."""
-
-    docname: str
-    lineno: int
-    node: Node
-    target: nodes.target
-    parents: List[str]
 
 
 def parse_list(input: Optional[str]) -> List[str]:
@@ -44,7 +28,6 @@ class Args:
 
     uid: str
     parents: List[str] = field(default_factory=list)
-    children: List[str] = field(default_factory=list)
 
 
 class Directive(SphinxDirective):
@@ -54,7 +37,6 @@ class Directive(SphinxDirective):
     required_arguments = 1
     option_spec = {
         "parents": parse_list,
-        "children": parse_list,
     }
 
     def run(self) -> Sequence[nodes.Node]:
@@ -82,7 +64,7 @@ class Directive(SphinxDirective):
         return [targetnode, placeholder_node]
 
 
-def format(id: str, info: Info) -> nodes.Node:
+def format_node(id: str, info: Info) -> nodes.Node:
     """Generate a formatted vertex, ready for insertion into the document."""
     table: nodes.Node = nodes.table()
     tgroup = nodes.tgroup(cols=1)
@@ -112,50 +94,3 @@ def format(id: str, info: Info) -> nodes.Node:
     tgroup += tbody
 
     return table
-
-
-# Event handlers
-
-def visit_node(_self: nodes.GenericNodeVisitor, _node: Node) -> None:
-    pass
-
-
-def depart_node(_self: nodes.GenericNodeVisitor, _node: Node) -> None:
-    pass
-
-
-def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
-    """Process Vertex nodes by formatting and adding links to graph neighbours."""
-    builder = unwrap(app.builder)
-    env = unwrap(builder.env)
-
-    # get the list of todos from the environment
-    with get_context(env) as context:
-
-        for vertex_node in doctree.findall(Node):
-            id = vertex_node.attributes["ids"][0]
-            info = context.all_vertices[id]
-
-            vertex_node.replace_self(format(id, info))
-
-
-def purge(_app: Sphinx, env: BuildEnvironment, docname: str) -> None:
-    """
-    Clear out all vertices whose docname matches the given one from the graph_all_vertices list.
-
-    If there are vertices left in the document, they will be added again during parsing.
-    """
-    with get_context(env) as context:
-        context.all_vertices = {
-            id: vert
-            for id, vert in context.all_vertices.items()
-            if vert.docname != docname
-        }
-
-
-def merge(
-    _app: Sphinx, env: BuildEnvironment, _docnames: List[str], other: BuildEnvironment
-) -> None:
-    """Merge the vertices from multiple environments during parallel builds."""
-    with get_context(env) as context, get_context(other) as other_context:
-        context.all_vertices.update(other_context.all_vertices)
