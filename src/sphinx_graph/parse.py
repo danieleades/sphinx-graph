@@ -1,3 +1,5 @@
+"""Utility functions for parsing restructered text directives into options."""
+
 from typing import List, Optional
 
 

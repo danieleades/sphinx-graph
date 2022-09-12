@@ -1,3 +1,5 @@
+"""Lifecycle events specific to the Vertex node."""
+
 from typing import List
 
 from docutils import nodes
@@ -12,10 +14,20 @@ from sphinx_graph.util import unwrap
 
 
 def visit_node(_self: nodes.GenericNodeVisitor, _node: Node) -> None:
+    """
+    Visits the Vertex node.
+
+    This method is a no-op
+    """
     pass
 
 
 def depart_node(_self: nodes.GenericNodeVisitor, _node: Node) -> None:
+    """
+    Visits the Vertex node.
+
+    This method is a no-op
+    """
     pass
 
 

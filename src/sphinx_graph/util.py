@@ -34,4 +34,5 @@ def intersperse(iterable: Iterable[T], delimiter: T) -> Iterable[T]:
 
 
 def comma_separated_list(items: Iterable[nodes.Node]) -> Iterable[nodes.Node]:
+    """Convert a sequence of docutils nodes into a comma separated list."""
     yield from intersperse(items, nodes.Text(", "))

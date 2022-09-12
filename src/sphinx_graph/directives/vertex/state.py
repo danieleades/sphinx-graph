@@ -4,11 +4,12 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from typing import Dict, Iterator
 
+from docutils import nodes
 from networkx import DiGraph
+from sphinx.builders import Builder
 from sphinx.environment import BuildEnvironment
 from sphinx.errors import DocumentError
-from docutils import nodes
-from sphinx.builders import Builder
+
 from sphinx_graph.directives.vertex.info import Info as VertexInfo
 
 
@@ -49,7 +50,9 @@ class State:
             for parent in vertex_info.parents:
                 self.graph.add_edge(uid, parent)
 
-    def create_reference(self, builder: Builder, target_id: str, from_docname: str) -> nodes.reference:
+    def create_reference(
+        self, builder: Builder, target_id: str, from_docname: str
+    ) -> nodes.reference:
         """Create a relative reference to a vertex by ID."""
         to_docname = self.all_vertices[target_id].docname
         relative_uri = builder.get_relative_uri(from_docname, to_docname)

@@ -1,3 +1,5 @@
+"""Dataclass objects will store information about a Vertex directive."""
+
 from dataclasses import asdict, dataclass
 from typing import List
 
@@ -31,4 +33,5 @@ class InfoParsed:
 
     @classmethod
     def from_info(cls, id: str, children: list[str], info: Info) -> "InfoParsed":
+        """Convert an Info object into an InfoParsed object."""
         return cls(id=id, children=children, **asdict(info))

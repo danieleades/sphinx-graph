@@ -2,4 +2,4 @@
 extend-ignore = E203, U101, E501
 per-file-ignores =
     tests/*:D100,D103
-    examples/**/conf.py:D100
+    example/conf.py:D100
