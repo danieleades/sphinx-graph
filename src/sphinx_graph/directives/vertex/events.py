@@ -4,9 +4,10 @@ from docutils import nodes
 from sphinx.application import Sphinx
 from sphinx.environment import BuildEnvironment
 
-from sphinx_graph.directives.vertex.context import get_state
 from sphinx_graph.directives.vertex.directive import format_node
+from sphinx_graph.directives.vertex.info import InfoParsed
 from sphinx_graph.directives.vertex.node import Node
+from sphinx_graph.directives.vertex.state import get_state
 from sphinx_graph.util import unwrap
 
 
@@ -29,8 +30,10 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
         for vertex_node in doctree.findall(Node):
             id = vertex_node.attributes["ids"][0]
             info = state.all_vertices[id]
+            children = list(state.graph.predecessors(id))
+            info_parsed = InfoParsed.from_info(id, children, info)
 
-            vertex_node.replace_self(format_node(id, info))
+            vertex_node.replace_self(format_node(state, builder, info_parsed))
 
 
 def purge(_app: Sphinx, env: BuildEnvironment, docname: str) -> None:

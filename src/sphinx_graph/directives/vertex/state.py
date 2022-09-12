@@ -7,7 +7,8 @@ from typing import Dict, Iterator
 from networkx import DiGraph
 from sphinx.environment import BuildEnvironment
 from sphinx.errors import DocumentError
-
+from docutils import nodes
+from sphinx.builders import Builder
 from sphinx_graph.directives.vertex.info import Info as VertexInfo
 
 
@@ -47,6 +48,13 @@ class State:
             # add all 'parent' edges
             for parent in vertex_info.parents:
                 self.graph.add_edge(uid, parent)
+
+    def create_reference(self, builder: Builder, target_id: str, from_docname: str) -> nodes.reference:
+        """Create a relative reference to a vertex by ID."""
+        to_docname = self.all_vertices[target_id].docname
+        relative_uri = builder.get_relative_uri(from_docname, to_docname)
+        refuri = f"{relative_uri}#{target_id}"
+        return nodes.reference(refuri=refuri)
 
 
 @contextmanager

@@ -1,4 +1,5 @@
-from sphinx_graph.directives.vertex.context import get_state
+"""Types and events for the 'Vertex' object."""
+
 from sphinx_graph.directives.vertex.directive import Directive
 from sphinx_graph.directives.vertex.events import (
     depart_node,
@@ -8,9 +9,9 @@ from sphinx_graph.directives.vertex.events import (
     visit_node,
 )
 from sphinx_graph.directives.vertex.node import Node
+from sphinx_graph.directives.vertex.state import get_state
 
 __all__ = [
-    "get_state",
     "Directive",
     "depart_node",
     "merge",
@@ -18,4 +19,5 @@ __all__ = [
     "purge",
     "visit_node",
     "Node",
+    "get_state",
 ]

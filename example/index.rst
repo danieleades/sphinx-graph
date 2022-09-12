@@ -10,33 +10,8 @@ Basic Example
    :maxdepth: 2
    :caption: Contents:
 
-
-.. vertex:: 01
-   :children: 04
-
-   this is a vertex directive
-
-.. vertex:: 02
-   :parents: 01
-
-   this is a vertex directive
-
-   .. note::
-      it contains nested restructured text
-
-.. vertex:: 03
-   :parents: 01
-
-   this is a vertex directive
-
-.. vertex:: 04
-
-   this is a vertex directive
-
-.. vertex:: 05
-
-   this is a vertex directive
-
+   src/usr/index
+   src/sys/index
 
 
 Indices and tables

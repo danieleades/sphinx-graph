@@ -1,15 +1,17 @@
 """Sphinx Directive for Vertex objects."""
 
 from dataclasses import dataclass, field
-from typing import List, Sequence
+from typing import Iterator, List, Sequence
 
 from docutils import nodes
+from sphinx.builders import Builder
 from sphinx.util.docutils import SphinxDirective
 
 from sphinx_graph import parse
-from sphinx_graph.directives.vertex.context import get_state
-from sphinx_graph.directives.vertex.info import Info
+from sphinx_graph.directives.vertex.info import Info, InfoParsed
 from sphinx_graph.directives.vertex.node import Node
+from sphinx_graph.directives.vertex.state import State, get_state
+from sphinx_graph.util import comma_separated_list
 
 __all__ = [
     "Directive",
@@ -58,7 +60,34 @@ class Directive(SphinxDirective):
         return [targetnode, placeholder_node]
 
 
-def format_node(id: str, info: Info) -> nodes.Node:
+def format_reference(id: str, reference: nodes.reference) -> nodes.reference:
+    reference.append(nodes.Text(id))
+    return reference
+
+
+def create_references(
+    state: State, builder: Builder, from_docname: str, ids: list[str]
+) -> Iterator[nodes.Node]:
+    for id in ids:
+        reference = format_reference(
+            id, state.create_reference(builder, id, from_docname)
+        )
+        yield reference
+
+
+def create_references_para(
+    state: State, builder: Builder, from_docname: str, prefix: str, ids: list[str]
+) -> nodes.paragraph:
+    references = list(create_references(state, builder, from_docname, ids))
+    if references:
+        para = nodes.paragraph()
+        para += nodes.Text(prefix)
+        para.extend(comma_separated_list(references))
+        return para
+    return None
+
+
+def format_node(state: State, builder: Builder, info: InfoParsed) -> nodes.Node:
     """Generate a formatted vertex, ready for insertion into the document."""
     table: nodes.Node = nodes.table()
     tgroup = nodes.tgroup(cols=1)
@@ -66,16 +95,28 @@ def format_node(id: str, info: Info) -> nodes.Node:
     tgroup.append(colspec)
     table += tgroup
 
+    # add header
     thead = nodes.thead()
     tgroup += thead
     row = nodes.row()
     entry = nodes.entry()
-    entry += nodes.paragraph(text=f"Requirement: {id}")
+    entry += nodes.paragraph(text=f"Requirement: {info.id}")
     row += entry
-
     thead.append(row)
 
     tbody = nodes.tbody()
+
+    # add attributes
+    row = nodes.row()
+    entry = nodes.entry()
+
+    for prefix, ids in [("parents: ", info.parents), ("children: ", info.children)]:
+        para = create_references_para(state, builder, info.docname, prefix, ids)
+        if para:
+            entry += para
+
+    row += entry
+    tbody.append(row)
 
     # add content
     row = nodes.row()
