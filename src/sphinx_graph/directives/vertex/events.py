@@ -1,6 +1,6 @@
 """Lifecycle events specific to the Vertex node."""
 
-from typing import List
+from __future__ import annotations
 
 from docutils import nodes
 from sphinx.application import Sphinx
@@ -63,7 +63,7 @@ def purge(_app: Sphinx, env: BuildEnvironment, docname: str) -> None:
 
 
 def merge(
-    _app: Sphinx, env: BuildEnvironment, _docnames: List[str], other: BuildEnvironment
+    _app: Sphinx, env: BuildEnvironment, _docnames: list[str], other: BuildEnvironment
 ) -> None:
     """Merge the vertices from multiple environments during parallel builds."""
     with get_state(env) as state, get_state(other) as other_state:

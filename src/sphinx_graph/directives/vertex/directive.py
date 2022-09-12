@@ -1,7 +1,8 @@
 """Sphinx Directive for Vertex objects."""
+from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Iterator, List, Sequence
+from typing import Iterator, Sequence
 
 from docutils import nodes
 from sphinx.builders import Builder
@@ -23,7 +24,7 @@ class Args:
     """Parsed arguments for the Vertex directive."""
 
     uid: str
-    parents: List[str] = field(default_factory=list)
+    parents: list[str] = field(default_factory=list)
 
 
 class Directive(SphinxDirective):
@@ -32,7 +33,7 @@ class Directive(SphinxDirective):
     has_content = True
     required_arguments = 1
     option_spec = {
-        "parents": parse.list,
+        "parents": parse.comma_separated_list,
     }
 
     def run(self) -> Sequence[nodes.Node]:

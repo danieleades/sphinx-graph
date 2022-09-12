@@ -1,9 +1,8 @@
 """Utility functions for parsing restructered text directives into options."""
+from __future__ import annotations
 
-from typing import List, Optional
 
-
-def list(input: Optional[str]) -> List[str]:
+def comma_separated_list(input: str | None) -> list[str]:
     """Parse a comma-separated list of strings."""
     if input is None:
         return []

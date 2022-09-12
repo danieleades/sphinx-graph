@@ -1,7 +1,7 @@
 """Dataclass objects will store information about a Vertex directive."""
+from __future__ import annotations
 
 from dataclasses import asdict, dataclass
-from typing import List
 
 from docutils import nodes
 
@@ -16,7 +16,7 @@ class Info:
     lineno: int
     node: Node
     target: nodes.target
-    parents: List[str]
+    parents: list[str]
 
 
 @dataclass
@@ -28,10 +28,10 @@ class InfoParsed:
     lineno: int
     node: Node
     target: nodes.target
-    parents: List[str]
-    children: List[str]
+    parents: list[str]
+    children: list[str]
 
     @classmethod
-    def from_info(cls, id: str, children: list[str], info: Info) -> "InfoParsed":
+    def from_info(cls, id: str, children: list[str], info: Info) -> InfoParsed:
         """Convert an Info object into an InfoParsed object."""
         return cls(id=id, children=children, **asdict(info))
