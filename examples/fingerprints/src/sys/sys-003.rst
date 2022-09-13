@@ -4,4 +4,7 @@ SYS-003
 .. vertex:: SYS-003
    :parents: USR-001:abcde
 
-   this requirement has a 'suspect' link to USR-001
+   this requirement has a 'suspect' link to USR-001. It needs to be reviewed,
+   and have the 'fingerprint' manually updated.
+
+   The build errors contain the new fingerprint.

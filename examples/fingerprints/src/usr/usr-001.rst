@@ -2,5 +2,6 @@ USR-001
 -------
 
 .. vertex:: USR-001
+   :parents: MRD-001:WX6nL
 
    this is high-level user requirement of some sort

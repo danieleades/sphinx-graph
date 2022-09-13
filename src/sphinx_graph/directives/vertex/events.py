@@ -42,8 +42,10 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
             info = state.all_vertices[uid]
             children = list(state.graph.predecessors(uid))
             info_parsed = InfoParsed.from_info(uid, info, children)
-
-            vertex_node.replace_self(format_node(state, builder, info_parsed))
+            if info.transparent:
+                vertex_node.replace_self(info.node)
+            else:
+                vertex_node.replace_self(format_node(state, builder, info_parsed))
 
 
 def purge(_app: Sphinx, env: BuildEnvironment, docname: str) -> None:

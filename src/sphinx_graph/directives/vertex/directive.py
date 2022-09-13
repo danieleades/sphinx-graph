@@ -42,12 +42,19 @@ def parse_parents(input: str | None) -> list[Link]:
     return output
 
 
+def parse_flag(input: str | None) -> bool:
+    if input:
+        raise ValueError("not expecting a value")
+    return True
+
+
 @dataclass
 class Args:
     """Parsed arguments for the Vertex directive."""
 
     uid: str
     parents: list[Link] = field(default_factory=list)
+    transparent: bool = False
 
 
 class Directive(SphinxDirective):
@@ -57,6 +64,7 @@ class Directive(SphinxDirective):
     required_arguments = 1
     option_spec = {
         "parents": parse_parents,
+        "transparent": parse_flag,
     }
 
     def run(self) -> Sequence[nodes.Node]:
@@ -83,6 +91,7 @@ class Directive(SphinxDirective):
                     target=targetnode,
                     parents=args.parents,
                     fingerprint=fingerprint,
+                    transparent=args.transparent,
                 ),
             )
 

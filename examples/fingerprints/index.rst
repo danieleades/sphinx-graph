@@ -10,6 +10,7 @@ Basic Example
    :maxdepth: 2
    :caption: Contents:
 
+   src/mrd/mrd-001
    src/usr/index
    src/sys/index
 
