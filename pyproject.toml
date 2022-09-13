@@ -29,9 +29,6 @@ optional = true
 black = "^22.3.0"
 isort = "^5.10.1"
 
-pytest = "^7.1.2"
-pytest-cov = "^3.0.0"
-
 mypy = "^0.971"
 docutils-stubs = "^0.0.22"
 types-docutils = "^0.19.0"
