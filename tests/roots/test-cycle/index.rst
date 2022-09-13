@@ -12,4 +12,3 @@
    :parents: REQ-02
 
    this is a vertex directive
-
