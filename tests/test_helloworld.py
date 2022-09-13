@@ -2,6 +2,7 @@ import networkx as nx
 import pytest
 from sphinx.application import Sphinx
 from sphinx.errors import SphinxWarning
+
 from sphinx_graph.directives.vertex.state import DuplicateIdError, get_state
 from sphinx_graph.util import unwrap
 

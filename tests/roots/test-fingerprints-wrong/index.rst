@@ -6,4 +6,3 @@
    :parents: REQ-01:12345
 
    this is a vertex directive
-

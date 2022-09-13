@@ -4,11 +4,11 @@ from typing import TypedDict
 
 from docutils import nodes
 from sphinx.application import Sphinx
+from sphinx.util.logging import getLogger
 
 from sphinx_graph.config import Config
 from sphinx_graph.directives import vertex
 from sphinx_graph.util import unwrap
-from sphinx.util.logging import getLogger
 
 __all__ = [
     "Config",

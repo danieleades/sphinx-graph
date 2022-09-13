@@ -19,7 +19,6 @@
 
 from sphinx_graph.config import Config
 
-
 project = "test"
 copyright = "2022, daniel.eades"
 author = "daniel.eades"

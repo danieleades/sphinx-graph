@@ -1,6 +1,7 @@
+import pytest
+
 from sphinx_graph.directives.vertex.directive import parse_parents
 from sphinx_graph.directives.vertex.info import Link
-import pytest
 
 
 @pytest.mark.parametrize("input,expected", [("REQ-01", [Link("REQ-01", None)])])

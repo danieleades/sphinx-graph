@@ -52,7 +52,9 @@ class State:
                 print(f"FINGERPRINT: {parent.fingerprint}")
                 self.graph.add_edge(uid, parent.id, fingerprint=parent.fingerprint)
 
-    def check_fingerprints(self, logger: SphinxLoggerAdapter, fingerprints_required: bool) -> None:
+    def check_fingerprints(
+        self, logger: SphinxLoggerAdapter, fingerprints_required: bool
+    ) -> None:
         """Check for suspect links and raise sphinx warnings."""
         for (child_id, parent_id, fingerprint) in self.graph.edges.data("fingerprint"):
             print(f"FINGERPRINT: {fingerprint}")
@@ -61,7 +63,7 @@ class State:
                 logger.warning(
                     f"link fingerprints are required, but {child_id} doesn't have a fingerprint for its parent, {parent_id}"
                     f"{parent_id}'s fingerprint is {parent.fingerprint}"
-                    )
+                )
             if fingerprint and fingerprint != parent.fingerprint:
                 logger.warning(
                     f"suspect link found. vertex {child_id} is linked to vertex {parent_id} with a fingerprint of {fingerprint}, but {parent_id}'s fingerprint is {parent.fingerprint}"

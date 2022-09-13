@@ -1,9 +1,9 @@
 """Sphinx Directive for Vertex objects."""
 from __future__ import annotations
-import base64
 
-from dataclasses import dataclass, field
+import base64
 import hashlib
+from dataclasses import dataclass, field
 from typing import Iterable, Iterator, Sequence
 
 from docutils import nodes
@@ -75,7 +75,7 @@ class Directive(SphinxDirective):
                     node=content_node,
                     target=targetnode,
                     parents=args.parents,
-                    fingerprint=fingerprint
+                    fingerprint=fingerprint,
                 ),
             )
 
@@ -133,7 +133,9 @@ def format_node(state: State, builder: Builder, info: InfoParsed) -> nodes.Node:
     entry = nodes.entry()
 
     parent_ids = (link.id for link in info.parents)
-    entry += create_references_para(state, builder, info.docname, "parents: ", parent_ids)
+    entry += create_references_para(
+        state, builder, info.docname, "parents: ", parent_ids
+    )
 
     entry += create_references_para(
         state, builder, info.docname, "children: ", info.children
