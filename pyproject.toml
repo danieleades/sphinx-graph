@@ -44,7 +44,7 @@ files = "src,tests"
 exclude = "tests/roots"
 
 [[tool.mypy.overrides]]
-module = ["networkx"]
+module = ["networkx.*"]
 ignore_missing_imports = true
 
 [tool.isort]

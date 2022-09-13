@@ -23,14 +23,14 @@ def generate_graph(app: Sphinx, _doctree: nodes.document, _fromdocname: str) -> 
         state.build_graph()
 
 
-def check_fingerprints(app: Sphinx, _exception: Exception) -> None:
+def check_graph_consistency(app: Sphinx, _exception: Exception) -> None:
     builder = unwrap(app.builder)
     env = unwrap(builder.env)
 
     config: Config = app.config.graph_config
 
     with vertex.get_state(env) as state:
-        state.check_fingerprints(config.parents_require_fingerprints)
+        state.consistency_checks(config.parents_require_fingerprints)
 
 
 class ExtensionMetadata(TypedDict):
@@ -58,7 +58,7 @@ def setup(app: Sphinx) -> ExtensionMetadata:
     app.connect("doctree-resolved", vertex.process)
     app.connect("env-purge-doc", vertex.purge)
     app.connect("env-merge-info", vertex.merge)
-    app.connect("build-finished", check_fingerprints)
+    app.connect("build-finished", check_graph_consistency)
 
     return {
         "version": "0.1",
