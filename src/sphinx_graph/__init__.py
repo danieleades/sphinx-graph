@@ -8,6 +8,7 @@ from sphinx.application import Sphinx
 from sphinx_graph.config import Config
 from sphinx_graph.directives import vertex
 from sphinx_graph.util import unwrap
+from sphinx.util.logging import getLogger
 
 __all__ = [
     "Config",
@@ -19,10 +20,19 @@ def generate_graph(app: Sphinx, _doctree: nodes.document, _fromdocname: str) -> 
     builder = unwrap(app.builder)
     env = unwrap(builder.env)
 
-    print("generate graph called")
-
     with vertex.get_state(env) as state:
         state.build_graph()
+
+
+def check_fingerprints(app: Sphinx, _exception: Exception) -> None:
+    builder = unwrap(app.builder)
+    env = unwrap(builder.env)
+
+    config: Config = app.config.graph_config
+    logger = getLogger("graph")
+
+    with vertex.get_state(env) as state:
+        state.check_fingerprints(logger, config.parents_require_fingerprints)
 
 
 class ExtensionMetadata(TypedDict):
@@ -50,10 +60,11 @@ def setup(app: Sphinx) -> ExtensionMetadata:
     app.connect("doctree-resolved", vertex.process)
     app.connect("env-purge-doc", vertex.purge)
     app.connect("env-merge-info", vertex.merge)
+    app.connect("build-finished", check_fingerprints)
 
     return {
         "version": "0.1",
         "env_version": 0,
-        "parallel_read_safe": False,
-        "parallel_write_safe": False,
+        "parallel_read_safe": True,
+        "parallel_write_safe": True,
     }

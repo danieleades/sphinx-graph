@@ -28,7 +28,7 @@ def parse_parents(input: str | None) -> list[Link]:
         if ":" in token:
             subtokens = token.split(":", maxsplit=1)
             id = subtokens[0]
-            fingerprint = subtokens[0]
+            fingerprint = subtokens[1]
             output.append(Link(id, fingerprint=fingerprint))
         else:
             output.append(Link(token, fingerprint=None))

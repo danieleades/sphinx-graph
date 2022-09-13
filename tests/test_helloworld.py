@@ -1,7 +1,7 @@
 import networkx as nx
 import pytest
 from sphinx.application import Sphinx
-
+from sphinx.errors import SphinxWarning
 from sphinx_graph.directives.vertex.state import DuplicateIdError, get_state
 from sphinx_graph.util import unwrap
 
@@ -30,10 +30,7 @@ def test_graph(app: Sphinx) -> None:
     graph.add_edge("04", "01")
     graph.add_node("05")
 
-    print(list(graph.edges))
-
     with get_state(unwrap(app.env)) as state:
-        print(list(state.graph.edges))
         assert nx.is_isomorphic(state.graph, graph)
 
 
@@ -46,5 +43,12 @@ def test_fingerprints(app: Sphinx) -> None:
 @pytest.mark.sphinx(testroot="fingerprints-missing", freshenv=True)
 def test_fingerprints_missing(app: Sphinx) -> None:
     app.warningiserror = True
-    with pytest.raises(Exception):
+    with pytest.raises(SphinxWarning):
+        app.build()
+
+
+@pytest.mark.sphinx(testroot="fingerprints-wrong", freshenv=True)
+def test_fingerprints_wrong(app: Sphinx) -> None:
+    app.warningiserror = True
+    with pytest.raises(SphinxWarning):
         app.build()
