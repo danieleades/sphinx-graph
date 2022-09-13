@@ -1,7 +1,7 @@
 import networkx as nx
 import pytest
 from sphinx.application import Sphinx
-from sphinx.errors import SphinxWarning
+from sphinx.errors import SphinxError, SphinxWarning
 
 from sphinx_graph.directives.vertex.state import DuplicateIdError, get_state
 from sphinx_graph.util import unwrap
@@ -52,4 +52,14 @@ def test_fingerprints_missing(app: Sphinx) -> None:
 def test_fingerprints_wrong(app: Sphinx) -> None:
     app.warningiserror = True
     with pytest.raises(SphinxWarning):
+        app.build()
+
+
+@pytest.mark.sphinx(testroot="cycle", freshenv=True)
+def test_dependency_cycle(app: Sphinx) -> None:
+    app.warningiserror = True
+    with pytest.raises(
+        SphinxError,
+        match=r"vertices must not have cyclic dependencies. cycle detected: .*",
+    ):
         app.build()

@@ -6,12 +6,15 @@ from typing import Dict, Iterator
 
 from docutils import nodes
 from networkx import DiGraph
+from networkx.algorithms.cycles import simple_cycles
 from sphinx.builders import Builder
 from sphinx.environment import BuildEnvironment
 from sphinx.errors import DocumentError
 from sphinx.util import logging
 
 from sphinx_graph.directives.vertex.info import Info as VertexInfo
+
+logger = logging.getLogger(__name__)
 
 
 class DuplicateIdError(DocumentError):
@@ -52,7 +55,6 @@ class State:
 
     def check_fingerprints(self, fingerprints_required: bool) -> None:
         """Check for suspect links and raise sphinx warnings."""
-        logger = logging.getLogger(__name__)
         for (child_id, parent_id, fingerprint) in self.graph.edges.data("fingerprint"):
             parent = self.all_vertices[parent_id]
             if fingerprints_required and fingerprint is None:
@@ -66,6 +68,18 @@ class State:
                     f" but {parent_id}'s fingerprint is '{parent.fingerprint}'.\n"
                     f"{child_id} should be reviewed, and the link fingerprint manually updated."
                 )
+
+    def check_cycles(self) -> None:
+        """Ensure there are no dependency cycles in the graph."""
+        for cycle in simple_cycles(self.graph):
+            logger.error(
+                f"vertices must not have cyclic dependencies. cycle detected: {cycle}"
+            )
+
+    def consistency_checks(self, fingerprints_required: bool) -> None:
+        """Run graph consistency checks."""
+        self.check_fingerprints(fingerprints_required)
+        self.check_cycles()
 
     def create_reference(
         self, builder: Builder, target_id: str, from_docname: str
