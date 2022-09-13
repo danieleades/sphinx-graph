@@ -1,15 +1,17 @@
 """Sphinx Directive for Vertex objects."""
 from __future__ import annotations
 
+import base64
+import hashlib
 from dataclasses import dataclass, field
-from typing import Iterator, Sequence
+from typing import Iterable, Iterator, Sequence
 
 from docutils import nodes
 from sphinx.builders import Builder
 from sphinx.util.docutils import SphinxDirective
 
 from sphinx_graph import parse
-from sphinx_graph.directives.vertex.info import Info, InfoParsed
+from sphinx_graph.directives.vertex.info import Info, InfoParsed, Link
 from sphinx_graph.directives.vertex.node import Node
 from sphinx_graph.directives.vertex.state import State, get_state
 from sphinx_graph.util import comma_separated_list
@@ -19,12 +21,33 @@ __all__ = [
 ]
 
 
+def parse_parents(input: str | None) -> list[Link]:
+    """Parse a comma separated list of parent link specifications.
+
+    each element in the list may be in one of two forms
+
+    - {PARENT_ID}
+    - {PARENT_ID}:{PARENT_FINGERPRINT}
+    """
+    tokens = parse.comma_separated_list(input)
+    output: list[Link] = []
+    for token in tokens:
+        if ":" in token:
+            subtokens = token.split(":", maxsplit=1)
+            uid = subtokens[0]
+            fingerprint = subtokens[1]
+            output.append(Link(uid, fingerprint=fingerprint))
+        else:
+            output.append(Link(token, fingerprint=None))
+    return output
+
+
 @dataclass
 class Args:
     """Parsed arguments for the Vertex directive."""
 
     uid: str
-    parents: list[str] = field(default_factory=list)
+    parents: list[Link] = field(default_factory=list)
 
 
 class Directive(SphinxDirective):
@@ -33,14 +56,18 @@ class Directive(SphinxDirective):
     has_content = True
     required_arguments = 1
     option_spec = {
-        "parents": parse.comma_separated_list,
+        "parents": parse_parents,
     }
 
     def run(self) -> Sequence[nodes.Node]:
         """Run the directive and return a Vertex node."""
         args = Args(uid=self.arguments[0], **self.options)
 
-        content_node = Node("\n".join(self.content))
+        text = "\n".join(self.content)
+
+        fingerprint = base64.b64encode(hashlib.md5(text.encode()).digest())[:5].decode()
+
+        content_node = Node(text)
         self.state.nested_parse(self.content, self.content_offset, content_node)
 
         targetnode = nodes.target("", "", ids=[args.uid])
@@ -55,31 +82,32 @@ class Directive(SphinxDirective):
                     node=content_node,
                     target=targetnode,
                     parents=args.parents,
+                    fingerprint=fingerprint,
                 ),
             )
 
         return [targetnode, placeholder_node]
 
 
-def format_reference(id: str, reference: nodes.reference) -> nodes.reference:
-    reference.append(nodes.Text(id))
+def format_reference(uid: str, reference: nodes.reference) -> nodes.reference:
+    reference.append(nodes.Text(uid))
     return reference
 
 
 def create_references(
-    state: State, builder: Builder, from_docname: str, ids: list[str]
+    state: State, builder: Builder, from_docname: str, uids: Iterable[str]
 ) -> Iterator[nodes.Node]:
-    for id in ids:
+    for uid in uids:
         reference = format_reference(
-            id, state.create_reference(builder, id, from_docname)
+            uid, state.create_reference(builder, uid, from_docname)
         )
         yield reference
 
 
 def create_references_para(
-    state: State, builder: Builder, from_docname: str, prefix: str, ids: list[str]
+    state: State, builder: Builder, from_docname: str, prefix: str, uids: Iterable[str]
 ) -> nodes.paragraph:
-    references = list(create_references(state, builder, from_docname, ids))
+    references = list(create_references(state, builder, from_docname, uids))
     if references:
         para = nodes.paragraph()
         para += nodes.Text(prefix)
@@ -101,7 +129,7 @@ def format_node(state: State, builder: Builder, info: InfoParsed) -> nodes.Node:
     tgroup += thead
     row = nodes.row()
     entry = nodes.entry()
-    entry += nodes.paragraph(text=f"Requirement: {info.id}")
+    entry += nodes.paragraph(text=f"Requirement: {info.uid}")
     row += entry
     thead.append(row)
 
@@ -111,10 +139,14 @@ def format_node(state: State, builder: Builder, info: InfoParsed) -> nodes.Node:
     row = nodes.row()
     entry = nodes.entry()
 
-    for prefix, ids in [("parents: ", info.parents), ("children: ", info.children)]:
-        para = create_references_para(state, builder, info.docname, prefix, ids)
-        if para:
-            entry += para
+    parent_ids = (link.uid for link in info.parents)
+    entry += create_references_para(
+        state, builder, info.docname, "parents: ", parent_ids
+    )
+
+    entry += create_references_para(
+        state, builder, info.docname, "children: ", info.children
+    )
 
     row += entry
     tbody.append(row)

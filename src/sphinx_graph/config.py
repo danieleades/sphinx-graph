@@ -8,7 +8,7 @@ class Config:
     """Configuration object for Sphinx Graph.
 
     Args:
-        include_vertices: Whether to include vertices in the output.
+        parents_require_fingerprints: Whether parent links require fingerprints
     """
 
-    include_vertices: bool = False
+    parents_require_fingerprints: bool = False

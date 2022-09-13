@@ -2,8 +2,8 @@
 from __future__ import annotations
 
 
-def comma_separated_list(input: str | None) -> list[str]:
+def comma_separated_list(list_str: str | None) -> list[str]:
     """Parse a comma-separated list of strings."""
-    if input is None:
+    if list_str is None:
         return []
-    return [link.strip() for link in input.split(",")]
+    return [link.strip() for link in list_str.split(",")]

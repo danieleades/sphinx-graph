@@ -9,6 +9,7 @@ from networkx import DiGraph
 from sphinx.builders import Builder
 from sphinx.environment import BuildEnvironment
 from sphinx.errors import DocumentError
+from sphinx.util import logging
 
 from sphinx_graph.directives.vertex.info import Info as VertexInfo
 
@@ -42,13 +43,29 @@ class State:
         This is called during setup, and doesn't need to be called again.
         """
         for uid, vertex_info in self.all_vertices.items():
-
             # add each node
             self.graph.add_node(uid)
 
             # add all 'parent' edges
             for parent in vertex_info.parents:
-                self.graph.add_edge(uid, parent)
+                self.graph.add_edge(uid, parent.uid, fingerprint=parent.fingerprint)
+
+    def check_fingerprints(self, fingerprints_required: bool) -> None:
+        """Check for suspect links and raise sphinx warnings."""
+        logger = logging.getLogger(__name__)
+        for (child_id, parent_id, fingerprint) in self.graph.edges.data("fingerprint"):
+            parent = self.all_vertices[parent_id]
+            if fingerprints_required and fingerprint is None:
+                logger.warning(
+                    f"link fingerprints are required, but {child_id} doesn't have a fingerprint for its link to its parent {parent_id}.\n"
+                    f"the fingerprint can be added by changing the parent reference on {child_id} to '{parent_id}:{parent.fingerprint}'."
+                )
+            if fingerprint and fingerprint != parent.fingerprint:
+                logger.warning(
+                    f"suspect link found. vertex {child_id} is linked to vertex {parent_id} with a fingerprint of '{fingerprint}',"
+                    f" but {parent_id}'s fingerprint is '{parent.fingerprint}'.\n"
+                    f"{child_id} should be reviewed, and the link fingerprint manually updated."
+                )
 
     def create_reference(
         self, builder: Builder, target_id: str, from_docname: str

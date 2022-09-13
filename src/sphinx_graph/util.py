@@ -26,11 +26,10 @@ def unwrap(x: Optional[T]) -> T:
 
 def intersperse(iterable: Iterable[T], delimiter: T) -> Iterable[T]:
     """Intersperse objects in an iterator with another value of the same type."""
-    it = iter(iterable)
-    yield next(it)
-    for x in it:
-        yield delimiter
-        yield x
+    for i, item in enumerate(iterable):
+        if i != 0:
+            yield delimiter
+        yield item
 
 
 def comma_separated_list(items: Iterable[nodes.Node]) -> Iterable[nodes.Node]:

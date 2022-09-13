@@ -1,0 +1,7 @@
+SYS-003
+-------
+
+.. vertex:: SYS-003
+   :parents: USR-001:abcde
+
+   this requirement has a 'suspect' link to USR-001
