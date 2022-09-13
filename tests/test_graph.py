@@ -63,3 +63,13 @@ def test_dependency_cycle(app: Sphinx) -> None:
         match=r"vertices must not have cyclic dependencies. cycle detected: .*",
     ):
         app.build()
+
+
+@pytest.mark.sphinx(testroot="self-reference", freshenv=True)
+def test_self_reference(app: Sphinx) -> None:
+    app.warningiserror = True
+    with pytest.raises(
+        SphinxError,
+        match=r"vertices must not have cyclic dependencies. cycle detected: .*",
+    ):
+        app.build()
