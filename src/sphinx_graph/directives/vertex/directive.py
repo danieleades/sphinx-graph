@@ -22,14 +22,21 @@ __all__ = [
 
 
 def parse_parents(input: str | None) -> list[Link]:
+    """Parse a comma separated list of parent link specifications.
+
+    each element in the list may be in one of two forms
+
+    - {PARENT_ID}
+    - {PARENT_ID}:{PARENT_FINGERPRINT}
+    """
     tokens = parse.comma_separated_list(input)
     output: list[Link] = []
     for token in tokens:
         if ":" in token:
             subtokens = token.split(":", maxsplit=1)
-            id = subtokens[0]
+            uid = subtokens[0]
             fingerprint = subtokens[1]
-            output.append(Link(id, fingerprint=fingerprint))
+            output.append(Link(uid, fingerprint=fingerprint))
         else:
             output.append(Link(token, fingerprint=None))
     return output
@@ -82,25 +89,25 @@ class Directive(SphinxDirective):
         return [targetnode, placeholder_node]
 
 
-def format_reference(id: str, reference: nodes.reference) -> nodes.reference:
-    reference.append(nodes.Text(id))
+def format_reference(uid: str, reference: nodes.reference) -> nodes.reference:
+    reference.append(nodes.Text(uid))
     return reference
 
 
 def create_references(
-    state: State, builder: Builder, from_docname: str, ids: Iterable[str]
+    state: State, builder: Builder, from_docname: str, uids: Iterable[str]
 ) -> Iterator[nodes.Node]:
-    for id in ids:
+    for uid in uids:
         reference = format_reference(
-            id, state.create_reference(builder, id, from_docname)
+            uid, state.create_reference(builder, uid, from_docname)
         )
         yield reference
 
 
 def create_references_para(
-    state: State, builder: Builder, from_docname: str, prefix: str, ids: Iterable[str]
+    state: State, builder: Builder, from_docname: str, prefix: str, uids: Iterable[str]
 ) -> nodes.paragraph:
-    references = list(create_references(state, builder, from_docname, ids))
+    references = list(create_references(state, builder, from_docname, uids))
     if references:
         para = nodes.paragraph()
         para += nodes.Text(prefix)
@@ -122,7 +129,7 @@ def format_node(state: State, builder: Builder, info: InfoParsed) -> nodes.Node:
     tgroup += thead
     row = nodes.row()
     entry = nodes.entry()
-    entry += nodes.paragraph(text=f"Requirement: {info.id}")
+    entry += nodes.paragraph(text=f"Requirement: {info.uid}")
     row += entry
     thead.append(row)
 
@@ -132,7 +139,7 @@ def format_node(state: State, builder: Builder, info: InfoParsed) -> nodes.Node:
     row = nodes.row()
     entry = nodes.entry()
 
-    parent_ids = (link.id for link in info.parents)
+    parent_ids = (link.uid for link in info.parents)
     entry += create_references_para(
         state, builder, info.docname, "parents: ", parent_ids
     )

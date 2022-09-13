@@ -50,7 +50,7 @@ class State:
             for parent in vertex_info.parents:
                 print(vertex_info)
                 print(f"FINGERPRINT: {parent.fingerprint}")
-                self.graph.add_edge(uid, parent.id, fingerprint=parent.fingerprint)
+                self.graph.add_edge(uid, parent.uid, fingerprint=parent.fingerprint)
 
     def check_fingerprints(
         self, logger: SphinxLoggerAdapter, fingerprints_required: bool
@@ -66,7 +66,8 @@ class State:
                 )
             if fingerprint and fingerprint != parent.fingerprint:
                 logger.warning(
-                    f"suspect link found. vertex {child_id} is linked to vertex {parent_id} with a fingerprint of {fingerprint}, but {parent_id}'s fingerprint is {parent.fingerprint}"
+                    f"suspect link found. vertex {child_id} is linked to vertex {parent_id} with a fingerprint of {fingerprint},"
+                    " but {parent_id}'s fingerprint is {parent.fingerprint}"
                 )
 
     def create_reference(

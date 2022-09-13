@@ -19,7 +19,6 @@ def visit_node(_self: nodes.GenericNodeVisitor, _node: Node) -> None:
 
     This method is a no-op
     """
-    pass
 
 
 def depart_node(_self: nodes.GenericNodeVisitor, _node: Node) -> None:
@@ -28,7 +27,6 @@ def depart_node(_self: nodes.GenericNodeVisitor, _node: Node) -> None:
 
     This method is a no-op
     """
-    pass
 
 
 def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
@@ -40,10 +38,10 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
     with get_state(env) as state:
 
         for vertex_node in doctree.findall(Node):
-            id = vertex_node.attributes["ids"][0]
-            info = state.all_vertices[id]
-            children = list(state.graph.predecessors(id))
-            info_parsed = InfoParsed.from_info(id, info, children)
+            uid = vertex_node.attributes["ids"][0]
+            info = state.all_vertices[uid]
+            children = list(state.graph.predecessors(uid))
+            info_parsed = InfoParsed.from_info(uid, info, children)
 
             vertex_node.replace_self(format_node(state, builder, info_parsed))
 

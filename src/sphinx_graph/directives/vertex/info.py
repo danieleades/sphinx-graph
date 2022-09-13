@@ -16,7 +16,7 @@ class Link:
     used for enforcing cascading reviews of child vertices after edits.
     """
 
-    id: str
+    uid: str
     fingerprint: str | None
 
 
@@ -36,14 +36,14 @@ class Info:
 class InfoParsed(Info):
     """Vertex information available after building the entire graph."""
 
-    id: str
+    uid: str
     children: list[str]
 
     @classmethod
-    def from_info(cls, id: str, info: Info, children: list[str]) -> InfoParsed:
+    def from_info(cls, uid: str, info: Info, children: list[str]) -> InfoParsed:
         """Convert an Info object into an InfoParsed object."""
         return cls(
-            id=id,
+            uid=uid,
             docname=info.docname,
             lineno=info.lineno,
             node=info.node,
