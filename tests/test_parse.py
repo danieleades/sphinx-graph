@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pytest
 
 from sphinx_graph.directives.vertex.directive import parse_parents
