@@ -4,7 +4,6 @@ from typing import TypedDict
 
 from docutils import nodes
 from sphinx.application import Sphinx
-from sphinx.util.logging import getLogger
 
 from sphinx_graph.config import Config
 from sphinx_graph.directives import vertex
@@ -29,10 +28,9 @@ def check_fingerprints(app: Sphinx, _exception: Exception) -> None:
     env = unwrap(builder.env)
 
     config: Config = app.config.graph_config
-    logger = getLogger("graph")
 
     with vertex.get_state(env) as state:
-        state.check_fingerprints(logger, config.parents_require_fingerprints)
+        state.check_fingerprints(config.parents_require_fingerprints)
 
 
 class ExtensionMetadata(TypedDict):

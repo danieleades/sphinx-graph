@@ -9,7 +9,7 @@ from networkx import DiGraph
 from sphinx.builders import Builder
 from sphinx.environment import BuildEnvironment
 from sphinx.errors import DocumentError
-from sphinx.util.logging import SphinxLoggerAdapter
+from sphinx.util import logging
 
 from sphinx_graph.directives.vertex.info import Info as VertexInfo
 
@@ -52,10 +52,9 @@ class State:
                 print(f"FINGERPRINT: {parent.fingerprint}")
                 self.graph.add_edge(uid, parent.uid, fingerprint=parent.fingerprint)
 
-    def check_fingerprints(
-        self, logger: SphinxLoggerAdapter, fingerprints_required: bool
-    ) -> None:
+    def check_fingerprints(self, fingerprints_required: bool) -> None:
         """Check for suspect links and raise sphinx warnings."""
+        logger = logging.getLogger(__name__)
         for (child_id, parent_id, fingerprint) in self.graph.edges.data("fingerprint"):
             print(f"FINGERPRINT: {fingerprint}")
             parent = self.all_vertices[parent_id]
