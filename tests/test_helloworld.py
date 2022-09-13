@@ -35,3 +35,16 @@ def test_graph(app: Sphinx) -> None:
     with get_state(unwrap(app.env)) as state:
         print(list(state.graph.edges))
         assert nx.is_isomorphic(state.graph, graph)
+
+
+@pytest.mark.sphinx(testroot="fingerprints", freshenv=True)
+def test_fingerprints(app: Sphinx) -> None:
+    app.warningiserror = True
+    app.build()
+
+
+@pytest.mark.sphinx(testroot="fingerprints-missing", freshenv=True)
+def test_fingerprints_missing(app: Sphinx) -> None:
+    app.warningiserror = True
+    with pytest.raises(Exception):
+        app.build()

@@ -1,15 +1,17 @@
 """Sphinx Directive for Vertex objects."""
 from __future__ import annotations
+import base64
 
 from dataclasses import dataclass, field
-from typing import Iterator, Sequence
+import hashlib
+from typing import Iterable, Iterator, Sequence
 
 from docutils import nodes
 from sphinx.builders import Builder
 from sphinx.util.docutils import SphinxDirective
 
 from sphinx_graph import parse
-from sphinx_graph.directives.vertex.info import Info, InfoParsed
+from sphinx_graph.directives.vertex.info import Info, InfoParsed, Link
 from sphinx_graph.directives.vertex.node import Node
 from sphinx_graph.directives.vertex.state import State, get_state
 from sphinx_graph.util import comma_separated_list
@@ -19,12 +21,26 @@ __all__ = [
 ]
 
 
+def parse_parents(input: str | None) -> list[Link]:
+    tokens = parse.comma_separated_list(input)
+    output: list[Link] = []
+    for token in tokens:
+        if ":" in token:
+            subtokens = token.split(":", maxsplit=1)
+            id = subtokens[0]
+            fingerprint = subtokens[0]
+            output.append(Link(id, fingerprint=fingerprint))
+        else:
+            output.append(Link(token, fingerprint=None))
+    return output
+
+
 @dataclass
 class Args:
     """Parsed arguments for the Vertex directive."""
 
     uid: str
-    parents: list[str] = field(default_factory=list)
+    parents: list[Link] = field(default_factory=list)
 
 
 class Directive(SphinxDirective):
@@ -33,14 +49,18 @@ class Directive(SphinxDirective):
     has_content = True
     required_arguments = 1
     option_spec = {
-        "parents": parse.comma_separated_list,
+        "parents": parse_parents,
     }
 
     def run(self) -> Sequence[nodes.Node]:
         """Run the directive and return a Vertex node."""
         args = Args(uid=self.arguments[0], **self.options)
 
-        content_node = Node("\n".join(self.content))
+        text = "\n".join(self.content)
+
+        fingerprint = base64.b64encode(hashlib.md5(text.encode()).digest())[:5].decode()
+
+        content_node = Node(text)
         self.state.nested_parse(self.content, self.content_offset, content_node)
 
         targetnode = nodes.target("", "", ids=[args.uid])
@@ -55,6 +75,7 @@ class Directive(SphinxDirective):
                     node=content_node,
                     target=targetnode,
                     parents=args.parents,
+                    fingerprint=fingerprint
                 ),
             )
 
@@ -67,7 +88,7 @@ def format_reference(id: str, reference: nodes.reference) -> nodes.reference:
 
 
 def create_references(
-    state: State, builder: Builder, from_docname: str, ids: list[str]
+    state: State, builder: Builder, from_docname: str, ids: Iterable[str]
 ) -> Iterator[nodes.Node]:
     for id in ids:
         reference = format_reference(
@@ -77,7 +98,7 @@ def create_references(
 
 
 def create_references_para(
-    state: State, builder: Builder, from_docname: str, prefix: str, ids: list[str]
+    state: State, builder: Builder, from_docname: str, prefix: str, ids: Iterable[str]
 ) -> nodes.paragraph:
     references = list(create_references(state, builder, from_docname, ids))
     if references:
@@ -111,10 +132,12 @@ def format_node(state: State, builder: Builder, info: InfoParsed) -> nodes.Node:
     row = nodes.row()
     entry = nodes.entry()
 
-    for prefix, ids in [("parents: ", info.parents), ("children: ", info.children)]:
-        para = create_references_para(state, builder, info.docname, prefix, ids)
-        if para:
-            entry += para
+    parent_ids = (link.id for link in info.parents)
+    entry += create_references_para(state, builder, info.docname, "parents: ", parent_ids)
+
+    entry += create_references_para(
+        state, builder, info.docname, "children: ", info.children
+    )
 
     row += entry
     tbody.append(row)

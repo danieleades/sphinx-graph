@@ -48,7 +48,7 @@ class State:
 
             # add all 'parent' edges
             for parent in vertex_info.parents:
-                self.graph.add_edge(uid, parent)
+                self.graph.add_edge(uid, parent.id, fingerprint=parent.fingerprint)
 
     def create_reference(
         self, builder: Builder, target_id: str, from_docname: str

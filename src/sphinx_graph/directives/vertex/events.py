@@ -43,7 +43,7 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
             id = vertex_node.attributes["ids"][0]
             info = state.all_vertices[id]
             children = list(state.graph.predecessors(id))
-            info_parsed = InfoParsed.from_info(id, children, info)
+            info_parsed = InfoParsed.from_info(id, info, children)
 
             vertex_node.replace_self(format_node(state, builder, info_parsed))
 

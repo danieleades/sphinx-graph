@@ -19,6 +19,8 @@ def generate_graph(app: Sphinx, _doctree: nodes.document, _fromdocname: str) -> 
     builder = unwrap(app.builder)
     env = unwrap(builder.env)
 
+    print("generate graph called")
+
     with vertex.get_state(env) as state:
         state.build_graph()
 
@@ -52,6 +54,6 @@ def setup(app: Sphinx) -> ExtensionMetadata:
     return {
         "version": "0.1",
         "env_version": 0,
-        "parallel_read_safe": True,
-        "parallel_write_safe": True,
+        "parallel_read_safe": False,
+        "parallel_write_safe": False,
     }
