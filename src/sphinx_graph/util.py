@@ -1,6 +1,8 @@
 """Utility methods for SphinxGraph."""
 
-from typing import Optional, TypeVar
+from typing import Iterable, Optional, TypeVar
+
+from docutils import nodes
 
 T = TypeVar("T")
 
@@ -20,3 +22,17 @@ def unwrap(x: Optional[T]) -> T:
     if x is None:
         raise ValueError("attempted to 'unwrap' a None value!")
     return x
+
+
+def intersperse(iterable: Iterable[T], delimiter: T) -> Iterable[T]:
+    """Intersperse objects in an iterator with another value of the same type."""
+    it = iter(iterable)
+    yield next(it)
+    for x in it:
+        yield delimiter
+        yield x
+
+
+def comma_separated_list(items: Iterable[nodes.Node]) -> Iterable[nodes.Node]:
+    """Convert a sequence of docutils nodes into a comma separated list."""
+    yield from intersperse(items, nodes.Text(", "))

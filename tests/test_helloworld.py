@@ -2,7 +2,7 @@ import networkx as nx
 import pytest
 from sphinx.application import Sphinx
 
-from sphinx_graph.context import DuplicateIdError, get_context
+from sphinx_graph.directives.vertex.state import DuplicateIdError, get_state
 from sphinx_graph.util import unwrap
 
 
@@ -30,5 +30,8 @@ def test_graph(app: Sphinx) -> None:
     graph.add_edge("04", "01")
     graph.add_node("05")
 
-    with get_context(unwrap(app.env)) as context:
-        assert nx.is_isomorphic(context.graph, graph)
+    print(list(graph.edges))
+
+    with get_state(unwrap(app.env)) as state:
+        print(list(state.graph.edges))
+        assert nx.is_isomorphic(state.graph, graph)

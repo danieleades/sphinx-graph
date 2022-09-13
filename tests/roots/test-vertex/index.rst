@@ -1,5 +1,4 @@
 .. vertex:: 01
-   :children: 04
 
    this is a vertex directive
 
@@ -14,6 +13,7 @@
    this is a vertex directive
 
 .. vertex:: 04
+   :parents: 01
 
    this is a vertex directive
 
