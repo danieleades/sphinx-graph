@@ -4,8 +4,14 @@ Market Requirements Document
 This document describes the market requirements for a product
 
 .. vertex:: MRD-001
-    :transparent:
+    :layout: subtle
 
-    It is written to be presented to an external audience, however 'sphinx-graph' is able to track the content of specific paragraphs and related them to user requirements.
-    This paragraph is marked as a 'transparent' vertex. It's content is tracked and linked to derived requirements, but it is built
-    into a normal paragraph when publishing.
+    This paragraph uses a 'subtle' layout that shows the vertex ID and its
+    neighbours, without breaking the flow of the document
+
+.. vertex:: MRD-002
+    :layout: transparent
+
+    This paragraph is also a sphinx-graph vertex and its contents and relationship
+    to other vertices are tracked. However, it uses the 'transparent' layout, and
+    its contents are embedded directly into the document when published.

@@ -2,6 +2,6 @@ SYS-001
 -------
 
 .. vertex:: SYS-001
-   :parents: USR-001:wX6uH
+   :parents: USR-001:4sMl
 
    this is a system requirement derived from some user requirement
