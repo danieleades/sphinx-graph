@@ -13,6 +13,7 @@ from sphinx_graph import parse
 from sphinx_graph.directives.vertex.info import Info, Link
 from sphinx_graph.directives.vertex.node import Node
 from sphinx_graph.directives.vertex.state import get_state
+from sphinx_graph.directives.vertex.layout import DEFAULT_FORMATTER
 
 __all__ = [
     "Directive",
@@ -58,7 +59,7 @@ class Args:
 
     uid: str
     parents: list[Link] = field(default_factory=list)
-    layout: str = "table"
+    layout: str = DEFAULT_FORMATTER
 
 
 class Directive(SphinxDirective):
