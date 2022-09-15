@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
-from docutils import nodes
 from typing import Callable, Iterable, Iterator, Sequence
-from sphinx.builders import Builder
-from sphinx_graph.directives.vertex.info import InfoParsed
 
+from docutils import nodes
+from sphinx.builders import Builder
+
+from sphinx_graph.directives.vertex.info import InfoParsed
 from sphinx_graph.directives.vertex.state import State
 from sphinx_graph.util import comma_separated_list
 
@@ -44,7 +45,9 @@ def create_references_nodes(
     return []
 
 
-def format_default(uid: str, content: nodes.Node, children: list[nodes.Node], parents: list[nodes.Node]) -> Sequence[nodes.Node]:
+def format_default(
+    uid: str, content: nodes.Node, children: list[nodes.Node], parents: list[nodes.Node]
+) -> Sequence[nodes.Node]:
     title = nodes.subtitle()
     title.append(nodes.strong(text=uid))
 
@@ -66,11 +69,18 @@ def format_default(uid: str, content: nodes.Node, children: list[nodes.Node], pa
     return [title, attributes, content]
 
 
-def format_transparent(_uid: str, content: nodes.Node, _children: list[nodes.Node], _parents: list[nodes.Node]) -> Sequence[nodes.Node]:
+def format_transparent(
+    _uid: str,
+    content: nodes.Node,
+    _children: list[nodes.Node],
+    _parents: list[nodes.Node],
+) -> Sequence[nodes.Node]:
     return [content]
 
 
-def format_subtle(uid: str, content: nodes.Node, children: list[nodes.Node], parents: list[nodes.Node]) -> Sequence[nodes.Node]:
+def format_subtle(
+    uid: str, content: nodes.Node, children: list[nodes.Node], parents: list[nodes.Node]
+) -> Sequence[nodes.Node]:
     paragraph = nodes.paragraph()
 
     line = nodes.line()
@@ -91,7 +101,9 @@ def format_subtle(uid: str, content: nodes.Node, children: list[nodes.Node], par
     return [paragraph]
 
 
-Formatter = Callable[[str, nodes.Node, list[nodes.Node], list[nodes.Node]], Sequence[nodes.Node]]
+Formatter = Callable[
+    [str, nodes.Node, list[nodes.Node], list[nodes.Node]], Sequence[nodes.Node]
+]
 
 FORMATTERS: dict[str, Formatter] = {
     "default": format_default,
@@ -102,7 +114,9 @@ FORMATTERS: dict[str, Formatter] = {
 DEFAULT_FORMATTER = "default"
 
 
-def apply_formatting(formatter: Formatter, state: State, builder: Builder, info: InfoParsed) -> Sequence[nodes.Node]:
+def apply_formatting(
+    formatter: Formatter, state: State, builder: Builder, info: InfoParsed
+) -> Sequence[nodes.Node]:
     parent_ids = (link.uid for link in info.parents)
     parents = create_references_nodes(
         state, builder, info.docname, "parents: ", parent_ids

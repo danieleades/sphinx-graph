@@ -11,9 +11,9 @@ from sphinx.util.docutils import SphinxDirective
 
 from sphinx_graph import parse
 from sphinx_graph.directives.vertex.info import Info, Link
+from sphinx_graph.directives.vertex.layout import DEFAULT_FORMATTER
 from sphinx_graph.directives.vertex.node import Node
 from sphinx_graph.directives.vertex.state import get_state
-from sphinx_graph.directives.vertex.layout import DEFAULT_FORMATTER
 
 __all__ = [
     "Directive",
