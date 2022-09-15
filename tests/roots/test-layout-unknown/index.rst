@@ -18,4 +18,3 @@
    :layout: splendiferous
 
    this is a vertex directive
-
