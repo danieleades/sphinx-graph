@@ -41,12 +41,6 @@ def parse_parents(input: str | None) -> list[Link]:
     return output
 
 
-# def parse_flag(input: str | None) -> bool:
-#     if input:
-#         raise ValueError("not expecting a value")
-#     return True
-
-
 def parse_str(input: str | None) -> str | None:
     if input:
         return input
