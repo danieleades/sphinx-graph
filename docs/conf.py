@@ -7,6 +7,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.autodoc",
     "sphinx_rtd_theme",
+    "sphinx_graph",
 ]
 
 templates_path = ["_templates"]

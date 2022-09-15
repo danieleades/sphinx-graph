@@ -11,6 +11,7 @@ Welcome to sphinx-graph's documentation!
    :caption: Contents:
 
    src/api
+   src/example/index
 
 
 

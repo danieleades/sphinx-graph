@@ -1,7 +1,0 @@
-SYS-001
--------
-
-.. vertex:: SYS-001
-   :parents: USR-001
-
-   this is a system requirement derived from some user requirement
