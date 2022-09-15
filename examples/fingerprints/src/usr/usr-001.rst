@@ -2,5 +2,11 @@ USR-001
 -------
 
 .. vertex:: USR-001
+   :parents: MRD-001:FRnR
 
-   this is high-level user requirement of some sort
+   this is high-level user requirement of some sort.
+
+   It is derived from a specific paragraph of a market requirements document.
+   If that paragraph is updated, the 'fingerprint' tracked by this vertex will
+   be invalidated, triggering a review of this user requirement to ensure it
+   still reflects the market requirements as intended.

@@ -30,6 +30,7 @@ class Info:
     target: nodes.target
     parents: list[Link]
     fingerprint: str
+    layout: str
 
 
 @dataclass
@@ -51,4 +52,5 @@ class InfoParsed(Info):
             parents=info.parents,
             children=children,
             fingerprint=info.fingerprint,
+            layout=info.layout,
         )

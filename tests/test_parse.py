@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from sphinx_graph.directives.vertex.directive import parse_parents
+from sphinx_graph.directives.vertex.directive import parse_parents, parse_str
 from sphinx_graph.directives.vertex.info import Link
 
 
@@ -19,4 +19,17 @@ from sphinx_graph.directives.vertex.info import Link
 )
 def test_parse_parents(input: str, expected: list[Link]) -> None:
     output = parse_parents(input)
+    assert output == expected
+
+
+@pytest.mark.parametrize(
+    "input,expected",
+    [
+        ("some string", "some string"),
+        ("", None),
+        (None, None),
+    ],
+)
+def test_parse_str(input: str, expected: str | None) -> None:
+    output = parse_str(input)
     assert output == expected

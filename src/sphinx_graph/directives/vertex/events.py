@@ -5,12 +5,19 @@ from __future__ import annotations
 from docutils import nodes
 from sphinx.application import Sphinx
 from sphinx.environment import BuildEnvironment
+from sphinx.util import logging
 
-from sphinx_graph.directives.vertex.directive import format_node
 from sphinx_graph.directives.vertex.info import InfoParsed
+from sphinx_graph.directives.vertex.layout import (
+    DEFAULT_FORMATTER,
+    FORMATTERS,
+    apply_formatting,
+)
 from sphinx_graph.directives.vertex.node import Node
 from sphinx_graph.directives.vertex.state import get_state
 from sphinx_graph.util import unwrap
+
+logger = logging.getLogger(__name__)
 
 
 def visit_node(_self: nodes.GenericNodeVisitor, _node: Node) -> None:
@@ -42,8 +49,17 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
             info = state.all_vertices[uid]
             children = list(state.graph.predecessors(uid))
             info_parsed = InfoParsed.from_info(uid, info, children)
+            layout = info.layout or "table"
+            if layout not in FORMATTERS:
+                logger.error(
+                    f"vertex {uid} has unknown layout '{layout}'. Defaulting to '{DEFAULT_FORMATTER}' layout."
+                )
+                layout = DEFAULT_FORMATTER
 
-            vertex_node.replace_self(format_node(state, builder, info_parsed))
+            formatter = FORMATTERS[layout]
+            vertex_node.replace_self(
+                apply_formatting(formatter, state, builder, info_parsed)
+            )
 
 
 def purge(_app: Sphinx, env: BuildEnvironment, docname: str) -> None:

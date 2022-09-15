@@ -4,4 +4,10 @@ SYS-003
 .. vertex:: SYS-003
    :parents: USR-001:abcde
 
-   this requirement has a 'suspect' link to USR-001
+   this requirement has a 'suspect' link to USR-001. It needs to be reviewed,
+   and have the 'fingerprint' manually updated.
+
+   This outdated fingerprint will trigger a build warning, with instructions on
+   updating to the correct fingerprint. Updating a fingerprint signifies that
+   the vertex has been reviewed, and it still satisfies the relationship to the updated
+   parent.
