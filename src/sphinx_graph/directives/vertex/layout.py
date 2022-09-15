@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Callable, Iterable, Iterator, Sequence
+from typing import Callable, Iterable, Iterator, List, Sequence
 
 from docutils import nodes
 from sphinx.builders import Builder
@@ -102,7 +102,7 @@ def format_subtle(
 
 
 Formatter = Callable[
-    [str, nodes.Node, list[nodes.Node], list[nodes.Node]], Sequence[nodes.Node]
+    [str, nodes.Node, List[nodes.Node], List[nodes.Node]], Sequence[nodes.Node]
 ]
 
 FORMATTERS: dict[str, Formatter] = {
@@ -117,6 +117,7 @@ DEFAULT_FORMATTER = "default"
 def apply_formatting(
     formatter: Formatter, state: State, builder: Builder, info: InfoParsed
 ) -> Sequence[nodes.Node]:
+    """Apply the given formatter to create a vertex node ready for insertion."""
     parent_ids = (link.uid for link in info.parents)
     parents = create_references_nodes(
         state, builder, info.docname, "parents: ", parent_ids
