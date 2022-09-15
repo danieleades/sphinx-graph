@@ -1,4 +1,14 @@
-"""Entrypoint for the sphinx-graph extension."""
+"""Sphinx-Graph public API.
+
+add the sphinx-graph extension to your sphinx project by
+adding it to ``conf.py``:
+
+.. code:: python
+
+    extensions = [
+        "sphinx_graph",
+    ]
+"""
 
 from typing import TypedDict
 
@@ -30,7 +40,7 @@ def check_graph_consistency(app: Sphinx, _exception: Exception) -> None:
     config: Config = app.config.graph_config
 
     with vertex.get_state(env) as state:
-        state.consistency_checks(config.parents_require_fingerprints)
+        state.consistency_checks(config.require_fingerprints)
 
 
 class ExtensionMetadata(TypedDict):
