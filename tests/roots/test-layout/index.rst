@@ -11,6 +11,7 @@
 
 .. vertex:: 03
    :layout: transparent
+   :parents: 02
 
    this is a vertex directive
 
