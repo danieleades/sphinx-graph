@@ -15,5 +15,7 @@
    this is a vertex directive
 
 .. vertex:: 04
+   :layout: splendiferous
 
    this is a vertex directive
+
