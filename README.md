@@ -4,21 +4,30 @@
 [![CI](https://github.com/danieleades/sphinx-graph/actions/workflows/ci.yaml/badge.svg)](https://github.com/danieleades/sphinx-graph/actions/workflows/ci.yaml)
 [![sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/danieleades)
 
-A proof-of-concept modern, strongly-typed implementation of the 'Sphinx-Needs' extension (Very early prototype).
+'Sphinx-Graph' is a plain-text, VCS-friendly, requirements management tool.
 
-a typed API provides
+With Sphinx-Graph you define relationships between items in a document. Conceptually, these items for a directed acyclic graph (DAG). The extension-
 
-- static analysis/error checking
-- IDE code completion
-- self-documenting APIs
+- checks for cyclic references
+- populates items with links to their 'neighbours'
+- (optionally) tracks a hash of each item to trigger reviews when any parents change
 
-## Typed Configuration
+Sphinx Graph is *heavily* inspired by Sphinx-Needs. Sphinx-Graph started life as a proof of concept refactor of Sphinx-Needs using modern python and strict type checking.
 
-custom configuration object is fully typed, providing a self-documenting configuration API.
+- Sphinx-Needs is the heavy-weight, full-featured, grand-daddy of Sphinx-Graph
+- By comparison, Sphinx-Graph is streamlined, and focusses on a much smaller feature set
 
-*conf.py*
-```python
-from sphinx_graph import Config
+## Vertices
 
-graph_config = Config(include_vertices=True)
+The core sphinx directive provided by this extension is a 'Vertex'. A Vertex directive can be used to define relationships between text elements.
+
+```rst
+.. vertex:: SYS-001
+   :parents: USR-001
+
+   this is system requirement of some sort.
+
+   It is derived from a higher-level user requirement (SYS-001).
+   When it is rendered in a sphinx document, it will be augmented with
+   links to its parent(s) as well as any 'children'.
 ```
