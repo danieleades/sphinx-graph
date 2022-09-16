@@ -1,6 +1,0 @@
-SYS-003
--------
-
-.. vertex:: SYS-003
-
-   this is an 'orphan' system requirement
