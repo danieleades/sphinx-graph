@@ -2,12 +2,8 @@ SYS-003
 -------
 
 .. vertex:: SYS-003
-   :parents: USR-001:abcde
+   :parents: USR-001
 
-   this requirement has a 'suspect' link to USR-001. It needs to be reviewed,
-   and have the 'fingerprint' manually updated.
-
-   This outdated fingerprint will trigger a build warning, with instructions on
-   updating to the correct fingerprint. Updating a fingerprint signifies that
-   the vertex has been reviewed, and it still satisfies the relationship to the updated
-   parent.
+   this requirement is linked to a parent but isn't tracking that parent's 'fingerprint'.
+   That's fine, but it means that if the parent is changed, Sphinx-Graph won't prompt you to review this requirement
+   by returning a build warning with the new fingerprint.
