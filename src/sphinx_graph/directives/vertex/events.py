@@ -49,7 +49,7 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
 
         for vertex_node in doctree.findall(Node):
             print(vertex_node.attributes)
-            uid = vertex_node.attributes["ids"][0]
+            uid = vertex_node.attributes["graph_uid"]
             info = state.all_vertices[uid]
             children = list(state.graph.predecessors(uid))
             info_parsed = InfoParsed.from_info(uid, info, children)
