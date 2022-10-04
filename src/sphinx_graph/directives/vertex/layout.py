@@ -1,6 +1,7 @@
 """Utilities for formatting vertices into docutils.nodes for insertion into the document."""
 
 from __future__ import annotations
+from dataclasses import dataclass
 
 from typing import Callable, Iterable, Iterator, List, Sequence
 
@@ -45,28 +46,64 @@ def create_references_nodes(
     return []
 
 
+@dataclass
+class FormatHelper:
+    """Helper class for formatting a Vertex.
+
+    Args:
+        uid: the unique identifier of the vertex
+        content: the nested content of the vertex
+        parents: a list of references to parent Vertices
+        children: a list of references to child Vertices
+    """
+
+    uid: str
+    content: nodes.Node
+    parents: list[nodes.reference]
+    children: list[nodes.reference]
+
+    def _list(self, references: list[nodes.reference], prefix: str | None) -> nodes.line | None:
+        if not references:
+            return None
+
+        line = nodes.line()
+        if prefix:
+            line += nodes.Text(prefix)
+        line.extend(comma_separated_list(references))
+
+        return line
+
+    def child_list(self, prefix: str | None = "Children: ") -> nodes.line | None:
+        """Format the list of child vertex references as a comma-separated list.
+
+        Args:
+            prefix: Optionally set a prefix for the list
+        """
+        return self._list(self.children, prefix)
+
+    def parent_list(self, prefix: str | None = "Parents: ") -> nodes.line | None:
+        """Format the list of parent vertex references as a comma-separated list.
+
+        Args:
+            prefix: Optionally set a prefix for the list
+        """
+        return self._list(self.parents, prefix)
+
+
 def format_default(
     uid: str, content: nodes.Node, children: list[nodes.Node], parents: list[nodes.Node]
 ) -> Sequence[nodes.Node]:
-    title = nodes.subtitle()
-    title.append(nodes.strong(text=uid))
+    line_block = nodes.line_block()
 
-    attributes = nodes.paragraph()
-    if children:
-        line = nodes.line()
-        line.extend(children)
-        emphasis = nodes.emphasis()
-        emphasis.append(line)
-        attributes.append(emphasis)
+    line_block += nodes.line("", f"UID: {uid}")
 
     if parents:
-        line = nodes.line()
-        line.extend(parents)
-        emphasis = nodes.emphasis()
-        emphasis.append(line)
-        attributes.append(emphasis)
+        line_block += nodes.line("", "", *parents)
 
-    return [title, attributes, content]
+    if children:
+        line_block += nodes.line("", "", *children)
+
+    return [line_block, content]
 
 
 def format_transparent(
@@ -81,24 +118,22 @@ def format_transparent(
 def format_subtle(
     uid: str, content: nodes.Node, children: list[nodes.Node], parents: list[nodes.Node]
 ) -> Sequence[nodes.Node]:
-    paragraph = nodes.paragraph()
+    one_liner = nodes.subscript()
 
-    line = nodes.line()
-    line += nodes.Text(uid)
+    one_liner += nodes.Text(uid)
 
     if parents:
-        line += nodes.Text(" | ")
-        line.extend(parents)
+        one_liner += nodes.Text(" | ")
+        one_liner.extend(parents)
+
     if children:
-        line += nodes.Text(" | ")
-        line.extend(children)
+        one_liner += nodes.Text(" | ")
+        one_liner.extend(children)
 
-    emphasis = nodes.emphasis()
-    emphasis.append(line)
+    paragraph = nodes.paragraph()
+    paragraph += one_liner
 
-    paragraph.append(emphasis)
-    paragraph.append(content)
-    return [paragraph]
+    return [paragraph, content]
 
 
 Formatter = Callable[
@@ -120,11 +155,11 @@ def apply_formatting(
     """Apply the given formatter to create a vertex node ready for insertion."""
     parent_ids = (link.uid for link in info.parents)
     parents = create_references_nodes(
-        state, builder, info.docname, "parents: ", parent_ids
+        state, builder, info.docname, "Parents: ", parent_ids
     )
 
     children = create_references_nodes(
-        state, builder, info.docname, "children: ", info.children
+        state, builder, info.docname, "Children: ", info.children
     )
 
     return formatter(info.uid, info.node, children, parents)
