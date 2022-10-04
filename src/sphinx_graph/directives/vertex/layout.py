@@ -1,9 +1,9 @@
 """Utilities for formatting vertices into docutils.nodes for insertion into the document."""
 
 from __future__ import annotations
-from dataclasses import dataclass
 
-from typing import Callable, Iterable, Iterator, List, Sequence
+from dataclasses import dataclass
+from typing import Callable, Iterable, Iterator, Sequence
 
 from docutils import nodes
 from sphinx.builders import Builder
@@ -34,18 +34,6 @@ def create_references(
         yield reference
 
 
-def create_references_nodes(
-    state: State, builder: Builder, from_docname: str, prefix: str, uids: Iterable[str]
-) -> list[nodes.Node]:
-    text: list[nodes.Node] = []
-    references = list(create_references(state, builder, from_docname, uids))
-    if references:
-        text.append(nodes.Text(prefix))
-        text.extend(comma_separated_list(references))
-        return text
-    return []
-
-
 @dataclass
 class FormatHelper:
     """Helper class for formatting a Vertex.
@@ -62,7 +50,9 @@ class FormatHelper:
     parents: list[nodes.reference]
     children: list[nodes.reference]
 
-    def _list(self, references: list[nodes.reference], prefix: str | None) -> nodes.line | None:
+    def _list(
+        self, references: list[nodes.reference], prefix: str | None
+    ) -> nodes.line | None:
         if not references:
             return None
 
@@ -90,55 +80,44 @@ class FormatHelper:
         return self._list(self.parents, prefix)
 
 
-def format_default(
-    uid: str, content: nodes.Node, children: list[nodes.Node], parents: list[nodes.Node]
-) -> Sequence[nodes.Node]:
+def format_default(helper: FormatHelper) -> Sequence[nodes.Node]:
     line_block = nodes.line_block()
 
-    line_block += nodes.line("", f"UID: {uid}")
+    line_block += nodes.line("", f"UID: {helper.uid}")
 
-    if parents:
-        line_block += nodes.line("", "", *parents)
+    if helper.parents:
+        line_block += helper.parent_list()
 
-    if children:
-        line_block += nodes.line("", "", *children)
+    if helper.children:
+        line_block += helper.child_list()
 
-    return [line_block, content]
-
-
-def format_transparent(
-    _uid: str,
-    content: nodes.Node,
-    _children: list[nodes.Node],
-    _parents: list[nodes.Node],
-) -> Sequence[nodes.Node]:
-    return [content]
+    return [line_block, helper.content]
 
 
-def format_subtle(
-    uid: str, content: nodes.Node, children: list[nodes.Node], parents: list[nodes.Node]
-) -> Sequence[nodes.Node]:
+def format_transparent(helper: FormatHelper) -> Sequence[nodes.Node]:
+    return [helper.content]
+
+
+def format_subtle(helper: FormatHelper) -> Sequence[nodes.Node]:
     one_liner = nodes.subscript()
 
-    one_liner += nodes.Text(uid)
+    one_liner += nodes.Text(helper.uid)
 
-    if parents:
+    if helper.parents:
         one_liner += nodes.Text(" | ")
-        one_liner.extend(parents)
+        one_liner.extend(helper.parent_list())
 
-    if children:
+    if helper.children:
         one_liner += nodes.Text(" | ")
-        one_liner.extend(children)
+        one_liner.extend(helper.child_list())
 
     paragraph = nodes.paragraph()
     paragraph += one_liner
 
-    return [paragraph, content]
+    return [paragraph, helper.content]
 
 
-Formatter = Callable[
-    [str, nodes.Node, List[nodes.Node], List[nodes.Node]], Sequence[nodes.Node]
-]
+Formatter = Callable[[FormatHelper], Sequence[nodes.Node]]
 
 FORMATTERS: dict[str, Formatter] = {
     "default": format_default,
@@ -154,12 +133,10 @@ def apply_formatting(
 ) -> Sequence[nodes.Node]:
     """Apply the given formatter to create a vertex node ready for insertion."""
     parent_ids = (link.uid for link in info.parents)
-    parents = create_references_nodes(
-        state, builder, info.docname, "Parents: ", parent_ids
-    )
+    parents = list(create_references(state, builder, info.docname, parent_ids))
 
-    children = create_references_nodes(
-        state, builder, info.docname, "Children: ", info.children
-    )
+    children = list(create_references(state, builder, info.docname, info.children))
 
-    return formatter(info.uid, info.node, children, parents)
+    helper = FormatHelper(info.uid, info.node, parents, children)
+
+    return formatter(helper)
