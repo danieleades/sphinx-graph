@@ -10,29 +10,3 @@ USR-001
    If that paragraph is updated, the 'fingerprint' tracked by this vertex will
    be invalidated, triggering a review of this user requirement to ensure it
    still reflects the market requirements as intended.
-
-USR-002
--------
-
-.. vertex:: USR-002
-   :parents: MRD-001:FRnR
-   :layout: subtle
-
-   this is requirement with subtle formatting
-
-   subtle formatting is designed to show links to neighbours without
-   breaking the flow of the text
-
-.. vertex:: USR-003
-   :parents: MRD-001:FRnR
-   :layout: default
-
-   this is requirement with no subheading above it, just to check they split
-   into separate paragraphs
-
-.. vertex:: USR-004
-   :parents: MRD-001:FRnR
-   :layout: subtle
-
-   this is also a requirement with no subheading above it, just to check they split
-   into separate paragraphs
