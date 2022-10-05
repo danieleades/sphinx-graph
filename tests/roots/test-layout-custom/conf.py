@@ -1,7 +1,10 @@
-from typing import Sequence
-from sphinx_graph import Config, FormatHelper
-from docutils import nodes
+import os
+import sys
 
+from sphinx_graph import Config
+
+sys.path.insert(0, os.path.abspath("."))
+from custom_layout import format_custom  # noqa:E402
 
 # -- Project information -----------------------------------------------------
 
@@ -24,25 +27,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # -- Options for HTML output -------------------------------------------------
 html_theme = "alabaster"
 
-html_static_path = ["_static"]
 
-
-def format_custom(helper: FormatHelper) -> Sequence[nodes.Node]:
-    line_block = nodes.line_block()
-
-    line_block += nodes.line("", f"UID: {helper.uid}")
-
-    if helper.parents:
-        line_block += helper.parent_list()
-
-    if helper.children:
-        line_block += helper.child_list()
-
-    return [line_block, helper.content]
-
-
-sphinx_config = Config(
-    custom_layouts={
-        "custom": format_custom
-    },
+graph_config = Config(
+    custom_layouts={"custom": format_custom},
 )

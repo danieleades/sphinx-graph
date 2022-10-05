@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import TYPE_CHECKING
 
-from sphinx_graph.directives.vertex.layout import Formatter
+if TYPE_CHECKING:
+    from sphinx_graph.directives.vertex.layout import Formatter
 
 
 @dataclass
@@ -20,7 +22,7 @@ class Config:
 
             from sphinx_graph import Config
 
-            sphinx_config = Config(
+            graph_config = Config(
                 require_fingerprints=True,
             )
 
@@ -39,6 +41,8 @@ class Config:
 
                 from sphinx_graph import Config, FormatHelper
 
+                # -------------------------------------------------------------
+                # this function must be defined in a separate file, otherwise Sphinx cannot 'pickle' the config!
                 def format_custom(helper: FormatHelper) -> Sequence[nodes.Node]:
                     line_block = nodes.line_block()
 
@@ -51,9 +55,9 @@ class Config:
                         line_block += helper.child_list()
 
                     return [line_block, helper.content]
+                # -------------------------------------------------------------
 
-
-                sphinx_config = Config(
+                graph_config = Config(
                     custom_layouts={
                         "custom": format_custom
                     },

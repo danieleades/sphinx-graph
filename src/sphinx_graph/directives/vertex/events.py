@@ -59,7 +59,7 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
                 )
                 layout = DEFAULT_FORMATTER
 
-            formatter = FORMATTERS[layout]
+            formatter = formatters[layout]
             vertex_node.replace_self(
                 apply_formatting(formatter, state, builder, info_parsed)
             )
