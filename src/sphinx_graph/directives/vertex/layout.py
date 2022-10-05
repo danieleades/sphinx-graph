@@ -85,11 +85,8 @@ def format_default(helper: FormatHelper) -> Sequence[nodes.Node]:
 
     line_block += nodes.line("", f"UID: {helper.uid}")
 
-    if helper.parents:
-        line_block += helper.parent_list()
-
-    if helper.children:
-        line_block += helper.child_list()
+    line_block += helper.parent_list()
+    line_block += helper.child_list()
 
     return [line_block, helper.content]
 
