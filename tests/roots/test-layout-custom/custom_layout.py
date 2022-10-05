@@ -1,6 +1,8 @@
 from typing import Sequence
-from sphinx_graph import FormatHelper
+
 from docutils import nodes
+
+from sphinx_graph import FormatHelper
 
 
 def format_custom(helper: FormatHelper) -> Sequence[nodes.Node]:
