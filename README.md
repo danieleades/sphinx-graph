@@ -23,12 +23,24 @@ Sphinx Graph is *heavily* inspired by Sphinx-Needs. Sphinx-Graph started life as
 The core sphinx directive provided by this extension is a 'Vertex'. A Vertex directive can be used to define relationships between text elements.
 
 ```rst
+.. vertex:: USR-001
+
+   this is a user requirement.
+
+   This user requirement forms the basis of derived system requirements. When it is rendered in a sphinx document it will be augmented with links to any child vertices.
+
 .. vertex:: SYS-001
-   :parents: USR-001
+   :parents: USR-001:iG91
 
    this is system requirement of some sort.
 
-   It is derived from a higher-level user requirement (SYS-001).
-   When it is rendered in a sphinx document, it will be augmented with
-   links to its parent(s) as well as any 'children'.
+   It is derived from a higher-level user requirement (USR-001).
+   When it is rendered in a sphinx document, it will be augmented with links to its parent as well as any 'children'.
+
+.. vertex:: SYS-002
+   :parents: USR-001:iG91
+
+   this is another system requirement. This time the link to USR-001 is tracking the 'fingerprint' of its parent.
+
+   The parent is a 4-character hash. If USR-001 is modified, then SYS-002 will fail the build until the fingerprint is updated (the build error provides the new fingerprint). This means that changing a Vertex will trigger a review of all dependent vertices.
 ```
