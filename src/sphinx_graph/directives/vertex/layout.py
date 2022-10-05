@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Callable, Iterable, Iterator, List, Sequence
+from dataclasses import dataclass
+from typing import Callable, Iterable, Iterator, Sequence
 
 from docutils import nodes
 from sphinx.builders import Builder
@@ -33,77 +34,91 @@ def create_references(
         yield reference
 
 
-def create_references_nodes(
-    state: State, builder: Builder, from_docname: str, prefix: str, uids: Iterable[str]
-) -> list[nodes.Node]:
-    text: list[nodes.Node] = []
-    references = list(create_references(state, builder, from_docname, uids))
-    if references:
-        text.append(nodes.Text(prefix))
-        text.extend(comma_separated_list(references))
-        return text
-    return []
+@dataclass
+class FormatHelper:
+    """Helper class for formatting a Vertex.
 
+    Args:
+        uid: the unique identifier of the vertex
+        content: the nested content of the vertex
+        parents: a list of references to parent Vertices
+        children: a list of references to child Vertices
+    """
 
-def format_default(
-    uid: str, content: nodes.Node, children: list[nodes.Node], parents: list[nodes.Node]
-) -> Sequence[nodes.Node]:
-    title = nodes.subtitle()
-    title.append(nodes.strong(text=uid))
+    uid: str
+    content: nodes.Node
+    parents: list[nodes.reference]
+    children: list[nodes.reference]
 
-    attributes = nodes.paragraph()
-    if children:
+    def _list(
+        self, references: list[nodes.reference], prefix: str | None
+    ) -> nodes.line | None:
+        if not references:
+            return None
+
         line = nodes.line()
-        line.extend(children)
-        emphasis = nodes.emphasis()
-        emphasis.append(line)
-        attributes.append(emphasis)
+        if prefix:
+            line += nodes.Text(prefix)
+        line.extend(comma_separated_list(references))
 
-    if parents:
-        line = nodes.line()
-        line.extend(parents)
-        emphasis = nodes.emphasis()
-        emphasis.append(line)
-        attributes.append(emphasis)
+        return line
 
-    return [title, attributes, content]
+    def child_list(self, prefix: str | None = "Children: ") -> nodes.line | None:
+        """Format the list of child vertex references as a comma-separated list.
+
+        Args:
+            prefix: Optionally set a prefix for the list
+        """
+        return self._list(self.children, prefix)
+
+    def parent_list(self, prefix: str | None = "Parents: ") -> nodes.line | None:
+        """Format the list of parent vertex references as a comma-separated list.
+
+        Args:
+            prefix: Optionally set a prefix for the list
+        """
+        return self._list(self.parents, prefix)
 
 
-def format_transparent(
-    _uid: str,
-    content: nodes.Node,
-    _children: list[nodes.Node],
-    _parents: list[nodes.Node],
-) -> Sequence[nodes.Node]:
-    return [content]
+def format_default(helper: FormatHelper) -> Sequence[nodes.Node]:
+    line_block = nodes.line_block()
+
+    line_block += nodes.line("", f"UID: {helper.uid}")
+
+    line_block += helper.parent_list()
+    line_block += helper.child_list()
+
+    return [line_block, helper.content]
 
 
-def format_subtle(
-    uid: str, content: nodes.Node, children: list[nodes.Node], parents: list[nodes.Node]
-) -> Sequence[nodes.Node]:
+def format_transparent(helper: FormatHelper) -> Sequence[nodes.Node]:
+    return [helper.content]
+
+
+def format_subtle(helper: FormatHelper) -> Sequence[nodes.Node]:
+    one_liner = nodes.subscript()
+
+    one_liner += nodes.Text(helper.uid)
+
+    if helper.parents:
+        one_liner += nodes.Text(" | ")
+        one_liner.extend(helper.parent_list())
+
+    if helper.children:
+        one_liner += nodes.Text(" | ")
+        one_liner.extend(helper.child_list())
+
     paragraph = nodes.paragraph()
+    paragraph += one_liner
 
-    line = nodes.line()
-    line += nodes.Text(uid)
-
-    if parents:
-        line += nodes.Text(" | ")
-        line.extend(parents)
-    if children:
-        line += nodes.Text(" | ")
-        line.extend(children)
-
-    emphasis = nodes.emphasis()
-    emphasis.append(line)
-
-    paragraph.append(emphasis)
-    paragraph.append(content)
-    return [paragraph]
+    return [paragraph, helper.content]
 
 
-Formatter = Callable[
-    [str, nodes.Node, List[nodes.Node], List[nodes.Node]], Sequence[nodes.Node]
-]
+Formatter = Callable[[FormatHelper], Sequence[nodes.Node]]
+"""A function which formats a Vertex, ready for insertion into the document.
+
+a Formatter is a Callable which accepts a FormatHelper and returns a Sequence of docutils Nodes.
+"""
 
 FORMATTERS: dict[str, Formatter] = {
     "default": format_default,
@@ -119,12 +134,10 @@ def apply_formatting(
 ) -> Sequence[nodes.Node]:
     """Apply the given formatter to create a vertex node ready for insertion."""
     parent_ids = (link.uid for link in info.parents)
-    parents = create_references_nodes(
-        state, builder, info.docname, "parents: ", parent_ids
-    )
+    parents = list(create_references(state, builder, info.docname, parent_ids))
 
-    children = create_references_nodes(
-        state, builder, info.docname, "children: ", info.children
-    )
+    children = list(create_references(state, builder, info.docname, info.children))
 
-    return formatter(info.uid, info.node, children, parents)
+    helper = FormatHelper(info.uid, info.node, parents, children)
+
+    return formatter(helper)

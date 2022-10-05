@@ -17,3 +17,9 @@ def test_unknown_layout(app: Sphinx) -> None:
         match=r"vertex .* has unknown layout '.*'. Defaulting to 'default' layout.",
     ):
         app.build()
+
+
+@pytest.mark.sphinx(testroot="layout-custom")
+def test_custom_layout(app: Sphinx) -> None:
+    app.warningiserror = True
+    app.build()
