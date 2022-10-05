@@ -24,6 +24,7 @@ classifiers = [
 python = "^3.8"
 Sphinx = "^5.0.1"
 networkx = "^2.8.4"
+docutils = "=0.17.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.1.3"
