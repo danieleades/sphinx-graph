@@ -7,16 +7,16 @@
 
 'Sphinx-Graph' is a plain-text, VCS-friendly, requirements management tool.
 
-With Sphinx-Graph you define relationships between items in a document. Conceptually, these items for a directed acyclic graph (DAG). The extension-
+With Sphinx-Graph you define relationships between items in a document. These items form a directed acyclic graph (DAG). The extension-
 
 - checks for cyclic references
 - populates items with links to their 'neighbours'
 - (optionally) tracks a hash of each item to trigger reviews when any parents change
 
-Sphinx Graph is *heavily* inspired by Sphinx-Needs. Sphinx-Graph started life as a proof of concept refactor of Sphinx-Needs using modern python and strict type checking.
+Sphinx Graph is *heavily* inspired by [Sphinx-Needs](https://github.com/useblocks/sphinx-needs). Sphinx-Graph started life as a proof of concept refactor of Sphinx-Needs using modern python and strict type checking.
 
-- Sphinx-Needs is the heavy-weight, full-featured, grand-daddy of Sphinx-Graph
-- By comparison, Sphinx-Graph is streamlined, and focusses on a much smaller feature set
+- Sphinx-Needs is the full-featured, grand-daddy of Sphinx-Graph
+- By comparison, Sphinx-Graph is streamlined, and focuses on a much smaller feature set
 
 ## Vertices
 

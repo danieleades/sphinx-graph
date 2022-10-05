@@ -5,3 +5,4 @@ poetry.lock
 **/__pycache__
 coverage.xml
 .pytest_cache
+.coverage
