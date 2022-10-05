@@ -37,7 +37,7 @@ class Config:
 
             .. code:: python
 
-                from sphinx_graph import Config, FormatHelper, Formatter
+                from sphinx_graph import Config, FormatHelper
 
                 def format_custom(helper: FormatHelper) -> Sequence[nodes.Node]:
                     line_block = nodes.line_block()

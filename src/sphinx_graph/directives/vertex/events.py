@@ -7,6 +7,7 @@ from sphinx.application import Sphinx
 from sphinx.environment import BuildEnvironment
 from sphinx.util import logging
 
+from sphinx_graph.config import Config
 from sphinx_graph.directives.vertex.info import InfoParsed
 from sphinx_graph.directives.vertex.layout import (
     DEFAULT_FORMATTER,
@@ -40,6 +41,8 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
     """Process Vertex nodes by formatting and adding links to graph neighbours."""
     builder = unwrap(app.builder)
     env = unwrap(builder.env)
+    config: Config = app.config.graph_config
+    formatters = {**FORMATTERS, **config.custom_layouts}
 
     # get the list of todos from the environment
     with get_state(env) as state:
@@ -50,7 +53,7 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
             children = list(state.graph.predecessors(uid))
             info_parsed = InfoParsed.from_info(uid, info, children)
             layout = info.layout or "table"
-            if layout not in FORMATTERS:
+            if layout not in formatters:
                 logger.error(
                     f"vertex {uid} has unknown layout '{layout}'. Defaulting to '{DEFAULT_FORMATTER}' layout."
                 )
