@@ -49,3 +49,5 @@ The core sphinx directive provided by this extension is a 'Vertex'. A Vertex dir
    until the fingerprint is updated (the build error provides the new fingerprint). This means that
    changing a Vertex will trigger a review of all dependent vertices.
 ```
+
+check the [example project](https://github.com/danieleades/sphinx-graph/tree/improve-docs/docs/src/example) in the documentation
