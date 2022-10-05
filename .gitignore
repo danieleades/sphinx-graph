@@ -1,6 +1,7 @@
 .venv
 .vscode
 .mypy_cache
+poetry.lock
 **/__pycache__
 coverage.xml
 .pytest_cache
