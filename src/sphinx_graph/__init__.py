@@ -17,10 +17,13 @@ from sphinx.application import Sphinx
 
 from sphinx_graph.config import Config
 from sphinx_graph.directives import vertex
+from sphinx_graph.directives.vertex.layout import FormatHelper, Formatter
 from sphinx_graph.util import unwrap
 
 __all__ = [
     "Config",
+    "Formatter",
+    "FormatHelper",
 ]
 
 

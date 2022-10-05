@@ -118,6 +118,10 @@ def format_subtle(helper: FormatHelper) -> Sequence[nodes.Node]:
 
 
 Formatter = Callable[[FormatHelper], Sequence[nodes.Node]]
+"""A function which formats a Vertex, ready for insertion into the document.
+
+a Formatter is a Callable which accepts a FormatHelper and returns a Sequence of docutils Nodes.
+"""
 
 FORMATTERS: dict[str, Formatter] = {
     "default": format_default,
