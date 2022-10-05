@@ -78,7 +78,7 @@ class Directive(SphinxDirective):
         self.state.nested_parse(self.content, self.content_offset, content_node)
 
         targetnode = nodes.target("", "", ids=[args.uid])
-        placeholder_node = Node(ids=[args.uid])
+        placeholder_node = Node(graph_uid=args.uid)
 
         with get_state(self.env) as state:
             state.insert_vertex(
