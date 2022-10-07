@@ -38,6 +38,7 @@ def test_parse_str(input: str, expected: str | None) -> None:
 @pytest.mark.parametrize(
     "input,expected",
     [
+        (None, []),
         ("one", ["one"]),
         ("one, two", ["one", "two"]),
         ("one,two", ["one", "two"]),
