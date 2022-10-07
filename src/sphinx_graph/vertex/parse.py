@@ -33,6 +33,10 @@ def parents(input: str | None) -> list[Link]:
 
 
 def string(input: str | None) -> str | None:
+    """Parse a str input.
+
+    Returns None if the input is None or an empty string
+    """
     if input:
         return input
     return None

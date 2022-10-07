@@ -8,15 +8,11 @@ from sphinx.environment import BuildEnvironment
 from sphinx.util import logging
 
 from sphinx_graph.config import Config
+from sphinx_graph.util import unwrap
 from sphinx_graph.vertex.info import InfoParsed
-from sphinx_graph.vertex.layout import (
-    DEFAULT_LAYOUT,
-    FORMATTERS,
-    apply_formatting,
-)
+from sphinx_graph.vertex.layout import DEFAULT_LAYOUT, FORMATTERS, apply_formatting
 from sphinx_graph.vertex.node import Node
 from sphinx_graph.vertex.state import get_state
-from sphinx_graph.util import unwrap
 
 logger = logging.getLogger(__name__)
 

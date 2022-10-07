@@ -8,9 +8,9 @@ from typing import Callable, Iterable, Iterator, Sequence
 from docutils import nodes
 from sphinx.builders import Builder
 
+from sphinx_graph.util import comma_separated_list
 from sphinx_graph.vertex.info import InfoParsed
 from sphinx_graph.vertex.state import State
-from sphinx_graph.util import comma_separated_list
 
 __all__ = [
     "FORMATTERS",
