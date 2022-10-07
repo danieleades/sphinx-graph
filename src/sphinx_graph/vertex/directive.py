@@ -1,4 +1,5 @@
 """Sphinx Directive for Vertex objects."""
+
 from __future__ import annotations
 
 import base64
@@ -9,42 +10,15 @@ from typing import Sequence
 from docutils import nodes
 from sphinx.util.docutils import SphinxDirective
 
-from sphinx_graph import parse
-from sphinx_graph.directives.vertex.info import Info, Link
-from sphinx_graph.directives.vertex.layout import DEFAULT_FORMATTER
-from sphinx_graph.directives.vertex.node import Node
-from sphinx_graph.directives.vertex.state import get_state
+from sphinx_graph.vertex import parse
+from sphinx_graph.vertex.info import Info, Link
+from sphinx_graph.vertex.layout import DEFAULT_LAYOUT
+from sphinx_graph.vertex.node import Node
+from sphinx_graph.vertex.state import get_state
 
 __all__ = [
     "Directive",
 ]
-
-
-def parse_parents(input: str | None) -> list[Link]:
-    """Parse a comma separated list of parent link specifications.
-
-    each element in the list may be in one of two forms
-
-    - {PARENT_ID}
-    - {PARENT_ID}:{PARENT_FINGERPRINT}
-    """
-    tokens = parse.comma_separated_list(input)
-    output: list[Link] = []
-    for token in tokens:
-        if ":" in token:
-            subtokens = token.split(":", maxsplit=1)
-            uid = subtokens[0]
-            fingerprint = subtokens[1]
-            output.append(Link(uid, fingerprint=fingerprint))
-        else:
-            output.append(Link(token, fingerprint=None))
-    return output
-
-
-def parse_str(input: str | None) -> str | None:
-    if input:
-        return input
-    return None
 
 
 @dataclass
@@ -53,7 +27,7 @@ class Args:
 
     uid: str
     parents: list[Link] = field(default_factory=list)
-    layout: str = DEFAULT_FORMATTER
+    layout: str = DEFAULT_LAYOUT
 
 
 class Directive(SphinxDirective):
@@ -62,8 +36,8 @@ class Directive(SphinxDirective):
     has_content = True
     required_arguments = 1
     option_spec = {
-        "parents": parse_parents,
-        "layout": parse_str,
+        "parents": parse.parents,
+        "layout": parse.string,
     }
 
     def run(self) -> Sequence[nodes.Node]:

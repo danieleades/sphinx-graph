@@ -8,17 +8,21 @@ from sphinx.environment import BuildEnvironment
 from sphinx.util import logging
 
 from sphinx_graph.config import Config
-from sphinx_graph.directives.vertex.info import InfoParsed
-from sphinx_graph.directives.vertex.layout import (
-    DEFAULT_FORMATTER,
-    FORMATTERS,
-    apply_formatting,
-)
-from sphinx_graph.directives.vertex.node import Node
-from sphinx_graph.directives.vertex.state import get_state
 from sphinx_graph.util import unwrap
+from sphinx_graph.vertex.info import InfoParsed
+from sphinx_graph.vertex.layout import DEFAULT_LAYOUT, FORMATTERS, apply_formatting
+from sphinx_graph.vertex.node import Node
+from sphinx_graph.vertex.state import get_state
 
 logger = logging.getLogger(__name__)
+
+__all__ = [
+    "visit_node",
+    "depart_node",
+    "process",
+    "purge",
+    "merge",
+]
 
 
 def visit_node(_self: nodes.GenericNodeVisitor, _node: Node) -> None:
@@ -52,12 +56,12 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
             info = state.all_vertices[uid]
             children = list(state.graph.predecessors(uid))
             info_parsed = InfoParsed.from_info(uid, info, children)
-            layout = info.layout or "table"
+            layout = info.layout or DEFAULT_LAYOUT
             if layout not in formatters:
                 logger.error(
-                    f"vertex {uid} has unknown layout '{layout}'. Defaulting to '{DEFAULT_FORMATTER}' layout."
+                    f"vertex {uid} has unknown layout '{layout}'. Defaulting to '{DEFAULT_LAYOUT}' layout."
                 )
-                layout = DEFAULT_FORMATTER
+                layout = DEFAULT_LAYOUT
 
             formatter = formatters[layout]
             vertex_node.replace_self(

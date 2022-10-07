@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import pytest
 
-from sphinx_graph.directives.vertex.directive import parse_parents, parse_str
-from sphinx_graph.directives.vertex.info import Link
+from sphinx_graph.vertex import parse
+from sphinx_graph.vertex.info import Link
 
 
 @pytest.mark.parametrize(
@@ -18,7 +18,7 @@ from sphinx_graph.directives.vertex.info import Link
     ],
 )
 def test_parse_parents(input: str, expected: list[Link]) -> None:
-    output = parse_parents(input)
+    output = parse.parents(input)
     assert output == expected
 
 
@@ -31,5 +31,19 @@ def test_parse_parents(input: str, expected: list[Link]) -> None:
     ],
 )
 def test_parse_str(input: str, expected: str | None) -> None:
-    output = parse_str(input)
+    output = parse.string(input)
+    assert output == expected
+
+
+@pytest.mark.parametrize(
+    "input,expected",
+    [
+        (None, []),
+        ("one", ["one"]),
+        ("one, two", ["one", "two"]),
+        ("one,two", ["one", "two"]),
+    ],
+)
+def test_parse_list(input: str, expected: list[str]) -> None:
+    output = parse.comma_separated_list(input)
     assert output == expected

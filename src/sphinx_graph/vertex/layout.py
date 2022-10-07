@@ -8,13 +8,13 @@ from typing import Callable, Iterable, Iterator, Sequence
 from docutils import nodes
 from sphinx.builders import Builder
 
-from sphinx_graph.directives.vertex.info import InfoParsed
-from sphinx_graph.directives.vertex.state import State
 from sphinx_graph.util import comma_separated_list
+from sphinx_graph.vertex.info import InfoParsed
+from sphinx_graph.vertex.state import State
 
 __all__ = [
     "FORMATTERS",
-    "DEFAULT_FORMATTER",
+    "DEFAULT_LAYOUT",
     "apply_formatting",
 ]
 
@@ -126,7 +126,7 @@ FORMATTERS: dict[str, Formatter] = {
     "subtle": format_subtle,
 }
 
-DEFAULT_FORMATTER = "default"
+DEFAULT_LAYOUT = "default"
 
 
 def apply_formatting(
