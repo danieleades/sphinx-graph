@@ -33,3 +33,16 @@ def test_parse_parents(input: str, expected: list[Link]) -> None:
 def test_parse_str(input: str, expected: str | None) -> None:
     output = parse.string(input)
     assert output == expected
+
+
+@pytest.mark.parametrize(
+    "input,expected",
+    [
+        ("one", ["one"]),
+        ("one, two", ["one", "two"]),
+        ("one,two", ["one", "two"]),
+    ],
+)
+def test_parse_list(input: str, expected: list[str]) -> None:
+    output = parse.comma_separated_list(input)
+    assert output == expected
