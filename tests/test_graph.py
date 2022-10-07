@@ -3,8 +3,8 @@ import pytest
 from sphinx.application import Sphinx
 from sphinx.errors import SphinxError, SphinxWarning
 
-from sphinx_graph.directives.vertex.state import DuplicateIdError, get_state
 from sphinx_graph.util import unwrap
+from sphinx_graph.vertex.state import DuplicateIdError, get_state
 
 
 @pytest.mark.sphinx(testroot="vertex")

@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 from docutils import nodes
 
-from sphinx_graph.directives.vertex.node import Node
+from sphinx_graph.vertex.node import Node
 
 
 @dataclass

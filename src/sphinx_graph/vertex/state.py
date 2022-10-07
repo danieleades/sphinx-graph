@@ -12,7 +12,7 @@ from sphinx.environment import BuildEnvironment
 from sphinx.errors import DocumentError
 from sphinx.util import logging
 
-from sphinx_graph.directives.vertex.info import Info as VertexInfo
+from sphinx_graph.vertex.info import Info as VertexInfo
 
 logger = logging.getLogger(__name__)
 
