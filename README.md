@@ -51,3 +51,7 @@ The core sphinx directive provided by this extension is a 'Vertex'. A Vertex dir
 ```
 
 check the [example project](https://github.com/danieleades/sphinx-graph/tree/improve-docs/docs/src/example) in the documentation
+
+---
+
+*Was this useful? [Buy me a coffee](https://github.com/sponsors/danieleades/sponsorships?sponsor=danieleades&preview=true&frequency=recurring&amount=5)*
