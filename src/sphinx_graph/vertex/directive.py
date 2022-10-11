@@ -44,12 +44,12 @@ class Directive(SphinxDirective):
         """Run the directive and return a Vertex node."""
         args = Args(uid=self.arguments[0], **self.options)
 
-        text = "\n".join(self.content)
-
-        fingerprint = base64.b64encode(hashlib.md5(text.encode()).digest())[:4].decode()
-
-        content_node = Node(text)
+        content_node = Node("\n".join(self.content))
         self.state.nested_parse(self.content, self.content_offset, content_node)
+
+        fingerprint = base64.b64encode(
+            hashlib.md5(content_node.astext().encode()).digest()
+        )[:4].decode()
 
         targetnode = nodes.target("", "", ids=[args.uid])
         placeholder_node = Node(graph_uid=args.uid)

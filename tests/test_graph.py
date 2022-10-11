@@ -13,6 +13,12 @@ def test_it_builds(app: Sphinx) -> None:
     app.build()
 
 
+@pytest.mark.sphinx(testroot="include")
+def test_literal_include(app: Sphinx) -> None:
+    app.warningiserror = True
+    app.build()
+
+
 @pytest.mark.sphinx(testroot="duplicate-ids")
 def test_duplicate_ids(app: Sphinx) -> None:
     app.warningiserror = True
