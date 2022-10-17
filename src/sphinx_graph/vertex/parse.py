@@ -37,6 +37,4 @@ def string(input: str | None) -> str | None:
 
     Returns None if the input is None or an empty string
     """
-    if input:
-        return input
-    return None
+    return input or None

@@ -28,10 +28,7 @@ def create_references(
     state: State, builder: Builder, from_docname: str, uids: Iterable[str]
 ) -> Iterator[nodes.Node]:
     for uid in uids:
-        reference = format_reference(
-            uid, state.create_reference(builder, uid, from_docname)
-        )
-        yield reference
+        yield format_reference(uid, state.create_reference(builder, uid, from_docname))
 
 
 @dataclass
