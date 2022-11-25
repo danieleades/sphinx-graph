@@ -7,3 +7,5 @@ SYS-003
    this requirement is linked to a parent but isn't tracking that parent's 'fingerprint'.
    That's fine, but it means that if the parent is changed, Sphinx-Graph won't prompt you to review this requirement
    by returning a build warning with the new fingerprint.
+
+   it has an embedded glossary term - :term:`Some Term`
