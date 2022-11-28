@@ -5,6 +5,9 @@ on:
   pull_request:
 jobs:
   tests:
+    defaults:
+      run:
+        shell: bash
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
