@@ -9,6 +9,7 @@ from typing import Sequence
 
 from docutils import nodes
 from sphinx.util.docutils import SphinxDirective
+from sphinx.util.nodes import nested_parse_with_titles
 
 from sphinx_graph.vertex import parse
 from sphinx_graph.vertex.info import Info, Link
@@ -45,7 +46,7 @@ class Directive(SphinxDirective):
         args = Args(uid=self.arguments[0], **self.options)
 
         content_node = Node("\n".join(self.content))
-        self.state.nested_parse(self.content, self.content_offset, content_node)
+        nested_parse_with_titles(self.state, self.content, content_node)
 
         fingerprint = base64.b64encode(
             hashlib.md5(content_node.astext().encode()).digest()
