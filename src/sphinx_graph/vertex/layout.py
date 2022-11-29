@@ -86,6 +86,8 @@ def format_default(helper: FormatHelper) -> Sequence[nodes.Node]:
     line_block += helper.child_list()
 
     return [line_block, helper.content]
+    #return [helper.content]
+    #return [line_block]
 
 
 def format_transparent(helper: FormatHelper) -> Sequence[nodes.Node]:
