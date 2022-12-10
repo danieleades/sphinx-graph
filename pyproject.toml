@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "sphinx_graph"
+version = "0.1.0"
+description = ""
+authors = ["Daniel Eades <danieleades@hotmail.com>"]
+readme = "README.md"
+packages = [{include = "vertex", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+sphinx = "^5.3.0"
+
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^6.0.0"
+mypy = "^0.991"
+pep8-naming = "^0.13.2"
+flake8-simplify = "^0.19.3"
+flake8-comprehensions = "^3.10.1"
+types-docutils = "^0.19.1.1"
+
+[tool.mypy]
+strict = true
+show_error_codes = true
+files = "src,tests"
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
