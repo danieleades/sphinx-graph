@@ -2,9 +2,10 @@ SYS-002
 -------
 
 .. vertex:: SYS-002
-   :parents: USR-001:4sMl
+    :type: sys
+    :parents: USR-001:4sMl
 
-   this is a system requirement derived from some user requirement
+    this is a system requirement derived from some user requirement
 
     .. note::
-      it contains nested restructured text
+        it contains nested restructured text

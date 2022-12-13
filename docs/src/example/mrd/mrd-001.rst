@@ -4,13 +4,14 @@ Market Requirements Document
 This document describes the market requirements for a product
 
 .. vertex:: MRD-001
+    :type: mrd
     :layout: subtle
 
     This paragraph uses a 'subtle' layout that shows the vertex ID and its
     neighbours, without breaking the flow of the document
 
 .. vertex:: MRD-002
-    :layout: transparent
+    :type: mrd
 
     This paragraph is also a sphinx-graph vertex and its contents and relationship
     to other vertices are tracked. However, it uses the 'transparent' layout, and
