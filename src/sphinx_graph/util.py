@@ -1,13 +1,15 @@
 """Utility methods for SphinxGraph."""
 
-from typing import Iterable, Optional, TypeVar
+from __future__ import annotations
+
+from typing import Iterable, TypeVar
 
 from docutils import nodes
 
 T = TypeVar("T")
 
 
-def unwrap(x: Optional[T]) -> T:
+def unwrap(x: T | None) -> T:
     """Unwrap an optional value.
 
     Args:

@@ -10,40 +10,27 @@ adding it to ``conf.py``:
     ]
 """
 
+__all__ = [
+    "Config",
+    "VertexConfig",
+]
+
 from typing import TypedDict
 
 from docutils import nodes
 from sphinx.application import Sphinx
 
-from sphinx_graph import vertex
-from sphinx_graph.config import Config
-from sphinx_graph.util import unwrap
-from sphinx_graph.vertex.layout import FormatHelper, Formatter
+from sphinx_graph import events
+from sphinx_graph.config import Config, VertexConfig
+from sphinx_graph.directive import Directive
+from sphinx_graph.node import Node
 
 __all__ = [
     "Config",
+    "VertexConfig",
     "Formatter",
     "FormatHelper",
 ]
-
-
-def generate_graph(app: Sphinx, _doctree: nodes.document, _fromdocname: str) -> None:
-    """Generate a graph of all vertices in the document."""
-    builder = unwrap(app.builder)
-    env = unwrap(builder.env)
-
-    with vertex.get_state(env) as state:
-        state.build_graph()
-
-
-def check_graph_consistency(app: Sphinx, _exception: Exception) -> None:
-    builder = unwrap(app.builder)
-    env = unwrap(builder.env)
-
-    config: Config = app.config.graph_config
-
-    with vertex.get_state(env) as state:
-        state.consistency_checks(config.require_fingerprints)
 
 
 class ExtensionMetadata(TypedDict):
@@ -55,23 +42,35 @@ class ExtensionMetadata(TypedDict):
     parallel_write_safe: bool
 
 
+def visit_node(_self: nodes.GenericNodeVisitor, _node: Node) -> None:
+    """Visits the Vertex node.
+
+    This method is a no-op
+    """
+
+
+def depart_node(_self: nodes.GenericNodeVisitor, _node: Node) -> None:
+    """Visits the Vertex node.
+
+    This method is a no-op
+    """
+
+
 def setup(app: Sphinx) -> ExtensionMetadata:
     """Set up the sphinx-graph extension."""
     app.add_config_value("graph_config", Config(), "", types=(Config))
 
     app.add_node(
-        vertex.Node,
-        html=(vertex.visit_node, vertex.depart_node),
-        latex=(vertex.visit_node, vertex.depart_node),
-        text=(vertex.visit_node, vertex.depart_node),
+        Node,
+        html=(visit_node, depart_node),
+        latex=(visit_node, depart_node),
+        text=(visit_node, depart_node),
     )
 
-    app.add_directive("vertex", vertex.Directive)
-    app.connect("doctree-resolved", generate_graph)
-    app.connect("doctree-resolved", vertex.process)
-    app.connect("env-purge-doc", vertex.purge)
-    app.connect("env-merge-info", vertex.merge)
-    app.connect("build-finished", check_graph_consistency)
+    app.add_directive("vertex", Directive)
+    app.connect("doctree-resolved", events.process)
+    app.connect("env-purge-doc", events.purge)
+    app.connect("env-merge-info", events.merge)
 
     return {
         "version": "0.1",

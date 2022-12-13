@@ -2,22 +2,21 @@ from __future__ import annotations
 
 import pytest
 
-from sphinx_graph.vertex import parse
-from sphinx_graph.vertex.info import Link
+from sphinx_graph import parse
 
 
 @pytest.mark.parametrize(
     "input,expected",
     [
-        ("REQ-01", [Link("REQ-01", None)]),
-        ("REQ-01:1234", [Link("REQ-01", "1234")]),
+        ("REQ-01", {"REQ-01": None}),
+        ("REQ-01:1234", {"REQ-01": "1234"}),
         (
             "REQ-01:1234, REQ-02,REQ-03:5678",
-            [Link("REQ-01", "1234"), Link("REQ-02", None), Link("REQ-03", "5678")],
+            {"REQ-01": "1234", "REQ-02": None, "REQ-03": "5678"},
         ),
     ],
 )
-def test_parse_parents(input: str, expected: list[Link]) -> None:
+def test_parse_parents(input: str, expected: dict[str, str | None]) -> None:
     output = parse.parents(input)
     assert output == expected
 
