@@ -1,4 +1,6 @@
 """Dataclass objects will store information about a Vertex directive."""
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 from sphinx_graph.config import VertexConfig
