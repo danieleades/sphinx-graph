@@ -50,7 +50,7 @@ class Directive(SphinxDirective):
         vertex_config = self.vertex_config()
         if vertex_config.regex and not vertex_config.regex.match(uid):
             logger.error(
-                f"vertex id {uid} doesn't satisfy the configured regex ({vertex_config.regex})"
+                f"vertex '{uid}' doesn't satisfy the configured regex ('{vertex_config.regex.pattern}')"
             )
 
         with State.get(self.env) as state:
