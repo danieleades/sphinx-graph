@@ -3,66 +3,59 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from sphinx_graph.vertex.layout import Formatter
 
 
 @dataclass
-class Config:
-    """Configuration object for Sphinx Graph.
-
-    This class is the entry point for all configuration.
-
-    Example:
-        Configuration should be set in the ``conf.py`` file:
-
-        .. code:: python
-
-            from sphinx_graph import Config
-
-            graph_config = Config(
-                require_fingerprints=True,
-            )
-
+class VertexConfig:
+    """Optional additional configuration for a vertex directive.
 
     Args:
         require_fingerprints:
             Whether parent links *must* provide fingerprints.
             If ``False`` (the default) then link fingerprints are checked
             if set, and ignored otherwise.
-        custom_layouts:
-            Optionally add additional custom layouts that can be used by Vertices.
-
-            Eg:
-
-            .. code:: python
-
-                from sphinx_graph import Config, FormatHelper
-
-                # -------------------------------------------------------------
-                # this function must be defined in a separate file, otherwise Sphinx cannot 'pickle' the config!
-                def format_custom(helper: FormatHelper) -> Sequence[nodes.Node]:
-                    line_block = nodes.line_block()
-
-                    line_block += nodes.line("", f"UID: {helper.uid}")
-
-                    if helper.parents:
-                        line_block += helper.parent_list()
-
-                    if helper.children:
-                        line_block += helper.child_list()
-
-                    return [line_block, helper.content]
-                # -------------------------------------------------------------
-
-                graph_config = Config(
-                    custom_layouts={
-                        "custom": format_custom
-                    },
-                )
     """
 
-    require_fingerprints: bool = False
-    custom_layouts: dict[str, Formatter] = field(default_factory=dict)
+    require_fingerprints: bool | None = None
+    layout: str | None = None
+
+    def _override(self, other: VertexConfig) -> VertexConfig:
+        return VertexConfig(
+            require_fingerprints=self.require_fingerprints
+            if other.require_fingerprints is None
+            else other.require_fingerprints,
+            layout=self.layout if other.layout is None else other.layout,
+        )
+
+
+@dataclass
+class Config:
+    """Configuration for the sphinx-graph extension.
+
+    Example::
+
+        from sphinx_graph import Config, DirectiveConfig
+
+        graph_config = Config(
+            vertex_config = DirectiveConfig(
+                # this is the default value
+                require_fingerprints=False,
+            ),
+            types = {
+                # any directives with the 'req' type will require fingerprints
+                "req": DirectiveConfig(
+                    require_fingerprints=True
+                )
+            },
+        )
+
+    Args:
+        vertex_config: Default configuration to apply to all vertices.
+            The default configuration is overridden by any config set for a
+            specific 'type' of vertex. That is in turn overriden by any configuration
+            set directly on the vertex directive.
+        types: Set default directive configuration for 'types' of vertices.
+    """
+
+    vertex_config: VertexConfig = field(default_factory=VertexConfig)
+    types: dict[str, VertexConfig] = field(default_factory=dict)
