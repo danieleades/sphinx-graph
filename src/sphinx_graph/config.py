@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from re import Pattern
 
 
 @dataclass
@@ -18,6 +19,7 @@ class VertexConfig:
 
     require_fingerprints: bool | None = None
     layout: str | None = None
+    regex: Pattern[str] | None = None
 
     def _override(self, other: VertexConfig) -> VertexConfig:
         return VertexConfig(
@@ -25,6 +27,7 @@ class VertexConfig:
             if other.require_fingerprints is None
             else other.require_fingerprints,
             layout=self.layout if other.layout is None else other.layout,
+            regex=self.regex if other.regex is None else other.regex,
         )
 
 
