@@ -24,5 +24,5 @@
 
     cd docs/
     poetry run make html
-    
+
 then open `docs/_build/html/index.html` in a browser
