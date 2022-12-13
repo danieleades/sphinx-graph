@@ -6,3 +6,4 @@ poetry.lock
 coverage.xml
 .pytest_cache
 .coverage
+dist
