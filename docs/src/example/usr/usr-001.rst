@@ -2,6 +2,7 @@ USR-001
 -------
 
 .. vertex:: USR-001
+   :type: usr
    :parents: MRD-001:FRnR
 
    this is high-level user requirement of some sort.

@@ -7,6 +7,7 @@ import hashlib
 from typing import Sequence
 
 from docutils import nodes
+from sphinx.util import logging
 from sphinx.util.docutils import SphinxDirective
 from sphinx.util.nodes import nested_parse_with_titles
 from sphinx.util.typing import OptionSpec
@@ -16,6 +17,8 @@ from sphinx_graph.config import Config, VertexConfig
 from sphinx_graph.info import Info
 from sphinx_graph.node import Node as VertexNode
 from sphinx_graph.state import State
+
+logger = logging.getLogger(__name__)
 
 __all__ = [
     "Directive",
@@ -44,12 +47,18 @@ class Directive(SphinxDirective):
             hashlib.md5(content_node.astext().encode()).digest()
         )[:4].decode()
 
+        vertex_config = self.vertex_config()
+        if vertex_config.regex and not vertex_config.regex.match(uid):
+            logger.error(
+                f"vertex '{uid}' doesn't satisfy the configured regex ('{vertex_config.regex.pattern}')"
+            )
+
         with State.get(self.env) as state:
             state.insert_vertex(
                 uid,
                 Info(
                     docname=self.env.docname,
-                    config=self.vertex_config(),
+                    config=vertex_config,
                     parents=self.options.get("parents", {}),
                     fingerprint=fingerprint,
                 ),
