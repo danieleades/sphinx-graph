@@ -1,9 +1,13 @@
 [tool.poetry]
 name = "sphinx-graph"
-version = "0.1.0"
+version = "0.1.1-beta"
 description = "'Sphinx-Graph' is a plain-text, VCS-friendly, requirements management tool."
 authors = ["Daniel Eades <danieleades@hotmail.com>"]
 license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/danieleades/sphinx-graph"
+documentation = "https://sphinx-graph.readthedocs.io/en/latest/index.html"
+keywords = ["sphinx, requirements", "documentation", "plain-text"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "License :: OSI Approved :: MIT License",
@@ -20,6 +24,7 @@ classifiers = [
     "Intended Audience :: Developers",
     "Intended Audience :: Manufacturing",
 ]
+
 
 [tool.poetry.dependencies]
 python = "^3.8.1"
