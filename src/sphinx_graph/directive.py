@@ -49,7 +49,7 @@ class Directive(SphinxDirective):
                 uid,
                 Info(
                     docname=self.env.docname,
-                    config=self._vertex_config(),
+                    config=self.vertex_config(),
                     parents=self.options.get("parents", {}),
                     fingerprint=fingerprint,
                 ),
@@ -60,16 +60,22 @@ class Directive(SphinxDirective):
         return [targetnode, content_node]
 
     def _default_config(self) -> VertexConfig:
+        """The global default vertex configuration."""
         config: Config = self.env.app.config.graph_config
         return config.vertex_config
 
     def _directive_config(self) -> VertexConfig:
+        """The configuration set on this specific directive."""
         return VertexConfig(
             require_fingerprints=self.options.get("require_fingerprints"),
             layout=self.options.get("layout"),
         )
 
     def _type_config(self) -> VertexConfig:
+        """The configuration set for this 'type' of vertex.
+
+        Returns a default configuration if not set
+        """
         config: Config = self.env.app.config.graph_config
         vertex_type = self.options.get("type")
         if vertex_type:
@@ -77,7 +83,15 @@ class Directive(SphinxDirective):
         else:
             return VertexConfig()
 
-    def _vertex_config(self) -> VertexConfig:
+    def vertex_config(self) -> VertexConfig:
+        """The vertex configuration found by combinging configuration sources.
+
+        Configuration is combined in order of precedence (lowest to highest):
+
+        1. default configuration (globally configured)
+        2. 'type' configuration (set by vertex type)
+        3. directive configuration (local config set on the directive)
+        """
         return (
             self._default_config()
             ._override(self._type_config())
