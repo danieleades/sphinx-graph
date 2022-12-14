@@ -30,6 +30,7 @@ classifiers = [
 python = "^3.8.1"
 sphinx = "^5.3.0"
 networkx = "^2.8.8"
+pylint = "^2.15.8"
 
 
 [tool.poetry.group.dev.dependencies]

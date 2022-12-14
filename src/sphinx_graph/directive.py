@@ -89,8 +89,7 @@ class Directive(SphinxDirective):
         vertex_type = self.options.get("type")
         if vertex_type:
             return config.types[vertex_type]
-        else:
-            return VertexConfig()
+        return VertexConfig()
 
     def vertex_config(self) -> VertexConfig:
         """The vertex configuration found by combinging configuration sources.
@@ -103,6 +102,6 @@ class Directive(SphinxDirective):
         """
         return (
             self._default_config()
-            ._override(self._type_config())
-            ._override(self._directive_config())
+            .override(self._type_config())
+            .override(self._directive_config())
         )

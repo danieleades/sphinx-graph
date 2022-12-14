@@ -6,6 +6,6 @@ def test_vertex_config_override_fingerprints() -> None:
     type_config = VertexConfig()
     directive_config = VertexConfig()
 
-    vertex_config = default_config._override(type_config)._override(directive_config)
+    vertex_config = default_config.override(type_config).override(directive_config)
 
     assert vertex_config.require_fingerprints

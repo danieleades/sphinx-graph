@@ -166,6 +166,7 @@ def apply_formatting(
     children: Iterable[tuple[str, str]],
     layout: str | None,
 ) -> nodes.Node:
+    """Apply a given layout to a Vertex node."""
     if layout is None:
         layout = DEFAULT
     elif layout not in LAYOUTS:
