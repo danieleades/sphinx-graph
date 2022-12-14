@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sphinx-graph"
-version = "0.1.1-beta"
+version = "0.1.1"
 description = "'Sphinx-Graph' is a plain-text, VCS-friendly, requirements management tool."
 authors = ["Daniel Eades <danieleades@hotmail.com>"]
 license = "MIT"
