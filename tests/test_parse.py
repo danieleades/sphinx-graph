@@ -1,22 +1,30 @@
 from __future__ import annotations
 
+from contextlib import nullcontext as does_not_raise
+from typing import ContextManager
+
 import pytest
+from sphinx.errors import ConfigError
 
 from sphinx_graph import parse
 
 
 @pytest.mark.parametrize(
-    "input,expected",
+    "input,expected,expectation",
     [
-        ("true", True),
-        ("TRUE", True),
-        ("false", False),
-        (None, True),
+        ("true", True, does_not_raise()),
+        ("TRUE", True, does_not_raise()),
+        ("false", False, does_not_raise()),
+        (None, True, does_not_raise()),
+        ("test", True, pytest.raises(ConfigError)),
     ],
 )
-def test_parse_boolean(input: str | None, expected: bool) -> None:
-    output = parse.boolean(input)
-    assert output == expected
+def test_parse_boolean(
+    input: str | None, expected: bool, expectation: ContextManager[None]
+) -> None:
+    with expectation:
+        output = parse.boolean(input)
+        assert output == expected
 
 
 @pytest.mark.parametrize(
