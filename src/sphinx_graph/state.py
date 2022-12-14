@@ -72,19 +72,22 @@ def build_graph(vertices: dict[str, VertexInfo]) -> DiGraph:
 
 def check_fingerprints(graph: DiGraph, vertices: dict[str, VertexInfo]) -> None:
     """Check for suspect links and raise sphinx warnings."""
-    for (child_id, parent_id, fingerprint) in graph.edges.data("fingerprint"):
+    for child_id, parent_id, fingerprint in graph.edges.data("fingerprint"):
         fingerprints_required = vertices[child_id].config.require_fingerprints
         parent = vertices[parent_id]
         if fingerprints_required and fingerprint is None:
             logger.warning(
-                f"link fingerprints are required, but {child_id} doesn't have a fingerprint for its link to its parent {parent_id}.\n"
-                f"the fingerprint can be added by changing the parent reference on {child_id} to '{parent_id}:{parent.fingerprint}'."
+                f"link fingerprints are required, but {child_id} doesn't have a"
+                f" fingerprint for its link to its parent {parent_id}.\nthe fingerprint"
+                f" can be added by changing the parent reference on {child_id} to"
+                f" '{parent_id}:{parent.fingerprint}'."
             )
         if fingerprint and fingerprint != parent.fingerprint:
             logger.warning(
-                f"suspect link found. vertex {child_id} is linked to vertex {parent_id} with a fingerprint of '{fingerprint}',"
-                f" but {parent_id}'s fingerprint is '{parent.fingerprint}'.\n"
-                f"{child_id} should be reviewed, and the link fingerprint manually updated."
+                f"suspect link found. vertex {child_id} is linked to vertex"
+                f" {parent_id} with a fingerprint of '{fingerprint}', but {parent_id}'s"
+                f" fingerprint is '{parent.fingerprint}'.\n{child_id} should be"
+                " reviewed, and the link fingerprint manually updated."
             )
 
 

@@ -7,7 +7,7 @@ from typing import TypeVar
 T = TypeVar("T")
 
 
-def unwrap(x: T | None) -> T:
+def unwrap(option: T | None) -> T:
     """Unwrap an optional value.
 
     Args:
@@ -19,6 +19,6 @@ def unwrap(x: T | None) -> T:
     Raises:
         ValueError: If the value is None.
     """
-    if x is None:
+    if option is None:
         raise ValueError("attempted to 'unwrap' a None value!")
-    return x
+    return option

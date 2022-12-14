@@ -171,7 +171,8 @@ def apply_formatting(
         layout = DEFAULT
     elif layout not in LAYOUTS:
         logger.error(
-            f"vertex {uid} has unknown layout '{layout}'. Defaulting to '{DEFAULT}' layout."
+            f"vertex {uid} has unknown layout '{layout}'. Defaulting to '{DEFAULT}'"
+            " layout."
         )
         layout = DEFAULT
     helper = FormatHelper(uid, content, parents, children)
