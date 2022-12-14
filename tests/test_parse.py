@@ -8,6 +8,21 @@ from sphinx_graph import parse
 @pytest.mark.parametrize(
     "input,expected",
     [
+        ("true", True),
+        ("TRUE", True),
+        ("false", False),
+        (None, True),
+    ],
+)
+def test_parse_boolean(input: str | None, expected: bool) -> None:
+    output = parse.boolean(input)
+    assert output == expected
+
+
+@pytest.mark.parametrize(
+    "input,expected",
+    [
+        (None, {}),
         ("REQ-01", {"REQ-01": None}),
         ("REQ-01:1234", {"REQ-01": "1234"}),
         (
@@ -16,7 +31,7 @@ from sphinx_graph import parse
         ),
     ],
 )
-def test_parse_parents(input: str, expected: dict[str, str | None]) -> None:
+def test_parse_parents(input: str | None, expected: dict[str, str | None]) -> None:
     output = parse.parents(input)
     assert output == expected
 
