@@ -4,19 +4,19 @@ from __future__ import annotations
 from sphinx.errors import ConfigError
 
 
-def boolean(input: str | None) -> bool:
+def boolean(value: str | None) -> bool:
     """Parse a boolean flag.
 
     Passing the flag without arguments is the same as using the value 'True'
     """
-    if input is None:
+    if value is None:
         return True
-    if input.lower() == "true":
+    if value.lower() == "true":
         return True
-    if input.lower() == "false":
+    if value.lower() == "false":
         return False
 
-    raise ConfigError(f"invalid boolean value: {input}")
+    raise ConfigError(f"invalid boolean value: {value}")
 
 
 def comma_separated_list(list_str: str | None) -> list[str]:
@@ -26,7 +26,7 @@ def comma_separated_list(list_str: str | None) -> list[str]:
     return [link.strip() for link in list_str.split(",")]
 
 
-def parents(input: str | None) -> dict[str, str | None]:
+def parents(value: str | None) -> dict[str, str | None]:
     """Parse a comma separated list of parent link specifications.
 
     each element in the list may be in one of two forms
@@ -34,7 +34,7 @@ def parents(input: str | None) -> dict[str, str | None]:
     - {PARENT_ID}
     - {PARENT_ID}:{PARENT_FINGERPRINT}
     """
-    tokens = comma_separated_list(input)
+    tokens = comma_separated_list(value)
     output: dict[str, str | None] = {}
     for token in tokens:
         if ":" in token:
@@ -48,9 +48,9 @@ def parents(input: str | None) -> dict[str, str | None]:
     return output
 
 
-def string(input: str | None) -> str | None:
+def string(value: str | None) -> str | None:
     """Parse a str input.
 
     Returns None if the input is None or an empty string
     """
-    return input or None
+    return value or None

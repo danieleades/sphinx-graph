@@ -166,11 +166,13 @@ def apply_formatting(
     children: Iterable[tuple[str, str]],
     layout: str | None,
 ) -> nodes.Node:
+    """Apply a given layout to a Vertex node."""
     if layout is None:
         layout = DEFAULT
     elif layout not in LAYOUTS:
         logger.error(
-            f"vertex {uid} has unknown layout '{layout}'. Defaulting to '{DEFAULT}' layout."
+            f"vertex {uid} has unknown layout '{layout}'. Defaulting to '{DEFAULT}'"
+            " layout."
         )
         layout = DEFAULT
     helper = FormatHelper(uid, content, parents, children)

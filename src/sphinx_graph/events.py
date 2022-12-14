@@ -27,6 +27,7 @@ def relative_uris(
     vertices: dict[str, Info],
     target_uids: Iterable[str],
 ) -> Iterable[tuple[str, str]]:
+    """Iterate over node UIDs and convert them to relative URIs."""
     for target_uid in target_uids:
         relative_uri = builder.get_relative_uri(
             from_docname, vertices[target_uid].docname

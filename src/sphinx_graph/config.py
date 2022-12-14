@@ -24,7 +24,8 @@ class VertexConfig:
     layout: str | None = None
     regex: Pattern[str] | None = None
 
-    def _override(self, other: VertexConfig) -> VertexConfig:
+    def override(self, other: VertexConfig) -> VertexConfig:
+        """Override a VertexConfig by overlaying a second config."""
         return VertexConfig(
             require_fingerprints=self.require_fingerprints
             if other.require_fingerprints is None

@@ -50,7 +50,8 @@ class Directive(SphinxDirective):
         vertex_config = self.vertex_config()
         if vertex_config.regex and not vertex_config.regex.match(uid):
             logger.error(
-                f"vertex '{uid}' doesn't satisfy the configured regex ('{vertex_config.regex.pattern}')"
+                f"vertex '{uid}' doesn't satisfy the configured regex"
+                f" ('{vertex_config.regex.pattern}')"
             )
 
         with State.get(self.env) as state:
@@ -89,8 +90,7 @@ class Directive(SphinxDirective):
         vertex_type = self.options.get("type")
         if vertex_type:
             return config.types[vertex_type]
-        else:
-            return VertexConfig()
+        return VertexConfig()
 
     def vertex_config(self) -> VertexConfig:
         """The vertex configuration found by combinging configuration sources.
@@ -103,6 +103,6 @@ class Directive(SphinxDirective):
         """
         return (
             self._default_config()
-            ._override(self._type_config())
-            ._override(self._directive_config())
+            .override(self._type_config())
+            .override(self._directive_config())
         )
