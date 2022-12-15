@@ -13,6 +13,12 @@ def test_it_builds(app: Sphinx) -> None:
     app.build()
 
 
+@pytest.mark.sphinx(testroot="parallel", parallel=2)
+def test_it_builds_parallel(app: Sphinx) -> None:
+    app.warningiserror = True
+    app.build()
+
+
 @pytest.mark.sphinx(testroot="fingerprints")
 def test_require_fingerprints(app: Sphinx) -> None:
     app.warningiserror = True
