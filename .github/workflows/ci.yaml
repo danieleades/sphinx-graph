@@ -28,7 +28,7 @@ jobs:
       - name: Update build deps
         run: poetry run python -m pip install --upgrade pip setuptools
       - name: Install Dependencies
-        run: poetry install
+        run: poetry install --without lint
       - name: Run Tests
         run: poetry run pytest
 
