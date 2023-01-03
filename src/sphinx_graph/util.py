@@ -11,7 +11,7 @@ def unwrap(option: T | None) -> T:
     """Unwrap an optional value.
 
     Args:
-        x: The optional value to unwrap.
+        option: The optional value to unwrap.
 
     Returns:
         The unwrapped value.
