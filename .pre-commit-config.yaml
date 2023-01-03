@@ -22,7 +22,7 @@ repos:
           - --preview
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.191
+    rev: v0.0.208
     hooks:
       - id: ruff
         args:
