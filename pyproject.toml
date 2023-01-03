@@ -76,14 +76,12 @@ ignore_missing_imports = true
 
 [tool.ruff]
 select = [
-    "I001",  # isort
-    "C",  # flake8-comprehensions
+    "I001", # isort
+    "C",    # flake8-comprehensions
 ]
 
 [tool.ruff.isort]
-known-first-party = [
-    "sphinx_graph",
-]
+known-first-party = ["sphinx_graph"]
 
 
 [build-system]
