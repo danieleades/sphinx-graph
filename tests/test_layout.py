@@ -9,7 +9,7 @@ from sphinx_graph import layout
 
 
 @pytest.mark.parametrize(
-    "input,expected",
+    ("input", "expected"),
     [
         ([], []),
         ([nodes.Text("A")], [nodes.Text("A")]),

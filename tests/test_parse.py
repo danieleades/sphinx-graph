@@ -10,7 +10,7 @@ from sphinx_graph import parse
 
 
 @pytest.mark.parametrize(
-    "input,expected,expectation",
+    ("input", "expected", "expectation"),
     [
         ("true", True, does_not_raise()),
         ("TRUE", True, does_not_raise()),
@@ -28,7 +28,7 @@ def test_parse_boolean(
 
 
 @pytest.mark.parametrize(
-    "input,expected",
+    ("input", "expected"),
     [
         (None, {}),
         ("REQ-01", {"REQ-01": None}),
@@ -45,7 +45,7 @@ def test_parse_parents(input: str | None, expected: dict[str, str | None]) -> No
 
 
 @pytest.mark.parametrize(
-    "input,expected",
+    ("input", "expected"),
     [
         ("some string", "some string"),
         ("", None),
@@ -58,7 +58,7 @@ def test_parse_str(input: str, expected: str | None) -> None:
 
 
 @pytest.mark.parametrize(
-    "input,expected",
+    ("input", "expected"),
     [
         (None, []),
         ("one", ["one"]),
