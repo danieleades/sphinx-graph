@@ -93,7 +93,7 @@ class Directive(SphinxDirective):
         return VertexConfig()
 
     def vertex_config(self) -> VertexConfig:
-        """The vertex configuration found by combinging configuration sources.
+        """The vertex configuration found by combining configuration sources.
 
         Configuration is combined in order of precedence (lowest to highest):
 

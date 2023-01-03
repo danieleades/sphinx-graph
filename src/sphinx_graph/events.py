@@ -55,7 +55,10 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
 
 
 def purge(_app: Sphinx, env: BuildEnvironment, docname: str) -> None:
-    """Clear out all vertices whose docname matches the given one from the graph_all_vertices list.
+    """Clear out all stale vertices.
+
+    All vertices whose docname matches the given one from the graph_all_vertices list
+    will be removed.
 
     If there are vertices left in the document, they will be added again during parsing.
     """

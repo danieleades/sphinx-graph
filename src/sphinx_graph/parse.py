@@ -1,4 +1,4 @@
-"""Utility functions for parsing restructered text directives into options."""
+"""Utility functions for parsing restructured text directives into options."""
 from __future__ import annotations
 
 from sphinx.errors import ConfigError

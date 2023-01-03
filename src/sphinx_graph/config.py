@@ -61,7 +61,7 @@ class Config:
     Args:
         vertex_config: Default configuration to apply to all vertices.
             The default configuration is overridden by any config set for a
-            specific 'type' of vertex. That is in turn overriden by any configuration
+            specific 'type' of vertex. That is in turn overridden by any configuration
             set directly on the vertex directive.
         types: Set default directive configuration for 'types' of vertices.
     """
