@@ -68,14 +68,22 @@ strict = true
 show_error_codes = true
 files = "src,tests"
 exclude = "tests/roots"
+no_implicit_reexport = true
 
 [[tool.mypy.overrides]]
 module = ["networkx.*"]
 ignore_missing_imports = true
 
 
-[tool.isort]
-profile = "black"
+[tool.ruff]
+select = [
+    "I001",  # isort
+]
+
+[tool.ruff.isort]
+known-first-party = [
+    "sphinx_graph",
+]
 
 
 [build-system]

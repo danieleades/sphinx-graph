@@ -18,6 +18,22 @@ repos:
     rev: 22.12.0
     hooks:
       - id: black
+        args:
+          - --preview
+
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.191
+    hooks:
+      - id: ruff
+        args:
+         - "--fix"
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.3.1
+    hooks:
+      - id: pyupgrade
+        args:
+          - --py38-plus
 
   - repo: local
     hooks:
@@ -35,15 +51,3 @@ repos:
         language: system
         require_serial: true
         pass_filenames: false
-
-  - repo: https://github.com/pycqa/isort
-    rev: 5.11.4
-    hooks:
-      - id: isort
-
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
-    hooks:
-      - id: pyupgrade
-        args:
-          - --py38-plus
