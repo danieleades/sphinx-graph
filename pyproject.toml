@@ -72,13 +72,14 @@ ignore_missing_imports = true
 
 [tool.ruff]
 select = [
-    "I001",   # isort
     "B",      # flake8-bugbear
     "C4",     # flake8-comprehensions
     "C901",   # function cognitive complexity
+    "I001",   # isort
     "N",      # pep8-naming
     "PGH003", # Use specific error codes when ignoring type issues
     "PGH004", # Use specific error codes when using 'noqa'
+    "PT",     # flake8-pytest-style
 ]
 
 [tool.ruff.pydocstyle]
