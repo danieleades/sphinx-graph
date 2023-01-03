@@ -74,10 +74,12 @@ ignore_missing_imports = true
 
 [tool.ruff]
 select = [
-    "I001", # isort
-    "B",    # flake8-bugbear
-    "C",    # flake8-comprehensions
-    "N",    # pep8-naming
+    "I001",   # isort
+    "B",      # flake8-bugbear
+    "C",      # flake8-comprehensions
+    "N",      # pep8-naming
+    "PGH003", # Use specific error codes when ignoring type issues
+    "PGH004", # Use specific error codes when using 'noqa'
 ]
 
 [tool.ruff.isort]
