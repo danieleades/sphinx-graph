@@ -17,7 +17,7 @@ jobs:
         uses: snok/install-poetry@v1
       - name: Install Dependencies
         run: poetry install
-      - uses: browniebroke/pre-commit-autoupdate-action@v1
+      - uses: browniebroke/pre-commit-autoupdate-action@v1.0.0
       - uses: peter-evans/create-pull-request@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
