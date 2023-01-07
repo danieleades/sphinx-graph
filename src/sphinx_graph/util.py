@@ -20,5 +20,6 @@ def unwrap(option: T | None) -> T:
         ValueError: If the value is None.
     """
     if option is None:
-        raise ValueError("attempted to 'unwrap' a None value!")
+        err_msg = "attempted to 'unwrap' a None value!"
+        raise ValueError(err_msg)
     return option

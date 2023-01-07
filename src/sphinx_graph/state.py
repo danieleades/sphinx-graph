@@ -41,7 +41,8 @@ class State:
             DuplicateIdError: If the vertex already exists.
         """
         if uid in self.all_vertices:
-            raise DuplicateIdError(f"Vertex {uid} already exists.")
+            err_msg = f"Vertex {uid} already exists."
+            raise DuplicateIdError(err_msg)
         self.all_vertices[uid] = info
 
     @classmethod
