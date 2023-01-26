@@ -21,7 +21,6 @@ repos:
       - id: ruff
         args:
          - --fix
-         - --force-exclude
          - --respect-gitignore
 
   - repo: https://github.com/asottile/pyupgrade
