@@ -27,9 +27,11 @@ class VertexConfig:
     def override(self, other: VertexConfig) -> VertexConfig:
         """Override a VertexConfig by overlaying a second config."""
         return VertexConfig(
-            require_fingerprints=self.require_fingerprints
-            if other.require_fingerprints is None
-            else other.require_fingerprints,
+            require_fingerprints=(
+                self.require_fingerprints
+                if other.require_fingerprints is None
+                else other.require_fingerprints
+            ),
             layout=self.layout if other.layout is None else other.layout,
             regex=self.regex if other.regex is None else other.regex,
         )
