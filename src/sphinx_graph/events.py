@@ -64,8 +64,8 @@ def purge(_app: Sphinx, env: BuildEnvironment, docname: str) -> None:
     """
     with State.get(env) as state:
         state.all_vertices = {
-            id: vert
-            for id, vert in state.all_vertices.items()
+            uid: vert
+            for uid, vert in state.all_vertices.items()
             if vert.docname != docname
         }
 

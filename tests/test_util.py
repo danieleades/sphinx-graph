@@ -9,5 +9,8 @@ def test_unwrap() -> None:
 
     assert util.unwrap(input) == expected
 
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError,
+        match="attempted to 'unwrap' a None value!",
+    ):
         util.unwrap(None)

@@ -15,8 +15,8 @@ def boolean(value: str | None) -> bool:
         return True
     if value.lower() == "false":
         return False
-
-    raise ConfigError(f"invalid boolean value: {value}")
+    err_msg = f"invalid boolean value: {value}"
+    raise ConfigError(err_msg)
 
 
 def comma_separated_list(list_str: str | None) -> list[str]:
