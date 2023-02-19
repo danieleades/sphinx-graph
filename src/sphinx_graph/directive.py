@@ -35,6 +35,7 @@ class Directive(SphinxDirective):
         "layout": parse.string,
         "require_fingerprints": parse.boolean,
         "type": parse.string,
+        "tags": parse.comma_separated_list,
     }
 
     def run(self) -> Sequence[nodes.Node]:
@@ -65,6 +66,7 @@ class Directive(SphinxDirective):
                     config=vertex_config,
                     parents=self.options.get("parents", {}),
                     fingerprint=fingerprint,
+                    tags=self.options.get("tags", []),
                 ),
             )
 
