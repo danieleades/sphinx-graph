@@ -12,13 +12,12 @@ from sphinx.environment import BuildEnvironment
 from sphinx.errors import DocumentError
 from sphinx.util import logging
 
-from sphinx_graph.info import Info as VertexInfo
+from sphinx_graph.vertex.info import Info
 
 logger = logging.getLogger(__name__)
 
 __all__ = [
     "State",
-    "build_and_check_graph",
 ]
 
 
@@ -32,30 +31,54 @@ class DuplicateIdError(DocumentError):
 class State:
     """State object for Sphinx Graph vertices."""
 
-    all_vertices: dict[str, VertexInfo]
+    vertices: dict[str, Info]
+    graph: DiGraph
 
-    def insert_vertex(self, uid: str, info: VertexInfo) -> None:
+    def insert(self, uid: str, info: Info) -> None:
         """Insert a vertex into the context.
 
         Raises:
             DuplicateIdError: If the vertex already exists.
         """
-        if uid in self.all_vertices:
+        if uid in self.vertices:
             err_msg = f"Vertex {uid} already exists."
             raise DuplicateIdError(err_msg)
-        self.all_vertices[uid] = info
+        self.vertices[uid] = info
 
     @classmethod
     @contextmanager
     def get(cls, env: BuildEnvironment) -> Iterator[State]:
-        """Get the GraphContext object for the given environment."""
-        all_vertices = getattr(env, "graph_all_vertices", {})
-        state = State(all_vertices)
+        """Get the State object for the given environment.
+
+        The state is mutable, and changes will be persisted.
+        """
+        state = cls.read(env)
         yield state
-        env.graph_all_vertices = state.all_vertices  # type: ignore[attr-defined]
+        env.graph_vertices = state.vertices  # type: ignore[attr-defined]
+        env.graph_graph = state.graph  # type: ignore[attr-defined]
+
+    @classmethod
+    def read(cls, env: BuildEnvironment) -> State:
+        """Read the State object for the given environment.
+
+        This is a read-only view of the state. Changes will not be saved.
+        """
+        vertices = getattr(env, "graph_vertices", {})
+        graph = getattr(env, "graph_graph", DiGraph())
+        return State(vertices, graph)
+
+    def build_and_check_graph(self) -> DiGraph:
+        """Build the graph from the list of vertices.
+
+        Also checks the graph for consistency.
+        """
+        graph = build_graph(self.vertices)
+        check_fingerprints(graph, self.vertices)
+        check_cycles(graph)
+        self.graph = graph
 
 
-def build_graph(vertices: dict[str, VertexInfo]) -> DiGraph:
+def build_graph(vertices: dict[str, Info]) -> DiGraph:
     """Build the graph from the list of vertices.
 
     This is called during setup, and doesn't need to be called again.
@@ -71,7 +94,7 @@ def build_graph(vertices: dict[str, VertexInfo]) -> DiGraph:
     return graph
 
 
-def check_fingerprints(graph: DiGraph, vertices: dict[str, VertexInfo]) -> None:
+def check_fingerprints(graph: DiGraph, vertices: dict[str, Info]) -> None:
     """Check for suspect links and raise sphinx warnings."""
     for child_id, parent_id, fingerprint in graph.edges.data("fingerprint"):
         fingerprints_required = vertices[child_id].config.require_fingerprints
@@ -98,14 +121,3 @@ def check_cycles(graph: DiGraph) -> None:
         logger.error(
             f"vertices must not have cyclic dependencies. cycle detected: {cycle}"
         )
-
-
-def build_and_check_graph(vertices: dict[str, VertexInfo]) -> DiGraph:
-    """Build the graph from the list of vertices.
-
-    Also checks the graph for consistency.
-    """
-    graph = build_graph(vertices)
-    check_fingerprints(graph, vertices)
-    check_cycles(graph)
-    return graph

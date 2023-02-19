@@ -2,7 +2,7 @@ import pytest
 from sphinx.application import Sphinx
 from sphinx.errors import SphinxError
 
-from sphinx_graph.state import DuplicateIdError
+from sphinx_graph.vertex.state import DuplicateIdError
 
 
 @pytest.mark.sphinx(testroot="cycle", freshenv=True)

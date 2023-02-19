@@ -8,3 +8,5 @@ Example Project
    mrd/mrd-001
    usr/index
    sys/index
+
+.. vertex-table::

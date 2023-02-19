@@ -17,13 +17,11 @@ __all__ = [
 
 from typing import TypedDict
 
-from docutils import nodes
 from sphinx.application import Sphinx
 
-from sphinx_graph import events
-from sphinx_graph.config import Config, VertexConfig
-from sphinx_graph.directive import Directive
-from sphinx_graph.node import Node
+from sphinx_graph import table, vertex
+from sphinx_graph.config import Config
+from sphinx_graph.vertex import Config as VertexConfig
 
 __all__ = [
     "Config",
@@ -42,35 +40,12 @@ class ExtensionMetadata(TypedDict):
     parallel_write_safe: bool
 
 
-def visit_node(_self: nodes.GenericNodeVisitor, _node: Node) -> None:
-    """Visits the Vertex node.
-
-    This method is a no-op
-    """
-
-
-def depart_node(_self: nodes.GenericNodeVisitor, _node: Node) -> None:
-    """Visits the Vertex node.
-
-    This method is a no-op
-    """
-
-
 def setup(app: Sphinx) -> ExtensionMetadata:
     """Set up the sphinx-graph extension."""
     app.add_config_value("graph_config", Config(), "", types=(Config))
 
-    app.add_node(
-        Node,
-        html=(visit_node, depart_node),
-        latex=(visit_node, depart_node),
-        text=(visit_node, depart_node),
-    )
-
-    app.add_directive("vertex", Directive)
-    app.connect("doctree-resolved", events.process)
-    app.connect("env-purge-doc", events.purge)
-    app.connect("env-merge-info", events.merge)
+    vertex.register(app)
+    table.register(app)
 
     return {
         "version": "0.1",

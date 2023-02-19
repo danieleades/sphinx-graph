@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from sphinx_graph.config import VertexConfig
+from sphinx_graph.vertex.config import Config
 
 
 @dataclass
@@ -23,7 +23,7 @@ class Info:
     """
 
     docname: str
-    config: VertexConfig
+    config: Config
     parents: dict[str, str | None]
     fingerprint: str
     tags: list[str]

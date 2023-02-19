@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import Callable, Iterable, TypeVar
 
 from docutils import nodes
 from sphinx.util import logging
+
+from sphinx_graph.format import reference_list
 
 logger = logging.getLogger(__name__)
 
@@ -22,69 +25,33 @@ DEFAULT = "subtle"
 T = TypeVar("T")
 
 
-def intersperse(iterable: Iterable[T], delimiter: T) -> Iterable[T]:
-    """Intersperse objects in an iterator with another value of the same type."""
-    for i, item in enumerate(iterable):
-        if i != 0:
-            yield delimiter
-        yield item
-
-
-def comma_separated_list(items: Iterable[nodes.Node]) -> Iterable[nodes.Node]:
-    """Convert a sequence of docutils nodes into a comma separated list."""
-    yield from intersperse(items, nodes.Text(", "))
-
-
-def create_reference(target_uid: str, relative_uri: str) -> nodes.reference:
-    """Create a docutils 'reference' node to a target vertex."""
-    refuri = f"{relative_uri}#{target_uid}"
-    reference = nodes.reference(refuri=refuri)
-    reference.append(nodes.Text(target_uid))
-    return reference
-
-
+@dataclass
 class FormatHelper:
-    """Helper class for formatting a Vertex."""
+    """Helper class for formatting a Vertex.
 
-    def __init__(
-        self,
-        uid: str,
-        content: nodes.Node,
-        parents: Iterable[tuple[str, str]],
-        children: Iterable[tuple[str, str]],
-    ) -> None:
-        """Construct a new FormatHelper.
-
-        Args:
-            uid: the unique identifier of the vertex
-            content: the nested content of the vertex
-            parents: a list of references to parent Vertices
-            children: a list of references to child Vertices
-        """
-        self.uid = uid
-        self.content = content
-        self.parents = [
-            create_reference(uri, target_uid) for (uri, target_uid) in parents
-        ]
-        self.children = [
-            create_reference(uri, target_uid) for (uri, target_uid) in children
-        ]
+    Args:
+        uid: the unique identifier of the vertex
+        content: the nested content of the vertex
+        parents: a list of references to parent Vertices
+        children: a list of references to child Vertices
+    """
 
     uid: str
     content: nodes.Node
-    parents: list[nodes.reference]
-    children: list[nodes.reference]
+    parents: Iterable[tuple[str, str]]
+    children: Iterable[tuple[str, str]]
 
     def _list(
-        self, references: list[nodes.reference], prefix: str | None
+        self, references: Iterable[tuple[str, str]], prefix: str | None
     ) -> nodes.line | None:
-        if not references:
+        refs = list(reference_list(references))
+        if not refs:
             return None
 
         line = nodes.line()
         if prefix:
             line += nodes.Text(prefix)
-        line.extend(comma_separated_list(references))
+        line.extend(refs)
 
         return line
 
@@ -105,17 +72,6 @@ class FormatHelper:
         return self._list(self.parents, prefix)
 
 
-def default(helper: FormatHelper) -> nodes.Node:
-    """Format a vertex Node as a docutils node."""
-    new_content = nodes.Element()
-    new_content.append(nodes.Text(f"---start vertex {helper.uid}---"))
-    new_content.append(helper.content)
-    new_content.append(
-        nodes.line(f"---end vertex {helper.uid}---", f"---end vertex {helper.uid}---")
-    )
-    return new_content
-
-
 def transparent(helper: FormatHelper) -> nodes.Node:
     """Format a vertex Node as a docutils node."""
     return helper.content
@@ -131,13 +87,15 @@ def subtle(helper: FormatHelper) -> nodes.Node:
 
     one_liner += nodes.Text(helper.uid)
 
-    if helper.parents:
+    parents = helper.parent_list()
+    if parents:
         one_liner += nodes.Text(" | ")
-        one_liner.extend(helper.parent_list())
+        one_liner.extend(parents)
 
-    if helper.children:
+    children = helper.child_list()
+    if children:
         one_liner += nodes.Text(" | ")
-        one_liner.extend(helper.child_list())
+        one_liner.extend(children)
 
     paragraph = nodes.paragraph()
     paragraph.append(one_liner)
@@ -153,7 +111,6 @@ Formatter = Callable[[FormatHelper], nodes.Node]
 
 
 LAYOUTS: dict[str, Formatter] = {
-    "default": default,
     "transparent": transparent,
     "subtle": subtle,
 }
@@ -175,6 +132,6 @@ def apply_formatting(
             " layout."
         )
         layout = DEFAULT
-    helper = FormatHelper(uid, content, parents, children)
+    helper = FormatHelper(uid, content, list(parents), list(children))
     formatter = LAYOUTS[layout]
     return formatter(helper)

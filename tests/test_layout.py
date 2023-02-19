@@ -5,7 +5,7 @@ from docutils import nodes
 from sphinx.application import Sphinx
 from sphinx.errors import SphinxError
 
-from sphinx_graph import layout
+from sphinx_graph import format
 
 
 @pytest.mark.parametrize(
@@ -28,7 +28,7 @@ from sphinx_graph import layout
 def test_comma_separated_list(
     input: list[nodes.Node], expected: list[nodes.Node]
 ) -> None:
-    output = list(layout.comma_separated_list(input))
+    output = list(format.comma_separated_list(input))
     assert output == expected
 
 
