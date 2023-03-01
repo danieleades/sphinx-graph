@@ -94,6 +94,7 @@ select = [
     "UP",   # pyupgrade
     "W",    # flake8 built-ins
 ]
+exclude = [".vulture-whitelist.py"]
 
 [tool.ruff.pydocstyle]
 convention = "google"
@@ -105,6 +106,9 @@ convention = "google"
 [tool.ruff.isort]
 known-first-party = ["sphinx_graph"]
 
+
+[tool.vulture]
+paths = ["src", "tests", ".vulture-whitelist.py"]
 
 [build-system]
 requires = ["poetry-core"]

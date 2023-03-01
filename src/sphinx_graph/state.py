@@ -50,7 +50,7 @@ class State:
     def get(cls, env: BuildEnvironment) -> Iterator[State]:
         """Get the GraphContext object for the given environment."""
         all_vertices = getattr(env, "graph_all_vertices", {})
-        state = State(all_vertices)
+        state = cls(all_vertices)
         yield state
         env.graph_all_vertices = state.all_vertices  # type: ignore[attr-defined]
 

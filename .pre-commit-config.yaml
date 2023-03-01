@@ -20,8 +20,13 @@ repos:
     hooks:
       - id: ruff
         args:
-         - --fix
-         - --respect-gitignore
+          - --fix
+          - --respect-gitignore
+
+  - repo: https://github.com/jendrikseipp/vulture
+    rev: v2.7
+    hooks:
+      - id: vulture
 
   - repo: local
     hooks:
