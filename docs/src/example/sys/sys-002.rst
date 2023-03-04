@@ -9,3 +9,11 @@ SYS-002
 
     .. note::
         it contains nested restructured text
+
+Ancestors
+=========
+
+.. vertex-table::
+    :query: ancestors
+
+    uid = "SYS-002"

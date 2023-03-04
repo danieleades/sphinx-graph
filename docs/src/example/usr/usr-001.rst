@@ -11,3 +11,19 @@ USR-001
    If that paragraph is updated, the 'fingerprint' tracked by this vertex will
    be invalidated, triggering a review of this user requirement to ensure it
    still reflects the market requirements as intended.
+
+Ancestors
+=========
+
+.. vertex-table::
+    :query: ancestors
+
+    uid = "USR-001"
+
+Descendants
+===========
+
+.. vertex-table::
+    :query: descendants
+
+    uid = "USR-001"
