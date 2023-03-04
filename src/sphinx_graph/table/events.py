@@ -7,13 +7,14 @@ from typing import Iterable
 from docutils import nodes
 from sphinx.application import Sphinx
 from sphinx.builders import Builder
+from sphinx.errors import ConfigError
 
 from sphinx_graph import vertex
 from sphinx_graph.format import create_reference, reference_list
-from sphinx_graph.table.info import Info
 from sphinx_graph.table.node import Node
 from sphinx_graph.table.state import State
 from sphinx_graph.vertex.events import relative_uri, relative_uris
+from sphinx_graph.vertex.query import DEFAULT_QUERY, QUERIES
 
 
 def relatives(
@@ -44,12 +45,17 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
     builder = app.builder
     state = State.read(app.env)
     vertex_state = vertex.State.read(app.env)
+    queries = QUERIES
+    queries.update(app.config.graph_config.queries)
     for node in doctree.findall(Node):
         uid = node["graph_uid"]
         info = state.tables[uid]
-        table = build_vertex_table(
-            builder, info, vertex_state, vertex_state.vertices.keys()
-        )
+        if info.query and info.query not in queries:
+            msg = f"no query registered with name '{info.query}'"
+            raise ConfigError(msg)
+        query = queries[info.query or DEFAULT_QUERY]
+        vertices = query(vertex_state, **info.args)
+        table = build_vertex_table(builder, info.docname, vertex_state, vertices)
         node.replace_self(table)
 
 
@@ -93,20 +99,16 @@ def build_table(
 
 
 def build_vertex_table(
-    builder: Builder, table_info: Info, state: vertex.State, vertices: Iterable[str]
+    builder: Builder, docname: str, state: vertex.State, vertices: Iterable[str]
 ) -> nodes.table:
     headers = ["uid", "parents", "children"]
     items: list[dict[str, nodes.Node]] = []
     for uid in vertices:
-        [uid_target, uid_uri] = relative_uri(
-            builder, table_info.docname, state.vertices, uid
-        )
+        [uid_target, uid_uri] = relative_uri(builder, docname, state.vertices, uid)
         uid_para = nodes.paragraph()
         uid_para += create_reference(uid_target, uid_uri)
         item = {"uid": uid_para}
-        [parent_refs, child_refs] = relative_refs(
-            builder, table_info.docname, state, uid
-        )
+        [parent_refs, child_refs] = relative_refs(builder, docname, state, uid)
         parents = nodes.paragraph()
         parents.extend(parent_refs)
         item["parents"] = parents

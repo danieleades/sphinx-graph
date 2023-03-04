@@ -6,6 +6,7 @@ from sphinx_graph.vertex.config import Config
 from sphinx_graph.vertex.directive import Directive
 from sphinx_graph.vertex.info import Info
 from sphinx_graph.vertex.node import Node
+from sphinx_graph.vertex.query import Query
 from sphinx_graph.vertex.state import State
 
 __all__ = [
@@ -13,6 +14,7 @@ __all__ = [
     "Info",
     "Node",
     "State",
+    "Query",
 ]
 
 

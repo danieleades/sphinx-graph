@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from sphinx_graph import vertex
+from sphinx_graph.vertex.query import Query
 
 
 @dataclass
@@ -40,3 +41,4 @@ class Config:
 
     vertex_config: vertex.Config = field(default_factory=vertex.Config)
     types: dict[str, vertex.Config] = field(default_factory=dict)
+    queries: dict[str, Query] = field(default_factory=dict)

@@ -13,6 +13,7 @@ adding it to ``conf.py``:
 __all__ = [
     "Config",
     "VertexConfig",
+    "Query",
 ]
 
 from typing import TypedDict
@@ -22,12 +23,14 @@ from sphinx.application import Sphinx
 from sphinx_graph import table, vertex
 from sphinx_graph.config import Config
 from sphinx_graph.vertex import Config as VertexConfig
+from sphinx_graph.vertex import Query
 
 __all__ = [
     "Config",
     "VertexConfig",
     "Formatter",
     "FormatHelper",
+    "Query",
 ]
 
 
