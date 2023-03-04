@@ -90,13 +90,13 @@ def build_graph(vertices: dict[str, Info]) -> DiGraph:
 
         # add all 'parent' edges
         for parent_uid, fingerprint in vertex_info.parents.items():
-            graph.add_edge(uid, parent_uid, fingerprint=fingerprint)
+            graph.add_edge(parent_uid, uid, fingerprint=fingerprint)
     return graph
 
 
 def check_fingerprints(graph: DiGraph, vertices: dict[str, Info]) -> None:
     """Check for suspect links and raise sphinx warnings."""
-    for child_id, parent_id, fingerprint in graph.edges.data("fingerprint"):
+    for parent_id, child_id, fingerprint in graph.edges.data("fingerprint"):
         fingerprints_required = vertices[child_id].config.require_fingerprints
         parent = vertices[parent_id]
         if fingerprints_required and fingerprint is None:

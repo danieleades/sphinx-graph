@@ -23,7 +23,7 @@ def relatives(
     info = state.vertices[uid]
     [parents, children] = [
         relative_uris(builder, docname, state.vertices, uids)
-        for uids in [info.parents.keys(), state.graph.predecessors(uid)]
+        for uids in [info.parents.keys(), state.graph.successors(uid)]
     ]
     return (parents, children)
 

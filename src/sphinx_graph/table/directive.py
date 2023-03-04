@@ -40,14 +40,6 @@ class Directive(SphinxDirective):
 
         toml.loads("\n".join(self.content))
 
-        info = Info(
-            docname=self.env.docname,
-            query=self.options.get("query"),
-            args=toml.loads("\n".join(self.content)),
-        )
-
-        print(f"INFO: {info}")
-
         with State.get(self.env) as state:
             state.insert(
                 uid,

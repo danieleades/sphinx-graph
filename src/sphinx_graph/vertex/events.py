@@ -48,7 +48,7 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
             info = state.vertices[uid]
             [parents, children] = [
                 relative_uris(builder, info.docname, state.vertices, uids)
-                for uids in [info.parents.keys(), state.graph.predecessors(uid)]
+                for uids in [info.parents.keys(), state.graph.successors(uid)]
             ]
             vertex_node.replace_self(
                 layout.apply_formatting(

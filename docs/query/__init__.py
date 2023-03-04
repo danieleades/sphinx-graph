@@ -11,7 +11,7 @@ def ancestors(state: State, *, uid: str, include_self: bool = False) -> Iterable
     if include_self:
         ancestors.add(uid)
 
-    ancestors.update(nx.descendants(state.graph, uid))
+    ancestors.update(nx.ancestors(state.graph, uid))
 
     return ancestors
 
@@ -22,6 +22,6 @@ def descendants(state: State, *, uid: str, include_self: bool = False) -> Iterab
     if include_self:
         descendants.add(uid)
 
-    descendants.update(nx.ancestors(state.graph, uid))
+    descendants.update(nx.descendants(state.graph, uid))
 
     return descendants
