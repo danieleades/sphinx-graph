@@ -1,3 +1,5 @@
+"""Helper functions for formating vertices into docutils nodes."""
+
 from __future__ import annotations
 
 from typing import Iterable, TypeVar

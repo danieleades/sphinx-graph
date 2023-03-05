@@ -1,4 +1,4 @@
-"""Lifecycle events specific to the Vertex node."""
+"""Lifecycle events specific to the vertex-table directive."""
 
 from __future__ import annotations
 
@@ -20,6 +20,18 @@ from sphinx_graph.vertex.query import DEFAULT_QUERY, QUERIES
 def relatives(
     builder: Builder, docname: str, state: vertex.State, uid: str
 ) -> tuple[Iterable[tuple[str, str]], Iterable[tuple[str, str]]]:
+    """Find the realtive URIs of the immediate 'relatives' of a given vertex.
+
+    Args:
+        builder: The sphinx builder instance
+        docname: the name of the current document
+        state: the global vertex information
+        uid: the UID of the vertex
+
+    Returns:
+        a tuple of (parents, children) where each is an iterable over
+        (target_uid, relative_uri)
+    """
     info = state.vertices[uid]
     [parents, children] = [
         relative_uris(builder, docname, state.vertices, uids)

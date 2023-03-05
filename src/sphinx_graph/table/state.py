@@ -8,23 +8,17 @@ from typing import Iterator
 from uuid import UUID
 
 from sphinx.environment import BuildEnvironment
-from sphinx.errors import DocumentError
 from sphinx.util import logging
 
 from sphinx_graph import table
 from sphinx_graph.table.info import Info
+from sphinx_graph.vertex.state import DuplicateIdError
 
 logger = logging.getLogger(__name__)
 
 __all__ = [
     "State",
 ]
-
-
-class DuplicateIdError(DocumentError):
-    """Raised when a vertex table with the same ID is added to the graph twice."""
-
-    category = "Document Error"
 
 
 @dataclass

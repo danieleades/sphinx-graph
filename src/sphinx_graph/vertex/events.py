@@ -21,8 +21,15 @@ def relative_uri(
     vertices: dict[str, Info],
     target_uid: str,
 ) -> tuple[str, str]:
-    relative_uri = builder.get_relative_uri(from_docname, vertices[target_uid].docname)
-    return (target_uid, relative_uri)
+    """Find the relative URI from a document to a given vertex.
+
+    Returns:
+        (target_uid, relative_uri)
+    """
+    return (
+        target_uid,
+        builder.get_relative_uri(from_docname, vertices[target_uid].docname),
+    )
 
 
 def relative_uris(

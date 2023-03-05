@@ -45,7 +45,7 @@ class ExtensionMetadata(TypedDict):
 
 def setup(app: Sphinx) -> ExtensionMetadata:
     """Set up the sphinx-graph extension."""
-    app.add_config_value("graph_config", Config(), "", types=(Config))
+    app.add_config_value("graph_config", Config(), "", types=Config)
 
     vertex.register(app)
     table.register(app)

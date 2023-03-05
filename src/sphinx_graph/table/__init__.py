@@ -1,3 +1,5 @@
+"""Types and methods specific to the vertex-table directive"""
+
 from docutils import nodes
 from sphinx.application import Sphinx
 
@@ -10,7 +12,7 @@ __all__ = [
     "Info",
     "Directive",
     "Node",
-    "register_events",
+    "register",
 ]
 
 
