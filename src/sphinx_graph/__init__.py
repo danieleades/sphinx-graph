@@ -10,12 +10,6 @@ adding it to ``conf.py``:
     ]
 """
 
-__all__ = [
-    "Config",
-    "VertexConfig",
-    "Query",
-]
-
 from typing import TypedDict
 
 from sphinx.application import Sphinx
@@ -28,9 +22,8 @@ from sphinx_graph.vertex import Query
 __all__ = [
     "Config",
     "VertexConfig",
-    "Formatter",
-    "FormatHelper",
     "Query",
+    "vertex",
 ]
 
 
