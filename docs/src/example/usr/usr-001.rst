@@ -3,6 +3,7 @@ USR-001
 
 .. vertex:: USR-001
    :type: usr
+   :tags: P1, functional
    :parents: MRD-001:FRnR
 
    this is high-level user requirement of some sort.

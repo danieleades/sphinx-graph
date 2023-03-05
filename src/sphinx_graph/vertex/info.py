@@ -2,6 +2,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Iterable
+
+from docutils import nodes
 
 from sphinx_graph.vertex.config import Config
 
@@ -25,4 +28,14 @@ class Info:
     config: Config
     parents: dict[str, str | None]
     fingerprint: str
+    tags: list[str]
+
+
+@dataclass
+class InfoParsed:
+    """Information about a vertex which is available after parsing the graph."""
+
+    content: nodes.Node
+    parents: Iterable[nodes.reference]
+    children: Iterable[nodes.reference]
     tags: list[str]

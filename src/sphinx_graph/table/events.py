@@ -10,6 +10,7 @@ from sphinx.builders import Builder
 from sphinx.errors import ConfigError
 
 from sphinx_graph import vertex
+from sphinx_graph.format import comma_separated_list
 from sphinx_graph.table.node import Node
 from sphinx_graph.table.state import State
 from sphinx_graph.vertex.events import relative_uris, vertex_reference
@@ -105,18 +106,25 @@ def build_vertex_table(
     builder: Builder, docname: str, state: vertex.State, vertices: Iterable[str]
 ) -> nodes.table:
     """Construct a table from a list of vertices."""
-    headers = ["uid", "parents", "children"]
+    headers = ["uid", "tags", "parents", "children"]
     items: list[dict[str, nodes.Node]] = []
     for uid in vertices:
         uid_para = nodes.paragraph()
         uid_para += vertex_reference(builder, docname, state.vertices, uid)
-        item = {"uid": uid_para}
+
+        item = {
+            "uid": uid_para,
+            "tags": nodes.paragraph(text=", ".join(state.vertices[uid].tags)),
+        }
+
         [parent_refs, child_refs] = relatives(builder, docname, state, uid)
+
         parents = nodes.paragraph()
-        parents.extend(parent_refs)
+        parents.extend(comma_separated_list(parent_refs))
         item["parents"] = parents
+
         children = nodes.paragraph()
-        children.extend(child_refs)
+        children.extend(comma_separated_list(child_refs))
         item["children"] = children
 
         items.append(item)

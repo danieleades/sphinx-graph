@@ -11,7 +11,7 @@ from sphinx.environment import BuildEnvironment
 
 from sphinx_graph import vertex
 from sphinx_graph.vertex import layout
-from sphinx_graph.vertex.info import Info
+from sphinx_graph.vertex.info import Info, InfoParsed
 from sphinx_graph.vertex.state import State
 
 
@@ -65,9 +65,17 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
                 relative_uris(builder, info.docname, state.vertices, uids)
                 for uids in [info.parents.keys(), state.graph.successors(uid)]
             ]
+            parsed_info = InfoParsed(
+                content=vertex_node.deepcopy(),
+                parents=parents,
+                children=children,
+                tags=info.tags,
+            )
             vertex_node.replace_self(
                 layout.apply_formatting(
-                    uid, vertex_node.deepcopy(), parents, children, info.config.layout
+                    uid,
+                    parsed_info,
+                    info.config.layout,
                 )
             )
 
