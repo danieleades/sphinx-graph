@@ -9,7 +9,7 @@ from docutils import nodes
 T = TypeVar("T")
 
 __all__ = [
-    "reference_list",
+    "comma_separated_list",
 ]
 
 
@@ -32,10 +32,3 @@ def intersperse(iterable: Iterable[T], delimiter: T) -> Iterable[T]:
 def comma_separated_list(items: Iterable[nodes.Node]) -> Iterable[nodes.Node]:
     """Convert a sequence of docutils nodes into a comma separated list."""
     yield from intersperse(items, nodes.Text(", "))
-
-
-def reference_list(references: Iterable[tuple[str, str]]) -> Iterable[nodes.Node]:
-    return comma_separated_list(
-        create_reference(target_uid, relative_uri)
-        for (target_uid, relative_uri) in references
-    )

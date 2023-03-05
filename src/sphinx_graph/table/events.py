@@ -10,16 +10,15 @@ from sphinx.builders import Builder
 from sphinx.errors import ConfigError
 
 from sphinx_graph import vertex
-from sphinx_graph.format import create_reference, reference_list
 from sphinx_graph.table.node import Node
 from sphinx_graph.table.state import State
-from sphinx_graph.vertex.events import relative_uri, relative_uris
+from sphinx_graph.vertex.events import relative_uris, vertex_reference
 from sphinx_graph.vertex.query import DEFAULT_QUERY, QUERIES
 
 
 def relatives(
     builder: Builder, docname: str, state: vertex.State, uid: str
-) -> tuple[Iterable[tuple[str, str]], Iterable[tuple[str, str]]]:
+) -> tuple[Iterable[nodes.reference], Iterable[nodes.reference]]:
     """Find the realtive URIs of the immediate 'relatives' of a given vertex.
 
     Args:
@@ -38,18 +37,6 @@ def relatives(
         for uids in [info.parents.keys(), state.graph.successors(uid)]
     ]
     return (parents, children)
-
-
-def relative_refs(
-    builder: Builder, docname: str, state: vertex.State, uid: str
-) -> tuple[Iterable[nodes.Node], Iterable[nodes.Node]]:
-    [parents, children] = [
-        reference_list(refs) for refs in relatives(builder, docname, state, uid)
-    ]
-    return (
-        parents,
-        children,
-    )
 
 
 def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
@@ -116,11 +103,10 @@ def build_vertex_table(
     headers = ["uid", "parents", "children"]
     items: list[dict[str, nodes.Node]] = []
     for uid in vertices:
-        [uid_target, uid_uri] = relative_uri(builder, docname, state.vertices, uid)
         uid_para = nodes.paragraph()
-        uid_para += create_reference(uid_target, uid_uri)
+        uid_para += vertex_reference(builder, docname, state.vertices, uid)
         item = {"uid": uid_para}
-        [parent_refs, child_refs] = relative_refs(builder, docname, state, uid)
+        [parent_refs, child_refs] = relatives(builder, docname, state, uid)
         parents = nodes.paragraph()
         parents.extend(parent_refs)
         item["parents"] = parents

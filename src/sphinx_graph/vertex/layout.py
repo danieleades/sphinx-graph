@@ -8,8 +8,6 @@ from typing import Callable, Iterable, TypeVar
 from docutils import nodes
 from sphinx.util import logging
 
-from sphinx_graph.format import reference_list
-
 logger = logging.getLogger(__name__)
 
 __all__ = [
@@ -38,13 +36,13 @@ class FormatHelper:
 
     uid: str
     content: nodes.Node
-    parents: Iterable[tuple[str, str]]
-    children: Iterable[tuple[str, str]]
+    parents: Iterable[nodes.reference]
+    children: Iterable[nodes.reference]
 
     def _list(
-        self, references: Iterable[tuple[str, str]], prefix: str | None
+        self, references: Iterable[nodes.reference], prefix: str | None
     ) -> nodes.line | None:
-        refs = list(reference_list(references))
+        refs = list(references)
         if not refs:
             return None
 
@@ -132,6 +130,6 @@ def apply_formatting(
             " layout."
         )
         layout = DEFAULT
-    helper = FormatHelper(uid, content, list(parents), list(children))
+    helper = FormatHelper(uid, content, parents, children)
     formatter = LAYOUTS[layout]
     return formatter(helper)

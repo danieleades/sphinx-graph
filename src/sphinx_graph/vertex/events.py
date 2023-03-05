@@ -15,21 +15,17 @@ from sphinx_graph.vertex.info import Info
 from sphinx_graph.vertex.state import State
 
 
-def relative_uri(
+def vertex_reference(
     builder: Builder,
     from_docname: str,
     vertices: dict[str, Info],
     target_uid: str,
-) -> tuple[str, str]:
-    """Find the relative URI from a document to a given vertex.
-
-    Returns:
-        (target_uid, relative_uri)
-    """
-    return (
-        target_uid,
-        builder.get_relative_uri(from_docname, vertices[target_uid].docname),
-    )
+) -> nodes.reference:
+    uri = builder.get_relative_uri(from_docname, vertices[target_uid].docname)
+    refuri = f"{uri}#{target_uid}"
+    reference = nodes.reference(refuri=refuri)
+    reference.append(nodes.Text(target_uid))
+    return reference
 
 
 def relative_uris(
@@ -37,10 +33,10 @@ def relative_uris(
     from_docname: str,
     vertices: dict[str, Info],
     target_uids: Iterable[str],
-) -> Iterable[tuple[str, str]]:
+) -> Iterable[nodes.reference]:
     """Iterate over node UIDs and convert them to relative URIs."""
     return (
-        relative_uri(builder, from_docname, vertices, target_uid)
+        vertex_reference(builder, from_docname, vertices, target_uid)
         for target_uid in target_uids
     )
 
