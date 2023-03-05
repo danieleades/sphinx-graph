@@ -37,6 +37,7 @@ class Config:
             specific 'type' of vertex. That is in turn overridden by any configuration
             set directly on the vertex directive.
         types: Set default directive configuration for 'types' of vertices.
+        queries: functions used to filter and sort vertices for display in tables
     """
 
     vertex_config: vertex.Config = field(default_factory=vertex.Config)

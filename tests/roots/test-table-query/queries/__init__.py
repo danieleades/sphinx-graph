@@ -6,7 +6,7 @@ from sphinx_graph.vertex import State
 
 
 def family(state: State, *, uid: str, include_self: bool = False) -> Iterable[str]:
-    """Recursively find all direct parents and descendents of the given node"""
+    """Recursively find all direct parents and descendents of the given node."""
     family: set[str] = set()
     if include_self:
         family.add(uid)

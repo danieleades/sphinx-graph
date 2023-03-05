@@ -21,6 +21,18 @@ def vertex_reference(
     vertices: dict[str, Info],
     target_uid: str,
 ) -> nodes.reference:
+    """Construct a reference to a vertex.
+
+    Args:
+        builder: The current sphinx 'builder'
+        from_docname: The name of the document where the reference is located (the
+            source)
+        vertices: A mapping from vertex UID to vertex Info
+        target_uid: The UID of the target vertex
+
+    Returns:
+        A nodes.reference, ready for insertion into the document
+    """
     uri = builder.get_relative_uri(from_docname, vertices[target_uid].docname)
     refuri = f"{uri}#{target_uid}"
     reference = nodes.reference(refuri=refuri)
@@ -83,6 +95,7 @@ def merge(
 
 
 def register(app: Sphinx) -> None:
+    """Register the vertex directive lifecycle events."""
     app.connect("doctree-resolved", process)
     app.connect("env-purge-doc", purge)
     app.connect("env-merge-info", merge)

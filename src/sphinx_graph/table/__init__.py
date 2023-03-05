@@ -1,4 +1,4 @@
-"""Types and methods specific to the vertex-table directive"""
+"""Types and methods specific to the vertex-table directive."""
 
 from docutils import nodes
 from sphinx.application import Sphinx
@@ -31,6 +31,7 @@ def depart_node(_self: nodes.GenericNodeVisitor, _node: nodes.Node) -> None:
 
 
 def register(app: Sphinx) -> None:
+    """Register the vertex-table node, directive, and lifecycle events."""
     app.add_node(
         Node,
         html=(visit_node, depart_node),

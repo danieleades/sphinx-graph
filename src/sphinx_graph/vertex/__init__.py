@@ -1,4 +1,4 @@
-"""Types and methods specific to the vertex directive"""
+"""Types and methods specific to the vertex directive."""
 
 from sphinx.application import Sphinx
 
@@ -20,7 +20,7 @@ __all__ = [
 
 
 def register(app: Sphinx) -> None:
-    """Register the vertex node, directive, and events"""
+    """Register the vertex node, directive, and events."""
     app.add_node(
         Node,
     )

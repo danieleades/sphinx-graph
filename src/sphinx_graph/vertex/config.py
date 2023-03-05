@@ -1,4 +1,4 @@
-"""Vertex-specific configuration"""
+"""Vertex-specific configuration."""
 
 from __future__ import annotations
 

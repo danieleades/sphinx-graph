@@ -13,14 +13,6 @@ __all__ = [
 ]
 
 
-def create_reference(target_uid: str, relative_uri: str) -> nodes.reference:
-    """Create a docutils 'reference' node to a target vertex."""
-    refuri = f"{relative_uri}#{target_uid}"
-    reference = nodes.reference(refuri=refuri)
-    reference.append(nodes.Text(target_uid))
-    return reference
-
-
 def intersperse(iterable: Iterable[T], delimiter: T) -> Iterable[T]:
     """Intersperse objects in an iterator with another value of the same type."""
     for i, item in enumerate(iterable):

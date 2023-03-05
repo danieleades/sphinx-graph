@@ -8,8 +8,7 @@ from sphinx_graph.vertex.config import Config
 
 @dataclass
 class Info:
-    """
-    Vertex information dataclass.
+    """Vertex information dataclass.
 
     Args:
         docname: The name of the current sphinx document

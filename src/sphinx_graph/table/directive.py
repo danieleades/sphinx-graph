@@ -34,7 +34,6 @@ class Directive(SphinxDirective):
 
     def run(self) -> Sequence[nodes.Node]:
         """Run the directive and return a Vertex node."""
-
         uid = uuid.uuid4()
         node = Node(graph_uid=uid)
 

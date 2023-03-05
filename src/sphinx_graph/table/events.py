@@ -15,6 +15,10 @@ from sphinx_graph.table.state import State
 from sphinx_graph.vertex.events import relative_uris, vertex_reference
 from sphinx_graph.vertex.query import DEFAULT_QUERY, QUERIES
 
+__all__ = [
+    "register",
+]
+
 
 def relatives(
     builder: Builder, docname: str, state: vertex.State, uid: str
@@ -100,6 +104,7 @@ def build_table(
 def build_vertex_table(
     builder: Builder, docname: str, state: vertex.State, vertices: Iterable[str]
 ) -> nodes.table:
+    """Construct a table from a list of vertices."""
     headers = ["uid", "parents", "children"]
     items: list[dict[str, nodes.Node]] = []
     for uid in vertices:
@@ -120,4 +125,5 @@ def build_vertex_table(
 
 
 def register(app: Sphinx) -> None:
+    """Register the vertex-table lifecycle events."""
     app.connect("doctree-resolved", process)
