@@ -57,6 +57,10 @@ sphinx-rtd-theme = "^1.1.1"
 [tool.poetry.group.dev.dependencies]
 types-toml = "^0.10.8.5"
 
+
+[tool.poetry.group.docs.dependencies]
+sphinx-autoapi = "^2.0.1"
+
 [tool.mypy]
 strict = true
 show_error_codes = true

@@ -15,8 +15,8 @@ class Config:
             Whether parent links *must* provide fingerprints.
             If ``False`` (the default) then link fingerprints are checked
             if set, and ignored otherwise.
-        layout: which of the default layouts to use.
-            The options are "subtle" or "transparent".
+        layout: which of the built-in layouts to use.
+            The options are "subtle" (the default) or "transparent".
         regex: A regex pattern to check vertex IDs against.
     """
 

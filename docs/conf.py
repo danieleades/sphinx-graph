@@ -18,6 +18,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx_rtd_theme",
     "sphinx_graph",
+    "sphinx.ext.viewcode",
 ]
 
 templates_path = ["_templates"]
@@ -39,3 +40,11 @@ graph_config = Config(
         "descendants": query.descendants,
     },
 )
+
+autosummary_generate = True
+autosummary_ignore_module_all = False
+autoclass_content = "both"
+autodoc_inherit_docstrings = True
+set_type_checking_flag = True
+add_module_names = True
+templates_path = ["_templates"]

@@ -1,7 +1,9 @@
 API
 ---
 
-.. automodule:: sphinx_graph
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autosummary::
+   :toctree: _autosummary
+   :template: custom-module-template.rst
+   :recursive:
+
+   sphinx_graph
