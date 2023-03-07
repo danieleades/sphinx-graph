@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sphinx-graph"
-version = "0.2.0"
+version = "0.2.1"
 description = "'Sphinx-Graph' is a plain-text, VCS-friendly, requirements management tool."
 authors = ["Daniel Eades <danieleades@hotmail.com>"]
 license = "MIT"
@@ -34,17 +34,16 @@ networkx = "^3.0"
 toml = "^0.10.2"
 
 
-[tool.poetry.group.test.dependencies]
+[tool.poetry.group.dev.dependencies]
+
 # testing
 pytest = "^7.2.0"
 pytest-cov = "^4.0.0"
 
-
-[tool.poetry.group.lint.dependencies]
 # typing
 mypy = "^1.0.1"
 types-docutils = "^0.19.1.1"
-
+types-toml = "^0.10.8.5"
 
 [tool.poetry.group.doc]
 optional = true
@@ -52,14 +51,6 @@ optional = true
 [tool.poetry.group.doc.dependencies]
 sphinx-rtd-theme = "^1.1.1"
 
-
-
-[tool.poetry.group.dev.dependencies]
-types-toml = "^0.10.8.5"
-
-
-[tool.poetry.group.docs.dependencies]
-sphinx-autoapi = "^2.0.1"
 
 [tool.mypy]
 strict = true
