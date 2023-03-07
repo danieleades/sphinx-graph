@@ -13,10 +13,11 @@ from sphinx.util.nodes import nested_parse_with_titles
 from sphinx.util.typing import OptionSpec
 
 from sphinx_graph import parse
-from sphinx_graph.config import Config, VertexConfig
-from sphinx_graph.info import Info
-from sphinx_graph.node import Node as VertexNode
-from sphinx_graph.state import State
+from sphinx_graph.config import Config
+from sphinx_graph.vertex.config import Config as VertexConfig
+from sphinx_graph.vertex.info import Info
+from sphinx_graph.vertex.node import Node
+from sphinx_graph.vertex.state import State
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +42,7 @@ class Directive(SphinxDirective):
     def run(self) -> Sequence[nodes.Node]:
         """Run the directive and return a Vertex node."""
         uid = self.arguments[0]
-        content_node = VertexNode(graph_uid=uid)
+        content_node = Node(graph_uid=uid)
         nested_parse_with_titles(self.state, self.content, content_node)
 
         fingerprint = base64.b64encode(
@@ -59,7 +60,7 @@ class Directive(SphinxDirective):
             )
 
         with State.get(self.env) as state:
-            state.insert_vertex(
+            state.insert(
                 uid,
                 Info(
                     docname=self.env.docname,

@@ -2,14 +2,16 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Iterable
 
-from sphinx_graph.config import VertexConfig
+from docutils import nodes
+
+from sphinx_graph.vertex.config import Config
 
 
 @dataclass
 class Info:
-    """
-    Vertex information dataclass.
+    """Vertex information dataclass.
 
     Args:
         docname: The name of the current sphinx document
@@ -23,7 +25,17 @@ class Info:
     """
 
     docname: str
-    config: VertexConfig
+    config: Config
     parents: dict[str, str | None]
     fingerprint: str
+    tags: list[str]
+
+
+@dataclass
+class InfoParsed:
+    """Information about a vertex which is available after parsing the graph."""
+
+    content: nodes.Node
+    parents: Iterable[nodes.reference]
+    children: Iterable[nodes.reference]
     tags: list[str]

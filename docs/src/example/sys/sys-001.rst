@@ -6,3 +6,11 @@ SYS-001
     :type: sys
 
     this is a system requirement derived from some user requirement
+
+Ancestors
+=========
+
+.. vertex-table::
+    :query: ancestors
+
+    uid = "SYS-001"

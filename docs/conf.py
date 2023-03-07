@@ -1,6 +1,12 @@
+import os
 import re
+import sys
 
 from sphinx_graph import Config, VertexConfig
+
+sys.path.append(os.path.abspath("."))
+
+import query  # noqa: E402
 
 project = "sphinx-graph"
 copyright = "2022, danieleades <danieleades@hotmail.com>"
@@ -12,6 +18,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx_rtd_theme",
     "sphinx_graph",
+    "sphinx.ext.viewcode",
 ]
 
 templates_path = ["_templates"]
@@ -28,4 +35,16 @@ graph_config = Config(
         "usr": VertexConfig(regex=re.compile(r"^USR-[0-9]{3}$")),
         "sys": VertexConfig(regex=re.compile(r"^SYS-[0-9]{3}$")),
     },
+    queries={
+        "ancestors": query.ancestors,
+        "descendants": query.descendants,
+    },
 )
+
+autosummary_generate = True
+autosummary_ignore_module_all = False
+autoclass_content = "both"
+autodoc_inherit_docstrings = True
+set_type_checking_flag = True
+add_module_names = True
+templates_path = ["_templates"]

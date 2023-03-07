@@ -4,7 +4,7 @@ import pytest
 from sphinx.application import Sphinx
 from sphinx.errors import SphinxError
 
-from sphinx_graph.state import State
+from sphinx_graph import vertex
 
 
 @pytest.mark.sphinx(testroot="vertex")
@@ -36,5 +36,5 @@ def test_tags_builds(app: Sphinx) -> None:
     app.warningiserror = True
     app.build()
 
-    with State.get(app.env) as state:
-        assert state.all_vertices["01"].tags == ["P1", "component::x", "milestone::a"]
+    with vertex.State.get(app.env) as state:
+        assert state.vertices["01"].tags == ["P1", "component::x", "milestone::a"]
