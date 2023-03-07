@@ -50,10 +50,9 @@ The core sphinx directive provided by this extension is a 'Vertex'. A Vertex dir
    changing a Vertex will trigger a review of all dependent vertices.
 ```
 
-For more information, see the docs
-check the [example project](https://sphinx-graph.readthedocs.io/en/main/src/index.html)
+For more information, see [the docs](https://sphinx-graph.readthedocs.io/en/main/src/index.html).
 
-or build the local docs-
+or, build the local docs-
 
       cd docs
       poetry run make html
