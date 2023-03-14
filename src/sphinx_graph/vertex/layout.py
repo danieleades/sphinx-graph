@@ -99,11 +99,9 @@ def subtle(helper: FormatHelper) -> nodes.Node:
     paragraph = nodes.paragraph()
     paragraph.append(one_liner)
 
-    element = nodes.Element()
-    element.append(paragraph)
-    element.append(helper.info.content)
+    paragraph.append(helper.info.content)
 
-    return element
+    return paragraph  # type: ignore[no-any-return]
 
 
 Formatter = Callable[[FormatHelper], nodes.Node]
