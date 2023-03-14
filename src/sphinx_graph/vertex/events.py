@@ -9,9 +9,9 @@ from sphinx.application import Sphinx
 from sphinx.builders import Builder
 from sphinx.environment import BuildEnvironment
 
-from sphinx_graph import vertex
 from sphinx_graph.vertex import layout
 from sphinx_graph.vertex.info import Info, InfoParsed
+from sphinx_graph.vertex.node import VertexNode
 from sphinx_graph.vertex.state import State
 
 
@@ -58,7 +58,7 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
     builder = app.builder
     with State.get(app.env) as state:
         state.build_and_check_graph()
-        for vertex_node in doctree.findall(vertex.Node):
+        for vertex_node in doctree.findall(VertexNode):
             uid = vertex_node["graph_uid"]
             info = state.vertices[uid]
             [parents, children] = [
