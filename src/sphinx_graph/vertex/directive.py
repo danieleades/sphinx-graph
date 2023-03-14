@@ -16,7 +16,7 @@ from sphinx_graph import parse
 from sphinx_graph.config import Config
 from sphinx_graph.vertex.config import Config as VertexConfig
 from sphinx_graph.vertex.info import Info
-from sphinx_graph.vertex.node import Node
+from sphinx_graph.vertex.node import VertexNode
 from sphinx_graph.vertex.state import State
 
 logger = logging.getLogger(__name__)
@@ -42,7 +42,7 @@ class Directive(SphinxDirective):
     def run(self) -> Sequence[nodes.Node]:
         """Run the directive and return a Vertex node."""
         uid = self.arguments[0]
-        content_node = Node(graph_uid=uid)
+        content_node = VertexNode(graph_uid=uid)
         nested_parse_with_titles(self.state, self.content, content_node)
 
         fingerprint = base64.b64encode(

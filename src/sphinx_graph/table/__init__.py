@@ -6,12 +6,12 @@ from sphinx.application import Sphinx
 from sphinx_graph.table import events
 from sphinx_graph.table.directive import Directive
 from sphinx_graph.table.info import Info
-from sphinx_graph.table.node import Node
+from sphinx_graph.table.node import TableNode
 
 __all__ = [
     "Info",
     "Directive",
-    "Node",
+    "TableNode",
     "register",
 ]
 
@@ -33,7 +33,7 @@ def depart_node(_self: nodes.GenericNodeVisitor, _node: nodes.Node) -> None:
 def register(app: Sphinx) -> None:
     """Register the vertex-table node, directive, and lifecycle events."""
     app.add_node(
-        Node,
+        TableNode,
         html=(visit_node, depart_node),
         latex=(visit_node, depart_node),
         text=(visit_node, depart_node),

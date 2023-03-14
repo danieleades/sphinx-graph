@@ -13,7 +13,7 @@ from sphinx.util.typing import OptionSpec
 
 from sphinx_graph import parse
 from sphinx_graph.table.info import Info
-from sphinx_graph.table.node import Node
+from sphinx_graph.table.node import TableNode
 from sphinx_graph.table.state import State
 
 logger = logging.getLogger(__name__)
@@ -35,7 +35,7 @@ class Directive(SphinxDirective):
     def run(self) -> Sequence[nodes.Node]:
         """Run the directive and return a Vertex node."""
         uid = uuid.uuid4()
-        node = Node(graph_uid=uid)
+        node = TableNode(graph_uid=uid)
 
         toml.loads("\n".join(self.content))
 

@@ -11,7 +11,7 @@ from sphinx.errors import ConfigError
 
 from sphinx_graph import vertex
 from sphinx_graph.format import comma_separated_list
-from sphinx_graph.table.node import Node
+from sphinx_graph.table.node import TableNode
 from sphinx_graph.table.state import State
 from sphinx_graph.vertex.events import relative_uris, vertex_reference
 from sphinx_graph.vertex.query import DEFAULT_QUERY, QUERIES
@@ -51,7 +51,7 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
     vertex_state = vertex.State.read(app.env)
     queries = QUERIES
     queries.update(app.config.graph_config.queries)
-    for node in doctree.findall(Node):
+    for node in doctree.findall(TableNode):
         uid = node["graph_uid"]
         info = state.tables[uid]
         if info.query and info.query not in queries:
