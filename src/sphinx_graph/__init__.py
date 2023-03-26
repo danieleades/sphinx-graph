@@ -14,10 +14,10 @@ from typing import TypedDict
 
 from sphinx.application import Sphinx
 
-from sphinx_graph import table, vertex
-from sphinx_graph.config import Config
-from sphinx_graph.vertex import Config as VertexConfig
-from sphinx_graph.vertex import Query
+from . import table, vertex
+from .config import Config
+from .vertex import Config as VertexConfig
+from .vertex import Query
 
 __all__ = [
     "Config",

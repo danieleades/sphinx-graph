@@ -3,10 +3,10 @@
 from docutils import nodes
 from sphinx.application import Sphinx
 
-from sphinx_graph.table import events
-from sphinx_graph.table.directive import Directive
-from sphinx_graph.table.info import Info
-from sphinx_graph.table.node import TableNode
+from . import events
+from .directive import Directive
+from .info import Info
+from .node import TableNode
 
 __all__ = [
     "Info",

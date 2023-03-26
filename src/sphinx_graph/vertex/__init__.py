@@ -3,13 +3,13 @@
 from docutils import nodes
 from sphinx.application import Sphinx
 
-from sphinx_graph.vertex import events
-from sphinx_graph.vertex.config import Config
-from sphinx_graph.vertex.directive import Directive
-from sphinx_graph.vertex.info import Info
-from sphinx_graph.vertex.node import VertexNode
-from sphinx_graph.vertex.query import Query
-from sphinx_graph.vertex.state import State
+from . import events
+from .config import Config
+from .directive import Directive
+from .info import Info
+from .node import VertexNode
+from .query import Query
+from .state import State
 
 __all__ = [
     "Config",
