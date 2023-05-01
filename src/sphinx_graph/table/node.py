@@ -7,5 +7,5 @@ from __future__ import annotations
 from docutils import nodes
 
 
-class TableNode(nodes.General, nodes.Element):  # type: ignore[misc]
+class TableNode(nodes.General, nodes.Element):
     """An RST node representing a Vertex."""
