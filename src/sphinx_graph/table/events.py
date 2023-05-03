@@ -107,7 +107,7 @@ def build_vertex_table(
 ) -> nodes.table:
     """Construct a table from a list of vertices."""
     headers = ["uid", "tags", "parents", "children"]
-    items: list[dict[str, nodes.Node]] = []
+    items: list[dict[str, nodes.paragraph]] = []
     for uid in vertices:
         uid_para = nodes.paragraph()
         uid_para += vertex_reference(builder, docname, state.vertices, uid)
