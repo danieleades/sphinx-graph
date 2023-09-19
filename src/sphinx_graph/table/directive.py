@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import uuid
-from typing import Sequence
+from typing import ClassVar, Sequence
 
 import toml
 from docutils import nodes
@@ -28,7 +28,7 @@ class Directive(SphinxDirective):
 
     has_content = True
     required_arguments = 0
-    option_spec: OptionSpec = {
+    option_spec: ClassVar[OptionSpec] = {
         "query": parse.string,
     }
 

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import base64
 import hashlib
-from typing import Sequence
+from typing import ClassVar, Sequence
 
 from docutils import nodes
 from sphinx.util import logging
@@ -31,7 +31,7 @@ class Directive(SphinxDirective):
 
     has_content = True
     required_arguments = 1
-    option_spec: OptionSpec = {
+    option_spec: ClassVar[OptionSpec] = {
         "parents": parse.parents,
         "layout": parse.string,
         "require_fingerprints": parse.boolean,
@@ -52,10 +52,8 @@ class Directive(SphinxDirective):
         vertex_config = self.vertex_config()
         if vertex_config.regex and not vertex_config.regex.match(uid):
             logger.error(
-                (
-                    f"vertex '{uid}' doesn't satisfy the configured regex"
-                    f" ('{vertex_config.regex.pattern}')"
-                ),
+                f"vertex '{uid}' doesn't satisfy the configured regex"
+                f" ('{vertex_config.regex.pattern}')",
                 location=(self.env.docname, self.lineno),
             )
 
