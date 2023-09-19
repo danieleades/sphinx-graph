@@ -4,7 +4,7 @@ from pathlib import Path
 
 from sphinx_graph import Config, VertexConfig
 
-sys.path.append(str(Path(".").resolve()))
+sys.path.append(str(Path().resolve()))
 
 import query  # noqa: E402
 
