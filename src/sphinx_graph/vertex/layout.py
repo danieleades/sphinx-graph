@@ -93,7 +93,7 @@ def subtle(helper: FormatHelper) -> nodes.Node:
     if helper.info.tags:
         one_liner += nodes.Text(" | Tags: ")
         one_liner.extend(
-            comma_separated_list(nodes.Text(tag) for tag in helper.info.tags)
+            comma_separated_list(nodes.Text(tag) for tag in helper.info.tags),
         )
 
     paragraph = nodes.paragraph()
@@ -124,7 +124,7 @@ def apply_formatting(
     elif layout not in LAYOUTS:
         logger.error(
             f"vertex {uid} has unknown layout '{layout}'. Defaulting to '{DEFAULT}'"
-            " layout."
+            " layout.",
         )
         layout = DEFAULT
     helper = FormatHelper(uid, info)

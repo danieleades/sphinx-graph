@@ -104,14 +104,14 @@ def check_fingerprints(graph: DiGraph, vertices: dict[str, Info]) -> None:
                 f"link fingerprints are required, but {child_id} doesn't have a"
                 f" fingerprint for its link to its parent {parent_id}.\nthe fingerprint"
                 f" can be added by changing the parent reference on {child_id} to"
-                f" '{parent_id}:{parent.fingerprint}'."
+                f" '{parent_id}:{parent.fingerprint}'.",
             )
         if fingerprint and fingerprint != parent.fingerprint:
             logger.warning(
                 f"suspect link found. vertex {child_id} is linked to vertex"
                 f" {parent_id} with a fingerprint of '{fingerprint}', but {parent_id}'s"
                 f" fingerprint is '{parent.fingerprint}'.\n{child_id} should be"
-                " reviewed, and the link fingerprint manually updated."
+                " reviewed, and the link fingerprint manually updated.",
             )
 
 
@@ -119,5 +119,5 @@ def check_cycles(graph: DiGraph) -> None:
     """Ensure there are no dependency cycles in the graph."""
     for cycle in simple_cycles(graph):
         logger.error(
-            f"vertices must not have cyclic dependencies. cycle detected: {cycle}"
+            f"vertices must not have cyclic dependencies. cycle detected: {cycle}",
         )

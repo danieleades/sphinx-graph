@@ -10,6 +10,6 @@ graph_config = Config(
     types={
         "req": VertexConfig(
             require_fingerprints=False,
-        )
+        ),
     },
 )

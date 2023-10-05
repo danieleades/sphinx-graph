@@ -76,7 +76,7 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
                     uid,
                     parsed_info,
                     info.config.layout,
-                )
+                ),
             )
 
 
@@ -95,7 +95,10 @@ def purge(_app: Sphinx, env: BuildEnvironment, docname: str) -> None:
 
 
 def merge(
-    _app: Sphinx, env: BuildEnvironment, _docnames: list[str], other: BuildEnvironment
+    _app: Sphinx,
+    env: BuildEnvironment,
+    _docnames: list[str],
+    other: BuildEnvironment,
 ) -> None:
     """Merge the vertices from multiple environments during parallel builds."""
     with State.get(env) as state, State.get(other) as other_state:

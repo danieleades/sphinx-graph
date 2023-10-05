@@ -20,7 +20,9 @@ from sphinx_graph import parse
     ],
 )
 def test_parse_boolean(
-    input: str | None, expected: bool, expectation: ContextManager[None]
+    input: str | None,
+    expected: bool,
+    expectation: ContextManager[None],
 ) -> None:
     with expectation:
         output = parse.boolean(input)
