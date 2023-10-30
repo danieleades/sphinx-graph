@@ -87,11 +87,13 @@ select = [
     "F",      # flake8 built-ins
     "FA",     # flake8-future-annotations
     "FBT",    # boolean trap
+    "FURB",   # refurb
     "G",      # flake8-logging-format
     "I",      # isort
     "ICN",    # flake8-import-conventions
     "ISC",    # implicit-str-concat
     "N",      # pep8-naming
+    "PERF",    # perflint
     "PGH",    # pygrep-hooks
     "PIE",    # flake8-pie
     "PLC",    # pylint
