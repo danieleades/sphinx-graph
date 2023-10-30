@@ -22,7 +22,10 @@ __all__ = [
 
 
 def relatives(
-    builder: Builder, docname: str, state: vertex.State, uid: str
+    builder: Builder,
+    docname: str,
+    state: vertex.State,
+    uid: str,
 ) -> tuple[Iterable[nodes.reference], Iterable[nodes.reference]]:
     """Find the realtive URIs of the immediate 'relatives' of a given vertex.
 
@@ -64,7 +67,8 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
 
 
 def build_table(
-    headers: list[str], items: list[dict[str, nodes.paragraph]]
+    headers: list[str],
+    items: list[dict[str, nodes.paragraph]],
 ) -> nodes.table:
     """Construct a docutils nodes.table from a header and a list of dicts.
 
@@ -103,7 +107,10 @@ def build_table(
 
 
 def build_vertex_table(
-    builder: Builder, docname: str, state: vertex.State, vertices: Iterable[str]
+    builder: Builder,
+    docname: str,
+    state: vertex.State,
+    vertices: Iterable[str],
 ) -> nodes.table:
     """Construct a table from a list of vertices."""
     headers = ["uid", "tags", "parents", "children"]

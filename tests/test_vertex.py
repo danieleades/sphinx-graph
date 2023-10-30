@@ -25,7 +25,7 @@ def test_regex(app: Sphinx) -> None:
     with pytest.raises(
         SphinxError,
         match=re.escape(
-            r"vertex '02' doesn't satisfy the configured regex ('^SYS-[0-9]{4}$')"
+            r"vertex '02' doesn't satisfy the configured regex ('^SYS-[0-9]{4}$')",
         ),
     ):
         app.build()

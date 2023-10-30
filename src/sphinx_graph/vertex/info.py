@@ -1,4 +1,5 @@
 """Dataclass objects will store information about a Vertex directive."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass

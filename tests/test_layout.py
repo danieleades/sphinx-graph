@@ -26,7 +26,8 @@ from sphinx_graph import format
     ],
 )
 def test_comma_separated_list(
-    input: list[nodes.Node], expected: list[nodes.Node]
+    input: list[nodes.Node],
+    expected: list[nodes.Node],
 ) -> None:
     output = list(format.comma_separated_list(input))
     assert output == expected
