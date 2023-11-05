@@ -18,8 +18,9 @@ jobs:
           # Check only newish setup for windows
           - os: "windows-latest"
             python-version: "3.12"
+            sphinx-version: "^7"
           - os: "ubuntu-latest"
-            python-version: "3.12"
+            python-version: "3.8"
             sphinx-version: "^6"
     steps:
       - uses: actions/checkout@v4
