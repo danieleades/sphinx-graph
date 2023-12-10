@@ -38,23 +38,13 @@ class FormatHelper:
     uid: str
     info: InfoParsed
 
-    def _list(self, references: Iterable[nodes.reference]) -> nodes.line | None:
-        refs = list(comma_separated_list(references))
-        if not refs:
-            return None
-
-        line = nodes.line()
-        line.extend(refs)
-
-        return line
-
     def child_list(self) -> nodes.line | None:
         """Format the list of child vertex references as a comma-separated list.
 
         Args:
             prefix: Optionally set a prefix for the list
         """
-        return self._list(self.info.children)
+        return _list(self.info.children)
 
     def parent_list(self) -> nodes.line | None:
         """Format the list of parent vertex references as a comma-separated list.
@@ -62,7 +52,19 @@ class FormatHelper:
         Args:
             prefix: Optionally set a prefix for the list
         """
-        return self._list(self.info.parents)
+        return _list(self.info.parents)
+
+
+def _list(references: Iterable[nodes.reference]) -> nodes.line | None:
+    """Format nodes as a comma-separated list."""
+    refs = list(comma_separated_list(references))
+    if not refs:
+        return None
+
+    line = nodes.line()
+    line.extend(refs)
+
+    return line
 
 
 def transparent(helper: FormatHelper) -> nodes.Node:
