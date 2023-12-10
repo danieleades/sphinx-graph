@@ -39,20 +39,6 @@ class FormatHelper:
     uid: str
     info: InfoParsed
 
-<<<<<<< HEAD
-=======
-    @staticmethod
-    def _list(references: Iterable[nodes.reference]) -> nodes.line | None:
-        refs = list(comma_separated_list(references))
-        if not refs:
-            return None
-
-        line = nodes.line()
-        line.extend(refs)
-
-        return line
-
->>>>>>> 403eb08 (drop support for python 3.8)
     def child_list(self) -> nodes.line | None:
         """Format the list of child vertex references as a comma-separated list.
 

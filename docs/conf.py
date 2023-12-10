@@ -4,11 +4,7 @@ from pathlib import Path
 
 from sphinx_graph import Config, VertexConfig
 
-<<<<<<< HEAD
 sys.path.append(str(Path.cwd()))
-=======
-sys.path.append(str(Path().cwd()))
->>>>>>> 403eb08 (drop support for python 3.8)
 
 import query  # noqa: E402
 

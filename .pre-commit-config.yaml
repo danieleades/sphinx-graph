@@ -15,10 +15,7 @@ repos:
         args:
          - --fix
          - --preview
-<<<<<<< HEAD
       - id: ruff-format
-=======
->>>>>>> 403eb08 (drop support for python 3.8)
 
   - repo: local
     hooks:
