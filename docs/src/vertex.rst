@@ -56,7 +56,7 @@ user of the new hash.
 Updating the hash silences the error, and signifies that the relationship between the nodes has
 been reviewed and accepted.
 
-The *first* time you add a fingerprint you can add an arbitrary value. At build time, the correct value will be calculcated and reported as a build error.
+The *first* time you add a fingerprint you can add an arbitrary value. At build time, the correct value will be calculated and reported as a build error.
 
 .. code-block:: rst
 
