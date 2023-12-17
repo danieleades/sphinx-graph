@@ -17,7 +17,8 @@ jobs:
         uses: snok/install-poetry@v1
       - name: Install Dependencies
         run: poetry install
-      - uses: browniebroke/pre-commit-autoupdate-action@v1.0.0
+      - run: poetry run pre-commit autoupdate
+      - run: poetry run pre-commit run --all-files ; poetry run pre-commit run --all-files
       - uses: peter-evans/create-pull-request@v5
         with:
           branch: chore/update/pre-commit-hooks
