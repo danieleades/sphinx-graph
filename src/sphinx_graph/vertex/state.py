@@ -32,7 +32,7 @@ class State:
     """State object for Sphinx Graph vertices."""
 
     vertices: dict[str, Info]
-    graph: DiGraph
+    graph: DiGraph[str]
 
     def insert(self, uid: str, info: Info) -> None:
         """Insert a vertex into the context.
@@ -64,10 +64,10 @@ class State:
         This is a read-only view of the state. Changes will not be saved.
         """
         vertices = getattr(env, "graph_vertices", {})
-        graph = getattr(env, "graph_graph", DiGraph())
+        graph: DiGraph[str] = getattr(env, "graph_graph", DiGraph())
         return State(vertices, graph)
 
-    def build_and_check_graph(self) -> DiGraph:
+    def build_and_check_graph(self) -> None:
         """Build the graph from the list of vertices.
 
         Also checks the graph for consistency.
@@ -78,12 +78,12 @@ class State:
         self.graph = graph
 
 
-def build_graph(vertices: dict[str, Info]) -> DiGraph:
+def build_graph(vertices: dict[str, Info]) -> DiGraph[str]:
     """Build the graph from the list of vertices.
 
     This is called during setup, and doesn't need to be called again.
     """
-    graph = DiGraph()
+    graph: DiGraph[str] = DiGraph()
     for uid, vertex_info in vertices.items():
         # add each node
         graph.add_node(uid)
@@ -94,8 +94,9 @@ def build_graph(vertices: dict[str, Info]) -> DiGraph:
     return graph
 
 
-def check_fingerprints(graph: DiGraph, vertices: dict[str, Info]) -> None:
+def check_fingerprints(graph: DiGraph[str], vertices: dict[str, Info]) -> None:
     """Check for suspect links and raise sphinx warnings."""
+    fingerprint: str | None
     for parent_id, child_id, fingerprint in graph.edges.data("fingerprint"):
         fingerprints_required = vertices[child_id].config.require_fingerprints
         parent = vertices[parent_id]
@@ -115,7 +116,7 @@ def check_fingerprints(graph: DiGraph, vertices: dict[str, Info]) -> None:
             )
 
 
-def check_cycles(graph: DiGraph) -> None:
+def check_cycles(graph: DiGraph[str]) -> None:
     """Ensure there are no dependency cycles in the graph."""
     for cycle in simple_cycles(graph):
         logger.error(

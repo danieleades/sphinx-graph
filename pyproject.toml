@@ -44,6 +44,7 @@ pytest-cov = "^4.0.0"
 mypy = "^1.0.1"
 types-docutils = "^0.20.0.0"
 types-toml = "^0.10.8.5"
+types-networkx = "^3.1.0.0"
 
 # linting
 pre-commit = "^3.4.0"
@@ -61,10 +62,6 @@ show_error_codes = true
 files = "src,tests"
 exclude = "tests/roots"
 no_implicit_reexport = true
-
-[[tool.mypy.overrides]]
-module = ["networkx.*"]
-ignore_missing_imports = true
 
 
 [tool.ruff]
