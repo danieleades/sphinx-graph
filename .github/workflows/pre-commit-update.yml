@@ -18,7 +18,7 @@ jobs:
       - name: Install Dependencies
         run: poetry install
       - run: poetry run pre-commit autoupdate
-      - run: poetry run pre-commit run --all-files ; poetry run pre-commit run --all-files
+      - run: poetry run pre-commit run --all-files || poetry run pre-commit run --all-files
       - uses: peter-evans/create-pull-request@v5
         with:
           branch: chore/update/pre-commit-hooks
