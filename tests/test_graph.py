@@ -20,3 +20,30 @@ def test_duplicate_ids(app: Sphinx) -> None:
     app.warningiserror = True
     with pytest.raises(DuplicateIdError):
         app.build()
+
+
+@pytest.mark.sphinx(testroot="missing-fingerprint")
+def test_missing_fingerprint(app: Sphinx) -> None:
+    app.warningiserror = True
+    with pytest.raises(
+        SphinxError,
+        match=(
+            r"^link fingerprints are required, but [0-9]+ doesn't have a fingerprint"
+            " for its link to its parent"
+        ),
+    ):
+        app.build()
+
+
+@pytest.mark.sphinx(testroot="incorrect-fingerprint")
+def test_incorrect_fingerprint(app: Sphinx) -> None:
+    app.warningiserror = True
+    with pytest.raises(
+        SphinxError,
+        match=(
+            r"suspect link found. vertex 02 is linked to vertex 01 with a fingerprint"
+            " of 'abcd', but 01's fingerprint is '/470'.\n02 should be reviewed, and"
+            " the link fingerprint manually updated."
+        ),
+    ):
+        app.build()
