@@ -136,6 +136,22 @@ class State:
         node_id, _info = self._vertices[uid]
         yield from self._graph.successors(node_id)
 
+    def ancestors(self, uid: str) -> Iterable[str]:
+        """Recursively find all direct parents and ancestors of the given node."""
+        node_id = self.node_ids[uid]
+        yield from (
+            self.graph[anc_node_id]
+            for anc_node_id in rx.ancestors(self.graph, node_id)  # type: ignore[attr-defined]
+        )
+
+    def descendants(self, uid: str) -> Iterable[str]:
+        """Recursively find all direct children and descendants of the given node."""
+        node_id = self.node_ids[uid]
+        yield from (
+            self.graph[desc_node_id]
+            for desc_node_id in rx.descendants(self.graph, node_id)  # type: ignore[attr-defined]
+        )
+
 
 class Vertices(Mapping[str, Info]):
     def __init__(self, vertices: dict[str, tuple[int, Info]]) -> None:
