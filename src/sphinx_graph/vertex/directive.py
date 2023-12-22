@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import base64
 import hashlib
-from typing import ClassVar, Sequence
+from collections.abc import Sequence
+from typing import ClassVar
 
 from docutils import nodes
 from sphinx.util import logging

@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Callable, Iterable
+from collections.abc import Iterable
+from typing import Callable
 
 from sphinx_graph.vertex.state import State
 

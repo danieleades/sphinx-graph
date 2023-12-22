@@ -2,8 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Mapping
-from typing import Iterable
+from collections.abc import Iterable, Mapping
 
 from docutils import nodes
 from sphinx.application import Sphinx

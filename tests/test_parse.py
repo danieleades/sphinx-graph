@@ -1,7 +1,7 @@
 from __future__ import annotations
 
+from contextlib import AbstractContextManager
 from contextlib import nullcontext as does_not_raise
-from typing import ContextManager
 
 import pytest
 from sphinx.errors import ConfigError
@@ -22,7 +22,7 @@ from sphinx_graph import parse
 def test_parse_boolean(
     input: str | None,
     expected: bool,
-    expectation: ContextManager[None],
+    expectation: AbstractContextManager[None],
 ) -> None:
     with expectation:
         output = parse.boolean(input)
