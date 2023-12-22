@@ -2,9 +2,8 @@
 
 from __future__ import annotations
 
-from collections.abc import Mapping
 from contextlib import contextmanager
-from typing import Iterable, Iterator
+from typing import Iterable, Iterator, Mapping
 
 import rustworkx as rx
 from sphinx.application import Sphinx
