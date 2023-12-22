@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-import networkx as nx
+import rustworkx as rx
 
 from sphinx_graph.vertex import State
 
@@ -15,7 +15,8 @@ def ancestors(state: State, *, uid: str, include_self: bool = False) -> Iterable
     if include_self:
         ancestors.add(uid)
 
-    ancestors.update(nx.ancestors(state.graph, uid))
+    node_id = state.node_ids[uid]
+    ancestors.update(rx.ancestors(state.graph, node_id))
 
     return ancestors
 
@@ -26,6 +27,7 @@ def descendants(state: State, *, uid: str, include_self: bool = False) -> Iterab
     if include_self:
         descendants.add(uid)
 
-    descendants.update(nx.descendants(state.graph, uid))
+    node_id = state.node_ids[uid]
+    descendants.update(rx.descendants(state.graph, node_id))
 
     return descendants

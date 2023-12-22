@@ -36,5 +36,5 @@ def test_tags_builds(app: Sphinx) -> None:
     app.warningiserror = True
     app.build()
 
-    with vertex.State.get(app.env) as state:
-        assert state.vertices["01"].tags == ["P1", "component::x", "milestone::a"]
+    state = vertex.State.read(app.env)
+    assert state.vertices["01"].tags == ["P1", "component::x", "milestone::a"]

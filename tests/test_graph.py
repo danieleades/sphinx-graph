@@ -10,7 +10,7 @@ def test_dependency_cycle(app: Sphinx) -> None:
     app.warningiserror = True
     with pytest.raises(
         SphinxError,
-        match=r"vertices must not have cyclic dependencies. cycle detected: .*",
+        match=r"^vertices must not have cyclic dependencies. cycles detected: ",
     ):
         app.build()
 
