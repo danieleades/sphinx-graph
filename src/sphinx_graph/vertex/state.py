@@ -127,7 +127,7 @@ class State:
 
     @property
     def node_ids(self) -> Mapping[str, int]:
-        """A mapping from vertex uid to vertex Info."""
+        """A mapping from vertex uid to graph node ID."""
         return NodeIds(self._vertices)
 
     def children(self, uid: str) -> Iterable[str]:
