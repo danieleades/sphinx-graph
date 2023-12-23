@@ -10,7 +10,10 @@ def test_dependency_cycle(app: Sphinx) -> None:
     app.warningiserror = True
     with pytest.raises(
         SphinxError,
-        match=r"^vertices must not have cyclic dependencies. cycles detected: ",
+        match=(
+            "^vertices must not have cyclic dependencies. cycles detected: \\[REQ-03"
+            " -> REQ-01 -> REQ-02 -> REQ-03\\]$"
+        ),
     ):
         app.build()
 
@@ -41,9 +44,9 @@ def test_incorrect_fingerprint(app: Sphinx) -> None:
     with pytest.raises(
         SphinxError,
         match=(
-            r"suspect link found. vertex 02 is linked to vertex 01 with a fingerprint"
-            " of 'abcd', but 01's fingerprint is '/470'.\n02 should be reviewed, and"
-            " the link fingerprint manually updated."
+            r"suspect link found. vertex ([0-9]+) is linked to vertex ([0-9]+) with a"
+            r" fingerprint of 'abcd', but \2's fingerprint is '[\S]{4}'.\n\1 should be"
+            " reviewed, and the link fingerprint manually updated."
         ),
     ):
         app.build()

@@ -176,7 +176,7 @@ class NodeIds(Mapping[str, int]):
         return node_id
 
     def __iter__(self) -> Iterator[str]:
-        return self._vertices.__iter__()
+        return iter(self._vertices)
 
     def __len__(self) -> int:
         return len(self._vertices)
@@ -211,18 +211,14 @@ def build_graph_edges(
 
             graph.add_edge(parent_node_id, node_id, fingerprint)
 
-    cycles = list(rx.simple_cycles(graph))  # type: ignore[attr-defined]
+    cycles = [
+        [graph[node_id] for node_id in node_ids]
+        for node_ids in rx.simple_cycles(graph)  # type: ignore[attr-defined]
+    ]
     if cycles:
-        cycle_strings = []
-        for node_ids in cycles:
-            uids = (graph[node_id] for node_id in node_ids)
-            cycle_strings.append(cycle_message(uids))
-        suffix = ", ".join(cycle_strings)
+        suffix = ", ".join(
+            f"[{uids[0]} -> {' -> '.join(uids[1:])} -> {uids[0]}]" for uids in cycles
+        )
         logger.exception(
             f"vertices must not have cyclic dependencies. cycles detected: {suffix}"
         )
-
-
-def cycle_message(uids: Iterator[str]) -> str:
-    first = next(uids)
-    return f"[{first} -> {' -> '.join(uids)} -> {first}]"
