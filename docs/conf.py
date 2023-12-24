@@ -6,7 +6,7 @@ from sphinx_graph import Config, VertexConfig
 
 sys.path.append(str(Path.cwd()))
 
-import query  # noqa: E402
+import query
 
 project = "sphinx-graph"
 copyright = "2022, danieleades <danieleades@hotmail.com>"
