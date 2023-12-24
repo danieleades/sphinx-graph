@@ -193,7 +193,13 @@ def build_graph_edges(
     for uid, (node_id, info) in vertices.items():
         fingerprints_required = info.config.require_fingerprints
         for parent_uid, fingerprint in info.parents.items():
-            parent_node_id, parent = vertices[parent_uid]
+            try:
+                parent_node_id, parent = vertices[parent_uid]
+            except KeyError:
+                logger.exception(
+                    f"vertex '{uid}' has a parent link to '{parent_uid}',"
+                    f" but '{parent_uid}' doesn't exist"
+                )
             if fingerprints_required and fingerprint is None:
                 logger.warning(
                     f"link fingerprints are required, but {uid} doesn't have a"

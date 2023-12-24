@@ -65,3 +65,13 @@ def test_tags_builds(app: Sphinx) -> None:
 
     state = vertex.State.read(app.env)
     assert state.vertices["01"].tags == ["P1", "component::x", "milestone::a"]
+
+
+@pytest.mark.sphinx(testroot="invalid-parent")
+def test_invalid_parent(app: Sphinx) -> None:
+    app.warningiserror = True
+    with pytest.raises(
+        SphinxError,
+        match="^vertex '02' has a parent link to '03', but '03' doesn't exist$",
+    ):
+        app.build()
