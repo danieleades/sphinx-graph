@@ -5,7 +5,7 @@ from sphinx_graph import Config
 
 sys.path.append(str(Path.cwd()))
 
-from queries import family  # noqa: E402
+from queries import family
 
 graph_config = Config(queries={"family": family})
 
