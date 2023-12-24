@@ -2,30 +2,20 @@
 
 from __future__ import annotations
 
-from typing import Iterable
-
-import networkx as nx
+from collections.abc import Iterable
 
 from sphinx_graph.vertex import State
 
 
 def ancestors(state: State, *, uid: str, include_self: bool = False) -> Iterable[str]:
-    """Recursively find all direct parents and descendants of the given node."""
-    ancestors: set[str] = set()
+    """Recursively find all direct parents and ancestors of the given node."""
     if include_self:
-        ancestors.add(uid)
-
-    ancestors.update(nx.ancestors(state.graph, uid))
-
-    return ancestors
+        yield uid
+    yield from state.ancestors(uid)
 
 
 def descendants(state: State, *, uid: str, include_self: bool = False) -> Iterable[str]:
-    """Recursively find all direct parents and descendants of the given node."""
-    descendants: set[str] = set()
+    """Recursively find all direct children and descendants of the given node."""
     if include_self:
-        descendants.add(uid)
-
-    descendants.update(nx.descendants(state.graph, uid))
-
-    return descendants
+        yield uid
+    yield from state.descendants(uid)

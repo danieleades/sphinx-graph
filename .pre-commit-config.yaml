@@ -12,10 +12,9 @@ repos:
     rev: v0.1.9
     hooks:
       - id: ruff
-        args:
-         - --fix
-         - --preview
+        args: [--fix, --preview, --unsafe-fixes]
       - id: ruff-format
+        args: [--preview]
 
   - repo: local
     hooks:

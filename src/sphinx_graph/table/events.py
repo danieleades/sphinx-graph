@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from collections.abc import Iterable
 
 from docutils import nodes
 from sphinx.application import Sphinx
@@ -42,7 +42,7 @@ def relatives(
     info = state.vertices[uid]
     [parents, children] = [
         relative_uris(builder, docname, state.vertices, uids)
-        for uids in [info.parents.keys(), state.graph.successors(uid)]
+        for uids in [info.parents.keys(), state.children(uid)]
     ]
     return (parents, children)
 

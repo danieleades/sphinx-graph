@@ -16,7 +16,6 @@ classifiers = [
     "Topic :: Utilities",
     "Topic :: Documentation",
     "Topic :: Utilities",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -28,11 +27,10 @@ classifiers = [
 
 
 [tool.poetry.dependencies]
-python = "^3.8.1"
+python = "^3.9"
 sphinx = ">=6, <8"
-networkx = "^3.0"
 toml = "^0.10.2"
-
+rustworkx = "^0.13.2"
 
 [tool.poetry.group.dev.dependencies]
 
@@ -62,13 +60,9 @@ files = "src,tests"
 exclude = "tests/roots"
 no_implicit_reexport = true
 
-[[tool.mypy.overrides]]
-module = ["networkx.*"]
-ignore_missing_imports = true
-
 
 [tool.ruff]
-target-version = "py38"
+target-version = "py39"
 select = [
     "A",      # flake8-builtins
     "ANN",    # flake8-annotations
@@ -120,7 +114,9 @@ select = [
 ignore = [
     "ANN101", # missing type annotation for 'self' in method
     "ANN102", # missing type annotation for 'cls' in method
+    "COM812", # ignore when using ruff-format
     "G004",   # Logging statement uses f-string
+    "ISC001", # ignore when using ruff-format
 ]
 
 [tool.ruff.pydocstyle]

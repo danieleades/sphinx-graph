@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 import uuid
-from typing import ClassVar, Sequence
+from collections.abc import Sequence
+from typing import ClassVar
 
 import toml
 from docutils import nodes

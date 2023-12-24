@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import base64
 import hashlib
-from typing import ClassVar, Sequence
+from collections.abc import Sequence
+from typing import ClassVar
 
 from docutils import nodes
 from sphinx.util import logging
@@ -14,10 +15,10 @@ from sphinx.util.typing import OptionSpec
 
 from sphinx_graph import parse
 from sphinx_graph.config import Config
+from sphinx_graph.vertex import state
 from sphinx_graph.vertex.config import Config as VertexConfig
 from sphinx_graph.vertex.info import Info
 from sphinx_graph.vertex.node import VertexNode
-from sphinx_graph.vertex.state import State
 
 logger = logging.getLogger(__name__)
 
@@ -57,17 +58,17 @@ class Directive(SphinxDirective):
                 location=(self.env.docname, self.lineno),
             )
 
-        with State.get(self.env) as state:
-            state.insert(
-                uid,
-                Info(
-                    docname=self.env.docname,
-                    config=vertex_config,
-                    parents=self.options.get("parents", {}),
-                    fingerprint=fingerprint,
-                    tags=self.options.get("tags", []),
-                ),
-            )
+        state.insert_vertex(
+            self.env,
+            uid,
+            Info(
+                docname=self.env.docname,
+                config=vertex_config,
+                parents=self.options.get("parents", {}),
+                fingerprint=fingerprint,
+                tags=self.options.get("tags", []),
+            ),
+        )
 
         targetnode = nodes.target("", "", ids=[uid])
 

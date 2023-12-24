@@ -2,23 +2,24 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from collections.abc import Iterable, Mapping
 
 from docutils import nodes
 from sphinx.application import Sphinx
 from sphinx.builders import Builder
-from sphinx.environment import BuildEnvironment
 
 from sphinx_graph.vertex import layout
 from sphinx_graph.vertex.info import Info, InfoParsed
 from sphinx_graph.vertex.node import VertexNode
-from sphinx_graph.vertex.state import State
+from sphinx_graph.vertex.state import build_and_check_graph
+from sphinx_graph.vertex.state import merge as state_merge
+from sphinx_graph.vertex.state import purge as state_purge
 
 
 def vertex_reference(
     builder: Builder,
     from_docname: str,
-    vertices: dict[str, Info],
+    vertices: Mapping[str, Info],
     target_uid: str,
 ) -> nodes.reference:
     """Construct a reference to a vertex.
@@ -43,7 +44,7 @@ def vertex_reference(
 def relative_uris(
     builder: Builder,
     from_docname: str,
-    vertices: dict[str, Info],
+    vertices: Mapping[str, Info],
     target_uids: Iterable[str],
 ) -> Iterable[nodes.reference]:
     """Iterate over node UIDs and convert them to relative URIs."""
@@ -56,57 +57,31 @@ def relative_uris(
 def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
     """Process Vertex nodes by formatting and adding links to graph neighbours."""
     builder = app.builder
-    with State.get(app.env) as state:
-        state.build_and_check_graph()
-        for vertex_node in doctree.findall(VertexNode):
-            uid = vertex_node["graph_uid"]
-            info = state.vertices[uid]
-            [parents, children] = [
-                relative_uris(builder, info.docname, state.vertices, uids)
-                for uids in [info.parents.keys(), state.graph.successors(uid)]
-            ]
-            parsed_info = InfoParsed(
-                content=vertex_node.deepcopy(),
-                parents=parents,
-                children=children,
-                tags=info.tags,
-            )
-            vertex_node.replace_self(
-                layout.apply_formatting(
-                    uid,
-                    parsed_info,
-                    info.config.layout,
-                ),
-            )
-
-
-def purge(_app: Sphinx, env: BuildEnvironment, docname: str) -> None:
-    """Clear out all stale vertices.
-
-    All vertices whose docname matches the given one from the graph_all_vertices list
-    will be removed.
-
-    If there are vertices left in the document, they will be added again during parsing.
-    """
-    with State.get(env) as state:
-        state.vertices = {
-            uid: vert for uid, vert in state.vertices.items() if vert.docname != docname
-        }
-
-
-def merge(
-    _app: Sphinx,
-    env: BuildEnvironment,
-    _docnames: list[str],
-    other: BuildEnvironment,
-) -> None:
-    """Merge the vertices from multiple environments during parallel builds."""
-    with State.get(env) as state, State.get(other) as other_state:
-        state.vertices.update(other_state.vertices)
+    state = build_and_check_graph(app.env)
+    for vertex_node in doctree.findall(VertexNode):
+        uid = vertex_node["graph_uid"]
+        info = state.vertices[uid]
+        [parents, children] = [
+            relative_uris(builder, info.docname, state.vertices, uids)
+            for uids in [info.parents.keys(), state.children(uid)]
+        ]
+        parsed_info = InfoParsed(
+            content=vertex_node.deepcopy(),
+            parents=parents,
+            children=children,
+            tags=info.tags,
+        )
+        vertex_node.replace_self(
+            layout.apply_formatting(
+                uid,
+                parsed_info,
+                info.config.layout,
+            ),
+        )
 
 
 def register(app: Sphinx) -> None:
     """Register the vertex directive lifecycle events."""
+    app.connect("env-purge-doc", state_purge)
+    app.connect("env-merge-info", state_merge)
     app.connect("doctree-resolved", process)
-    app.connect("env-purge-doc", purge)
-    app.connect("env-merge-info", merge)

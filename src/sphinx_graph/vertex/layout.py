@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Callable, Iterable, TypeVar
+from typing import Callable, TypeVar
 
 from docutils import nodes
 from sphinx.util import logging
