@@ -161,7 +161,7 @@ class Vertices(Mapping[str, Info]):
         return info
 
     def __iter__(self) -> Iterator[str]:
-        return self._vertices.__iter__()
+        return iter(self._vertices)
 
     def __len__(self) -> int:
         return len(self._vertices)
