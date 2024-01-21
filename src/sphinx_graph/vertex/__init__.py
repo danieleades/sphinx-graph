@@ -14,9 +14,9 @@ from .state import State
 __all__ = [
     "Config",
     "Info",
-    "VertexNode",
-    "State",
     "Query",
+    "State",
+    "VertexNode",
 ]
 
 

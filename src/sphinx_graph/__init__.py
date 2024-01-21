@@ -21,8 +21,8 @@ from .vertex import Query
 
 __all__ = [
     "Config",
-    "VertexConfig",
     "Query",
+    "VertexConfig",
     "vertex",
 ]
 

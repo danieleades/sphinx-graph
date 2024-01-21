@@ -9,8 +9,8 @@ from .info import Info
 from .node import TableNode
 
 __all__ = [
-    "Info",
     "Directive",
+    "Info",
     "TableNode",
     "register",
 ]
