@@ -15,10 +15,10 @@ from sphinx_graph.vertex.info import InfoParsed
 logger = logging.getLogger(__name__)
 
 __all__ = [
+    "DEFAULT",
+    "LAYOUTS",
     "FormatHelper",
     "Formatter",
-    "LAYOUTS",
-    "DEFAULT",
 ]
 
 DEFAULT = "subtle"
