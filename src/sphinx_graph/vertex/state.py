@@ -139,8 +139,7 @@ class State:
         """Recursively find all direct parents and ancestors of the given node."""
         node_id = self.node_ids[uid]
         yield from (
-            self.graph[anc_node_id]
-            for anc_node_id in rx.ancestors(self.graph, node_id)  # type: ignore[attr-defined]
+            self.graph[anc_node_id] for anc_node_id in rx.ancestors(self.graph, node_id)
         )
 
     def descendants(self, uid: str) -> Iterable[str]:
@@ -148,7 +147,7 @@ class State:
         node_id = self.node_ids[uid]
         yield from (
             self.graph[desc_node_id]
-            for desc_node_id in rx.descendants(self.graph, node_id)  # type: ignore[attr-defined]
+            for desc_node_id in rx.descendants(self.graph, node_id)
         )
 
 
@@ -218,8 +217,7 @@ def build_graph_edges(
             graph.add_edge(parent_node_id, node_id, fingerprint)
 
     cycles = [
-        [graph[node_id] for node_id in node_ids]
-        for node_ids in rx.simple_cycles(graph)  # type: ignore[attr-defined]
+        [graph[node_id] for node_id in node_ids] for node_ids in rx.simple_cycles(graph)
     ]
     if cycles:
         suffix = ", ".join(
