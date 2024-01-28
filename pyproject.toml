@@ -35,7 +35,7 @@ rustworkx = "^0.14.0"
 [tool.poetry.group.dev.dependencies]
 
 # testing
-pytest = "^7.2.0"
+pytest = "^8.0.0"
 pytest-cov = "^4.0.0"
 
 # typing
