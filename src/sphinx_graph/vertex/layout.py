@@ -2,15 +2,18 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Callable, TypeVar
+from typing import TYPE_CHECKING, Callable, TypeVar
 
 from docutils import nodes
 from sphinx.util import logging
 
 from sphinx_graph.format import comma_separated_list
-from sphinx_graph.vertex.info import InfoParsed
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
+    from sphinx_graph.vertex.info import InfoParsed
 
 logger = logging.getLogger(__name__)
 

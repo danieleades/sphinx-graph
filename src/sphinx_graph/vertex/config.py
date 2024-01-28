@@ -3,7 +3,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from re import Pattern
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from re import Pattern
 
 
 @dataclass

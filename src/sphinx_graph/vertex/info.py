@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
-from docutils import nodes
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
-from sphinx_graph.vertex.config import Config
+    from docutils import nodes
+
+    from sphinx_graph.vertex.config import Config
 
 
 @dataclass

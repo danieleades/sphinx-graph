@@ -2,11 +2,9 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable, Mapping
+from typing import TYPE_CHECKING
 
 from docutils import nodes
-from sphinx.application import Sphinx
-from sphinx.builders import Builder
 
 from sphinx_graph.vertex import layout
 from sphinx_graph.vertex.info import Info, InfoParsed
@@ -14,6 +12,12 @@ from sphinx_graph.vertex.node import VertexNode
 from sphinx_graph.vertex.state import build_and_check_graph
 from sphinx_graph.vertex.state import merge as state_merge
 from sphinx_graph.vertex.state import purge as state_purge
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable, Mapping
+
+    from sphinx.application import Sphinx
+    from sphinx.builders import Builder
 
 
 def vertex_reference(

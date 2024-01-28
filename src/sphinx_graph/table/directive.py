@@ -3,19 +3,22 @@
 from __future__ import annotations
 
 import uuid
-from collections.abc import Sequence
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar
 
 import toml
-from docutils import nodes
 from sphinx.util import logging
 from sphinx.util.docutils import SphinxDirective
-from sphinx.util.typing import OptionSpec
 
 from sphinx_graph import parse
 from sphinx_graph.table.info import Info
 from sphinx_graph.table.node import TableNode
 from sphinx_graph.table.state import State
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
+    from docutils import nodes
+    from sphinx.util.typing import OptionSpec
 
 logger = logging.getLogger(__name__)
 
