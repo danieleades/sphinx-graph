@@ -2,17 +2,22 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
-from uuid import UUID
+from typing import TYPE_CHECKING
 
-from sphinx.environment import BuildEnvironment
 from sphinx.util import logging
 
-from sphinx_graph import table
-from sphinx_graph.table.info import Info
 from sphinx_graph.vertex.state import DuplicateIdError
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+    from uuid import UUID
+
+    from sphinx.environment import BuildEnvironment
+
+    from sphinx_graph import table
+    from sphinx_graph.table.info import Info
 
 logger = logging.getLogger(__name__)
 

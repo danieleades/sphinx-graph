@@ -4,14 +4,17 @@ from __future__ import annotations
 
 from collections.abc import Iterable, Iterator, Mapping
 from contextlib import contextmanager
+from typing import TYPE_CHECKING
 
 import rustworkx as rx
-from sphinx.application import Sphinx
-from sphinx.environment import BuildEnvironment
 from sphinx.errors import DocumentError
 from sphinx.util import logging
 
 from sphinx_graph.vertex.info import Info
+
+if TYPE_CHECKING:
+    from sphinx.application import Sphinx
+    from sphinx.environment import BuildEnvironment
 
 logger = logging.getLogger(__name__)
 

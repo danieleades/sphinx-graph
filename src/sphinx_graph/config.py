@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import TYPE_CHECKING
 
 from sphinx_graph import vertex
-from sphinx_graph.vertex.query import Query
+
+if TYPE_CHECKING:
+    from sphinx_graph.vertex.query import Query
 
 
 @dataclass

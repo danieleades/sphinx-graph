@@ -4,21 +4,25 @@ from __future__ import annotations
 
 import base64
 import hashlib
-from collections.abc import Sequence
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar
 
 from docutils import nodes
 from sphinx.util import logging
 from sphinx.util.docutils import SphinxDirective
 from sphinx.util.nodes import nested_parse_with_titles
-from sphinx.util.typing import OptionSpec
 
 from sphinx_graph import parse
-from sphinx_graph.config import Config
 from sphinx_graph.vertex import state
 from sphinx_graph.vertex.config import Config as VertexConfig
 from sphinx_graph.vertex.info import Info
 from sphinx_graph.vertex.node import VertexNode
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
+    from sphinx.util.typing import OptionSpec
+
+    from sphinx_graph.config import Config
 
 logger = logging.getLogger(__name__)
 

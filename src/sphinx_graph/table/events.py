@@ -2,11 +2,9 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
+from typing import TYPE_CHECKING
 
 from docutils import nodes
-from sphinx.application import Sphinx
-from sphinx.builders import Builder
 from sphinx.errors import ConfigError
 
 from sphinx_graph import vertex
@@ -15,6 +13,12 @@ from sphinx_graph.table.node import TableNode
 from sphinx_graph.table.state import State
 from sphinx_graph.vertex.events import relative_uris, vertex_reference
 from sphinx_graph.vertex.query import DEFAULT_QUERY, QUERIES
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
+    from sphinx.application import Sphinx
+    from sphinx.builders import Builder
 
 __all__ = [
     "register",

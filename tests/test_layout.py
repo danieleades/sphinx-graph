@@ -1,11 +1,15 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import pytest
 from docutils import nodes
-from sphinx.application import Sphinx
 from sphinx.errors import SphinxError
 
 from sphinx_graph import format
+
+if TYPE_CHECKING:
+    from sphinx.application import Sphinx
 
 
 @pytest.mark.parametrize(
