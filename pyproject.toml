@@ -134,6 +134,10 @@ convention = "google"
 known-first-party = ["sphinx_graph"]
 
 
+[tool.coverage.report]
+exclude_also = ["if TYPE_CHECKING:"]
+
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
