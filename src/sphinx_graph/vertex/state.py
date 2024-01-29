@@ -62,6 +62,7 @@ def merge(
 
 
 def insert_vertex(env: BuildEnvironment, uid: str, info: Info) -> None:
+    """Insert a vertex into the build environment."""
     with _vertices_tmp(env) as vertices:
         if uid in vertices:
             err_msg = f"Vertex {uid} already exists."
@@ -155,6 +156,8 @@ class State:
 
 
 class Vertices(Mapping[str, Info]):
+    """A dict-like view of vertex Info keyed by vertex ID."""
+
     def __init__(self, vertices: dict[str, tuple[int, Info]]) -> None:
         self._vertices = vertices
 
@@ -170,6 +173,8 @@ class Vertices(Mapping[str, Info]):
 
 
 class NodeIds(Mapping[str, int]):
+    """A dict-like view of graph node IDs keyed by vertex ID."""
+
     def __init__(self, vertices: dict[str, tuple[int, Info]]) -> None:
         self._vertices = vertices
 
