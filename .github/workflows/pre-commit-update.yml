@@ -19,7 +19,7 @@ jobs:
         run: poetry install
       - run: poetry run pre-commit autoupdate
       - run: poetry run pre-commit run --all-files || poetry run pre-commit run --all-files
-      - uses: peter-evans/create-pull-request@v5
+      - uses: peter-evans/create-pull-request@v6
         with:
           branch: chore/update/pre-commit-hooks
           title: Update pre-commit hooks
