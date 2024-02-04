@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 
 @pytest.mark.parametrize(
-    ("input", "expected"),
+    ("value", "expected"),
     [
         ([], []),
         ([nodes.Text("A")], [nodes.Text("A")]),
