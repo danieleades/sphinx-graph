@@ -4,10 +4,10 @@ from sphinx_graph import util
 
 
 def test_unwrap() -> None:
-    input = "input"
+    value = "input"
     expected = "input"
 
-    assert util.unwrap(input) == expected
+    assert util.unwrap(value) == expected
 
     with pytest.raises(
         ValueError,

@@ -10,7 +10,7 @@ from sphinx_graph import parse
 
 
 @pytest.mark.parametrize(
-    ("input", "expected", "expectation"),
+    ("value", "expected", "expectation"),
     [
         ("true", True, does_not_raise()),
         ("TRUE", True, does_not_raise()),
@@ -20,17 +20,17 @@ from sphinx_graph import parse
     ],
 )
 def test_parse_boolean(
-    input: str | None,
-    expected: bool,
+    value: str | None,
+    expected: bool,  # noqa: FBT001
     expectation: AbstractContextManager[None],
 ) -> None:
     with expectation:
-        output = parse.boolean(input)
+        output = parse.boolean(value)
         assert output == expected
 
 
 @pytest.mark.parametrize(
-    ("input", "expected"),
+    ("value", "expected"),
     [
         (None, {}),
         ("REQ-01", {"REQ-01": None}),
@@ -41,26 +41,26 @@ def test_parse_boolean(
         ),
     ],
 )
-def test_parse_parents(input: str | None, expected: dict[str, str | None]) -> None:
-    output = parse.parents(input)
+def test_parse_parents(value: str | None, expected: dict[str, str | None]) -> None:
+    output = parse.parents(value)
     assert output == expected
 
 
 @pytest.mark.parametrize(
-    ("input", "expected"),
+    ("value", "expected"),
     [
         ("some string", "some string"),
         ("", None),
         (None, None),
     ],
 )
-def test_parse_str(input: str, expected: str | None) -> None:
-    output = parse.string(input)
+def test_parse_str(value: str, expected: str | None) -> None:
+    output = parse.string(value)
     assert output == expected
 
 
 @pytest.mark.parametrize(
-    ("input", "expected"),
+    ("value", "expected"),
     [
         (None, []),
         ("one", ["one"]),
@@ -68,6 +68,6 @@ def test_parse_str(input: str, expected: str | None) -> None:
         ("one,two", ["one", "two"]),
     ],
 )
-def test_parse_list(input: str, expected: list[str]) -> None:
-    output = parse.comma_separated_list(input)
+def test_parse_list(value: str, expected: list[str]) -> None:
+    output = parse.comma_separated_list(value)
     assert output == expected

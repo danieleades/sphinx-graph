@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 
 @pytest.mark.parametrize(
-    ("input", "expected"),
+    ("value", "expected"),
     [
         ([], []),
         ([nodes.Text("A")], [nodes.Text("A")]),
@@ -30,10 +30,10 @@ if TYPE_CHECKING:
     ],
 )
 def test_comma_separated_list(
-    input: list[nodes.Node],
+    value: list[nodes.Node],
     expected: list[nodes.Node],
 ) -> None:
-    output = list(format.comma_separated_list(input))
+    output = list(format.comma_separated_list(value))
     assert output == expected
 
 
