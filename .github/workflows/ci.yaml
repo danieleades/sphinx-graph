@@ -13,7 +13,7 @@ jobs:
       matrix:
         os: ["ubuntu-latest"]
         # available alpha versions: https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
-        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13.0-alpha.3"]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13.0-alpha.4"]
         include:
           # Check only newish setup for windows
           - os: "windows-latest"
