@@ -1,0 +1,7 @@
+Vertex 02
+---------
+
+.. vertex:: 02
+   :parents: 01
+
+   this is a vertex directive
