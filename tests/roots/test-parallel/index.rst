@@ -2,8 +2,8 @@
    :maxdepth: 2
    :caption: Contents:
 
+   src/01
    src/02
-
-.. vertex:: 01
-
-   this is a vertex directive
+   src/03
+   src/04
+   src/05
