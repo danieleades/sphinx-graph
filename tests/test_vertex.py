@@ -3,7 +3,6 @@ import re
 import pytest
 from sphinx.application import Sphinx
 from sphinx.errors import SphinxError
-
 from sphinx_graph import vertex
 
 
