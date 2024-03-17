@@ -1,0 +1,6 @@
+Vertex 03
+---------
+
+.. vertex:: 03
+
+   this is a vertex directive
