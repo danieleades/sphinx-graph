@@ -3,12 +3,17 @@ import re
 import pytest
 from sphinx.application import Sphinx
 from sphinx.errors import SphinxError
-
 from sphinx_graph import vertex
 
 
 @pytest.mark.sphinx(testroot="vertex")
 def test_it_builds(app: Sphinx) -> None:
+    app.warningiserror = True
+    app.build()
+
+
+@pytest.mark.sphinx(testroot="parallel", parallel=2)
+def test_it_builds_parallel(app: Sphinx) -> None:
     app.warningiserror = True
     app.build()
 
