@@ -9,10 +9,10 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.3.3
+    rev: v0.3.4
     hooks:
       - id: ruff
-        args: [--fix, --preview, --unsafe-fixes]
+        args: [--fix, --preview]
       - id: ruff-format
         args: [--preview]
 
