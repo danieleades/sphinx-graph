@@ -59,7 +59,7 @@ jobs:
       run: poetry install
     - name: Build docds
       working-directory: docs/
-      run: poetry run make html --fail-on-warning --keep-going
+      run: poetry run make html SPHINXOPTS="--fail-on-warning --keep-going --nitpicky"
 
   # Automatically merge if it's a Dependabot PR that passes the build
   dependabot:
