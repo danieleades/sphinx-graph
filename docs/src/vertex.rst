@@ -77,6 +77,11 @@ output:
     WARNING: suspect link found. vertex node-004 is linked to vertex node-003 with a fingerprint of '1234', but node-003's fingerprint is 'c6Rq'.
     node-004 should be reviewed, and the link fingerprint manually updated.
 
+Cross-Referencing
+=================
+
+It is possible to add cross-references to vertices from other places in the document. For example, to create a cross reference to :ref:`node-001` you can use this syntax: ``:ref:`node-001``
+
 Configuration
 =============
 
