@@ -40,7 +40,7 @@ pytest-cov = "^5.0.0"
 
 # typing
 mypy = "^1.0.1"
-types-docutils = "^0.20.0.0"
+types-docutils = "^0.21"
 types-toml = "^0.10.8.5"
 
 # linting
