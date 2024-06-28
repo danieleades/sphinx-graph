@@ -30,7 +30,7 @@ classifiers = [
 python = "^3.9"
 sphinx = ">=6, <8"
 toml = "^0.10.2"
-rustworkx = "^0.14.0"
+rustworkx = "^0.15.0"
 
 [tool.poetry.group.dev.dependencies]
 
