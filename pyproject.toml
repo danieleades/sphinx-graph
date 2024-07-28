@@ -57,7 +57,7 @@ sphinx-rtd-theme = "^2.0.0"
 [tool.mypy]
 strict = true
 show_error_codes = true
-files = "src,tests"
+files = ["src", "tests", "docs"]
 exclude = "tests/roots"
 no_implicit_reexport = true
 
