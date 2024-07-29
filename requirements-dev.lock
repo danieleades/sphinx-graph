@@ -31,8 +31,6 @@ distlib==0.3.8
 docutils==0.20.1
     # via sphinx
     # via sphinx-rtd-theme
-exceptiongroup==1.2.2 ; python_version < '3.11'
-    # via pytest
 filelock==3.15.4
     # via virtualenv
 identify==2.6.0
@@ -40,8 +38,6 @@ identify==2.6.0
 idna==3.7
     # via requests
 imagesize==1.4.1
-    # via sphinx
-importlib-metadata==8.2.0 ; python_version < '3.10'
     # via sphinx
 iniconfig==2.0.0
     # via pytest
@@ -98,11 +94,6 @@ sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
 toml==0.10.2
     # via sphinx-graph
-tomli==2.0.1 ; python_full_version <= '3.11.0a6' or python_version < '3.11'
-    # via coverage
-    # via mypy
-    # via pytest
-    # via sphinx
 types-docutils==0.21.0.20240724
 types-toml==0.10.8.20240310
 typing-extensions==4.12.2
@@ -111,5 +102,3 @@ urllib3==2.2.2
     # via requests
 virtualenv==20.26.3
     # via pre-commit
-zipp==3.19.2 ; python_version < '3.10'
-    # via importlib-metadata
