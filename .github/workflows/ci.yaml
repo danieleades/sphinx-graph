@@ -19,47 +19,41 @@ jobs:
             python-version: "3.12"
     steps:
       - uses: actions/checkout@v4
-      - name: Set Up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
+      - name: Install Rye
+        uses: eifinger/setup-rye@v1
+      - name: Set Python version
+        run: rye pin ${{ matrix.python-version }}
       - name: Install Dependencies
-        run: poetry install
+        run: rye sync --no-lock
       - name: Run Tests
-        run: poetry run pytest
+        run: rye run pytest
 
   lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set Up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
+      - name: Install Rye
+        uses: eifinger/setup-rye@v1
+      - name: Set Python version
+        run: rye pin 3.12
       - name: Install Dependencies
-        run: poetry install
+        run: rye sync --no-lock
       - uses: pre-commit/action@v3.0.1
 
   docs:
-    name: Docs
+    name: Build Docs
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
-      with:
-        python-version: "3.12"
-    - name: Install Poetry
-      uses: snok/install-poetry@v1
-    - name: Install Dependencies
-      run: poetry install --with doc
-    - name: Build docs
-      working-directory: docs/
-      run: poetry run make html SPHINXOPTS="-W --keep-going -n"
+      - uses: actions/checkout@v4
+      - name: Install Rye
+        uses: eifinger/setup-rye@v1
+      - name: Set Python version
+        run: rye pin 3.12
+      - name: Install Dependencies
+        run: rye sync --no-lock
+      - name: Build Docs
+        run: rye run sphinx-build -b html docs docs/_build
 
   # Automatically merge if it's a Dependabot PR that passes the build
   dependabot:
