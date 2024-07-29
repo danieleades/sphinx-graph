@@ -7,3 +7,4 @@ coverage.xml
 .coverage
 dist
 .coveragerc
+**/*.egg-info/

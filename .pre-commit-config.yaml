@@ -20,7 +20,7 @@ repos:
     hooks:
       - id: mypy
         name: mypy
-        entry: poetry run mypy
+        entry: mypy
         language: system
         require_serial: true
         pass_filenames: false
