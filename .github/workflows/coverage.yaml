@@ -8,16 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set Up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
+      - name: Install Rye
+        uses: eifinger/setup-rye@v1
+      - name: Set Python version
+        run: rye pin 3.12
       - name: Install Dependencies
-        run: poetry install
+        run: rye sync --no-lock
       - name: Collect coverage
-        run: poetry run pytest --cov=src --cov-report=xml
+        run: rye test -- --cov=src --cov-report=xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
