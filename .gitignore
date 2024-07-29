@@ -7,4 +7,4 @@ coverage.xml
 .coverage
 dist
 .coveragerc
-src/sphinx_graph.egg-info/
+**/*.egg-info/
