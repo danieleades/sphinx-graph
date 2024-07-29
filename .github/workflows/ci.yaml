@@ -39,25 +39,25 @@ jobs:
         run: rye pin 3.12
       - name: Install Dependencies
         run: rye sync --no-lock
-      - uses: rye run pre-commit run --all-files
+      - run: rye run pre-commit run --all-files
 
-#  docs:
-#    name: Build Docs
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - name: Install Rye
-#        uses: eifinger/setup-rye@v1
-#      - name: Set Python version
-#        run: rye pin 3.12
-#      - name: Install Dependencies
-#        run: rye sync --no-lock
-#      - name: Build Docs
-#        run: rye run sphinx-build -b html docs docs/_build
+  docs:
+    name: Build Docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rye
+        uses: eifinger/setup-rye@v1
+      - name: Set Python version
+        run: rye pin 3.12
+      - name: Install Dependencies
+        run: rye sync --no-lock
+      - name: Build Docs
+        run: rye run sphinx-build -b html docs docs/_build
 
   # Automatically merge if it's a Dependabot PR that passes the build
   dependabot:
-    needs: [tests, lint]
+    needs: [tests, lint, docs]
     permissions:
       contents: write
       pull-requests: write
