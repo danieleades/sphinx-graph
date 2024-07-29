@@ -39,7 +39,7 @@ jobs:
         run: rye pin 3.12
       - name: Install Dependencies
         run: rye sync --no-lock
-      - uses: pre-commit/action@v3.0.1
+      - uses: rye run pre-commit run --all-files
 
   docs:
     name: Build Docs
