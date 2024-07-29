@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Rye
-        uses: eifinger/setup-rye@v1
+        uses: eifinger/setup-rye@v4
       - name: Set Python version
         run: rye pin 3.12
       - name: Install Dependencies
