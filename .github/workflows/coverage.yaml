@@ -8,12 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Rye
-        uses: eifinger/setup-rye@v4
+      - name: Set up uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
       - name: Install Dependencies
-        run: rye sync --no-lock
+        run: uv sync --no-lock
       - name: Collect coverage
-        run: rye test -- --cov=src --cov-report=xml
+        run: uv run pytest --cov=src --cov-report=xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:

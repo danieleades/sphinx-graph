@@ -19,37 +19,37 @@ jobs:
             python-version: "3.12"
     steps:
       - uses: actions/checkout@v4
-      - name: Install Rye
-        uses: eifinger/setup-rye@v4
+      - name: Set up uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
       - name: Set Python version
-        run: rye pin ${{ matrix.python-version }}
+        run: uv pin ${{ matrix.python-version }}
       - name: Install Dependencies
-        run: rye sync --no-lock
+        run: uv sync --no-lock
       - name: Run Tests
-        run: rye run pytest
+        run: uv run pytest
 
   lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Rye
-        uses: eifinger/setup-rye@v4
+      - name: Set up uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
       - name: Install Dependencies
-        run: rye sync --no-lock
-      - run: rye run pre-commit run --all-files
+        run: uv sync --no-lock
+      - run: uv run pre-commit run --all-files
 
   docs:
     name: Build Docs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Rye
-        uses: eifinger/setup-rye@v4
+      - name: Set up uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
       - name: Install Dependencies
-        run: rye sync --no-lock
+        run: uv sync --no-lock
       - name: Build Docs
-        run: rye run sphinx-build -b html docs docs/_build
+        run: uv run sphinx-build -b html docs docs/_build
 
   # Automatically merge if it's a Dependabot PR that passes the build
   dependabot:

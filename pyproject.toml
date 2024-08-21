@@ -34,8 +34,7 @@ dependencies = [
 Homepage = "https://github.com/danieleades/sphinx-graph"
 Documentation = "https://sphinx-graph.readthedocs.io/en/latest/index.html"
 
-[tool.rye]
-universal = true
+[tool.uv]
 dev-dependencies = [
     # testing
     "pytest~=8.0.0",
@@ -51,9 +50,6 @@ dev-dependencies = [
     "types-docutils~=0.21",
     "types-toml~=0.10.8.5",
 ]
-
-[tool.rye.scripts]
-test = { cmd = "pytest" }
 
 [tool.mypy]
 strict = true
