@@ -24,7 +24,7 @@ jobs:
       - name: Install Dependencies
         run: uv sync --frozen --python ${{ matrix.python-version }}
       - name: Run Tests
-        run: uv run pytest --python ${{ matrix.python-version }}
+        run: uv --python ${{ matrix.python-version }} run pytest
 
   lint:
     name: Lint
