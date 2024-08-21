@@ -23,5 +23,5 @@ jobs:
         with:
           branch: chore/update/pre-commit-hooks
           title: Update pre-commit hooks
-          commit-message: "chore: update pre-commit hooks"
+          commit-message: "chore(ci): update pre-commit hooks"
           body: Update pre-commit hooks to latest versions.
