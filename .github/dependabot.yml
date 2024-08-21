@@ -4,8 +4,14 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
   - package-ecosystem: "pip"
     directory: "/"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
     schedule:
       interval: "daily"
     versioning-strategy: increase-if-necessary
