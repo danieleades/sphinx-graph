@@ -48,3 +48,10 @@ autodoc_inherit_docstrings = True
 set_type_checking_flag = True
 add_module_names = True
 templates_path = ["_templates"]
+nitpick_ignore = {
+    (
+        # see https://github.com/sphinx-doc/sphinx/issues/12286
+        "py:class",
+        "rx.PyDiGraph",
+    ),
+}

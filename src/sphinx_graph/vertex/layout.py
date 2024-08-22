@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Callable, TypeVar
 from docutils import nodes
 from sphinx.util import logging
 
-from sphinx_graph.format import comma_separated_list
+from sphinx_graph.formatting import comma_separated_list
 
 if TYPE_CHECKING:
     from collections.abc import Iterable

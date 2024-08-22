@@ -8,7 +8,7 @@ from docutils import nodes
 from sphinx.errors import ConfigError
 
 from sphinx_graph import vertex
-from sphinx_graph.format import comma_separated_list
+from sphinx_graph.formatting import comma_separated_list
 from sphinx_graph.table.node import TableNode
 from sphinx_graph.table.state import State
 from sphinx_graph.vertex.events import relative_uris, vertex_reference
