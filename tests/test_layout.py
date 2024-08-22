@@ -5,7 +5,8 @@ from typing import TYPE_CHECKING
 import pytest
 from docutils import nodes
 from sphinx.errors import SphinxError
-from sphinx_graph import format
+
+from sphinx_graph import formatting
 
 if TYPE_CHECKING:
     from sphinx.application import Sphinx
@@ -32,7 +33,7 @@ def test_comma_separated_list(
     value: list[nodes.Node],
     expected: list[nodes.Node],
 ) -> None:
-    output = list(format.comma_separated_list(value))
+    output = list(formatting.comma_separated_list(value))
     assert output == expected
 
 

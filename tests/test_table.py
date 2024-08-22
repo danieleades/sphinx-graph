@@ -3,6 +3,7 @@ from uuid import uuid4
 import pytest
 from sphinx.application import Sphinx
 from sphinx.errors import ConfigError
+
 from sphinx_graph.table.info import Info
 from sphinx_graph.table.state import State
 from sphinx_graph.vertex.state import DuplicateIdError

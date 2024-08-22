@@ -1,4 +1,5 @@
 import pytest
+
 from sphinx_graph import util
 
 
