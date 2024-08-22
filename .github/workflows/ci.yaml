@@ -38,16 +38,17 @@ jobs:
       - run: uv run pre-commit run --all-files
 
   docs:
-    name: Build Docs
+    name: Docs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up uv
-        run: curl -LsSf https://astral.sh/uv/install.sh | sh
-      - name: Install Dependencies
-        run: uv sync --frozen
-      - name: Build Docs
-        run: uv run sphinx-build -b html docs docs/_build
+    - uses: actions/checkout@v4
+    - name: Set up uv
+      run: curl -LsSf https://astral.sh/uv/install.sh | sh
+    - name: Install Dependencies
+      run: uv sync --frozen
+    - name: Build docs
+      working-directory: docs/
+      run: uv run make html SPHINXOPTS="-W --keep-going -n"
 
   # Automatically merge if it's a Dependabot PR that passes the build
   dependabot:
