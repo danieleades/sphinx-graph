@@ -3,6 +3,10 @@ on:
   push:
     branches: [main]
   pull_request:
+
+env:
+  UV_VERSION: 0.3.2  # Pin the version of UV
+
 jobs:
   tests:
     defaults:
@@ -20,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up uv
-        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+        run: curl -LsSf https://astral.sh/uv/${{ env.UV_VERSION }}/install.sh | sh
       - name: Run Tests
         run: uv run --frozen --python ${{ matrix.python-version }} pytest
 
@@ -30,7 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up uv
-        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+        run: curl -LsSf https://astral.sh/uv/${{ env.UV_VERSION }}/install.sh | sh
       - run: uv run --frozen pre-commit run --all-files
 
   docs:
@@ -39,14 +43,29 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Set up uv
-      run: curl -LsSf https://astral.sh/uv/install.sh | sh
+      run: curl -LsSf https://astral.sh/uv/${{ env.UV_VERSION }}/install.sh | sh
     - name: Build docs
       working-directory: docs/
       run: uv run --frozen make html SPHINXOPTS="-W --keep-going -n"
 
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up uv
+        run: curl -LsSf https://astral.sh/uv/${{ env.UV_VERSION }}/install.sh | sh
+      - name: Collect coverage
+        run: uv run --frozen pytest --cov=src --cov-report=xml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: coverage.xml
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
   # Automatically merge if it's a Dependabot PR that passes the build
   dependabot:
-    needs: [tests, lint, docs]
+    needs: [tests, lint, docs, coverage]
     permissions:
       contents: write
       pull-requests: write

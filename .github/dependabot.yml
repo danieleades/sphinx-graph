@@ -5,7 +5,7 @@ updates:
     schedule:
       interval: "daily"
     commit-message:
-      prefix: "ci"
+      prefix: "chore"
       include: "scope"
   - package-ecosystem: "pip"
     directory: "/"
