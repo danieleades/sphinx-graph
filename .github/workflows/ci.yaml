@@ -3,6 +3,10 @@ on:
   push:
     branches: [main]
   pull_request:
+
+env:
+  UV_VERSION: 0.3.2  # Pin the version of UV
+
 jobs:
   tests:
     defaults:
@@ -19,51 +23,49 @@ jobs:
             python-version: "3.12"
     steps:
       - uses: actions/checkout@v4
-      - name: Set Up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-      - name: Install Dependencies
-        run: poetry install
+      - name: Set up uv
+        run: curl -LsSf https://astral.sh/uv/${{ env.UV_VERSION }}/install.sh | sh
       - name: Run Tests
-        run: poetry run pytest
+        run: uv run --frozen --python ${{ matrix.python-version }} pytest
 
   lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set Up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-      - name: Install Dependencies
-        run: poetry install
-      - uses: pre-commit/action@v3.0.1
+      - name: Set up uv
+        run: curl -LsSf https://astral.sh/uv/${{ env.UV_VERSION }}/install.sh | sh
+      - run: uv run --frozen pre-commit run --all-files
 
   docs:
     name: Docs
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
-      with:
-        python-version: "3.12"
-    - name: Install Poetry
-      uses: snok/install-poetry@v1
-    - name: Install Dependencies
-      run: poetry install --with doc
+    - name: Set up uv
+      run: curl -LsSf https://astral.sh/uv/${{ env.UV_VERSION }}/install.sh | sh
     - name: Build docs
       working-directory: docs/
-      run: poetry run make html SPHINXOPTS="-W --keep-going -n"
+      run: uv run --frozen make html SPHINXOPTS="-W --keep-going -n"
+
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up uv
+        run: curl -LsSf https://astral.sh/uv/${{ env.UV_VERSION }}/install.sh | sh
+      - name: Collect coverage
+        run: uv run --frozen pytest --cov=src --cov-report=xml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: coverage.xml
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   # Automatically merge if it's a Dependabot PR that passes the build
   dependabot:
-    needs: [tests, lint, docs]
+    needs: [tests, lint, docs, coverage]
     permissions:
       contents: write
       pull-requests: write

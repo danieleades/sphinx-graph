@@ -1,12 +1,11 @@
-[tool.poetry]
+[project]
 name = "sphinx-graph"
 version = "0.2.2"
 description = "'Sphinx-Graph' is a plain-text, VCS-friendly, requirements management tool."
-authors = ["Daniel Eades <danieleades@hotmail.com>"]
-license = "MIT"
+authors = [{ name = "Daniel Eades", email = "danieleades@hotmail.com" }]
+license = { text = "MIT" }
 readme = "README.md"
-homepage = "https://github.com/danieleades/sphinx-graph"
-documentation = "https://sphinx-graph.readthedocs.io/en/latest/index.html"
+requires-python = ">=3.9"
 keywords = ["sphinx, requirements", "documentation", "plain-text"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -25,42 +24,39 @@ classifiers = [
     "Intended Audience :: Manufacturing",
 ]
 
+dependencies = [
+    "rustworkx~=0.15.0",
+    "sphinx>=6,<8",
+    "toml~=0.10.2",
+]
 
-[tool.poetry.dependencies]
-python = "^3.9"
-sphinx = ">=6, <8"
-toml = "^0.10.2"
-rustworkx = "^0.15.0"
+[project.urls]
+Homepage = "https://github.com/danieleades/sphinx-graph"
+Documentation = "https://sphinx-graph.readthedocs.io/en/latest/index.html"
 
-[tool.poetry.group.dev.dependencies]
+[tool.uv]
+dev-dependencies = [
+    # testing
+    "pytest~=8.0.0",
+    "pytest-cov~=5.0.0",
+    "defusedxml~=0.7.1",  # transitive dependency required by `sphinx.testing.fixtures`. See https://github.com/sphinx-doc/sphinx/issues/12339
 
-# testing
-pytest = "^8.0.0"
-pytest-cov = "^5.0.0"
-defusedxml = "^0.7.1"  # transitive dependency required by `sphinx.testing.fixtures`. See https://github.com/sphinx-doc/sphinx/issues/12339
+    # docs
+    "sphinx-rtd-theme~=2.0.0",
 
-# typing
-mypy = "^1.0.1"
-types-docutils = "^0.21"
-types-toml = "^0.10.8.5"
-
-# linting
-pre-commit = "^3.4.0"
-
-[tool.poetry.group.doc]
-optional = true
-
-[tool.poetry.group.doc.dependencies]
-sphinx-rtd-theme = "^2.0.0"
-
+    # linting
+    "mypy~=1.0.1",
+    "pre-commit~=3.4.0",
+    "types-docutils~=0.21",
+    "types-toml~=0.10.8.5",
+]
 
 [tool.mypy]
 strict = true
 show_error_codes = true
-files = "src,tests"
+files = ["src", "tests"]
 exclude = "tests/roots"
 no_implicit_reexport = true
-
 
 [tool.ruff]
 target-version = "py39"
@@ -128,18 +124,12 @@ lint.pydocstyle.convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = [
-    "D100",  # missing docstring in public module
-    "D103",  # missing docstring in public function
-    "D104",  # missing docstring in public package
-    "S101",  # use of 'assert' detected
+    "D100", # missing docstring in public module
+    "D103", # missing docstring in public function
+    "D104", # missing docstring in public package
+    "S101", # use of 'assert' detected
 ]
 "docs/conf.py" = ["A001", "D100"]
 
-
 [tool.coverage.report]
 exclude_also = ["if TYPE_CHECKING:"]
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"

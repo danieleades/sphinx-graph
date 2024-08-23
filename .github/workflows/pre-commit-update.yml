@@ -12,13 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
+      - name: Set up uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
       - name: Install Dependencies
-        run: poetry install
-      - run: poetry run pre-commit autoupdate
-      - run: poetry run pre-commit run --all-files || poetry run pre-commit run --all-files
+        run: uv sync --no-lock
+      - run: uv run pre-commit autoupdate
+      - run: uv run pre-commit run --all-files || uv run pre-commit run --all-files
       - uses: peter-evans/create-pull-request@v6
         with:
           branch: chore/update/pre-commit-hooks
