@@ -18,10 +18,15 @@ jobs:
         os: ["ubuntu-latest"]
         python-version: ["3.9", "3.10", "3.11", "3.12"]
         sphinx-version: ["6", "7", "8"]
+        exclude:
+          # Exclude Sphinx 8 for Python versions less than 3.10
+          - python-version: "3.9"
+            sphinx-version: "8"
         include:
           # Check only newish setup for windows
           - os: "windows-latest"
             python-version: "3.12"
+            sphinx-version: "8"
     steps:
       - uses: actions/checkout@v4
       - name: Set up uv
