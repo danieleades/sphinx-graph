@@ -676,7 +676,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "rustworkx", specifier = "~=0.15.0" },
-    { name = "sphinx", specifier = "<8,>=6" },
+    { name = "sphinx", specifier = "<9,>=6" },
     { name = "toml", specifier = "~=0.10.2" },
 ]
 

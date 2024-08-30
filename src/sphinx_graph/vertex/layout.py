@@ -77,35 +77,30 @@ def transparent(helper: FormatHelper) -> nodes.Node:
 
 
 def subtle(helper: FormatHelper) -> nodes.Node:
-    """Format a vertex Node as a docutils node using a 'subtle' layout.
-
-    This layout attempts to include all the vertex info, but minimise the impact
-    on the layout of the document.
-    """
+    """Format a vertex Node as a docutils node using a 'subtle' layout."""
     one_liner = nodes.subscript()
-
     one_liner += nodes.Text(helper.uid)
 
-    parents = helper.parent_list()
-    if parents:
-        one_liner += nodes.Text(" | Parents: ")
-        one_liner.extend(parents)
+    def _format_tags(tags: list[str]) -> Iterable[nodes.Node] | None:
+        """Format a list of tags as a comma-separated list."""
+        if not tags:
+            return None
+        return comma_separated_list(nodes.Text(tag) for tag in tags)
 
-    children = helper.child_list()
-    if children:
-        one_liner += nodes.Text(" | Children: ")
-        one_liner.extend(children)
-
-    if helper.info.tags:
-        one_liner += nodes.Text(" | Tags: ")
-        one_liner.extend(
-            comma_separated_list(nodes.Text(tag) for tag in helper.info.tags),
-        )
+    # Iterate through labels and their corresponding content
+    for label, content in [
+        ("Parents", helper.parent_list()),
+        ("Children", helper.child_list()),
+        ("Tags", _format_tags(helper.info.tags)),
+    ]:
+        # If content exists for the label, add it to the one_liner
+        if content:
+            # Add a separator and label
+            one_liner += nodes.Text(f" | {label}: ")
+            one_liner.extend(content)
 
     paragraph = nodes.paragraph()
-    paragraph.append(one_liner)
-
-    paragraph.append(helper.info.content)
+    paragraph.extend([one_liner, helper.info.content])
 
     return paragraph
 
