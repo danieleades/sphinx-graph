@@ -18,7 +18,7 @@ jobs:
         run: uv sync --no-lock
       - run: uv run pre-commit autoupdate
       - run: uv run pre-commit run --all-files || uv run pre-commit run --all-files
-      - uses: peter-evans/create-pull-request@v6
+      - uses: peter-evans/create-pull-request@v7
         with:
           branch: chore/update/pre-commit-hooks
           title: Update pre-commit hooks
