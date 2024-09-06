@@ -4,13 +4,9 @@ Setup
 Installation
 ============
 
-Install using Pip
+Install using Pip (or your favourite package manager)
 
         pip install sphinx-graph
-
-Or Poetry
-
-        poetry add sphinx-graph
 
 And add to the 'extensions' in your Sphinx document's *conf.py* file
 
