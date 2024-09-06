@@ -55,7 +55,7 @@ For more information, see [the docs](https://sphinx-graph.readthedocs.io/en/main
 or, build the local docs-
 
       cd docs
-      poetry run make html
+      uv run make html
 
 ---
 
