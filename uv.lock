@@ -653,8 +653,8 @@ wheels = [
 
 [[package]]
 name = "sphinx-graph"
-version = "0.2.2"
-source = { editable = "." }
+version = "0.2.3"
+source = { virtual = "." }
 dependencies = [
     { name = "rustworkx" },
     { name = "sphinx" },
@@ -676,7 +676,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "rustworkx", specifier = "~=0.15.0" },
-    { name = "sphinx", specifier = "<8,>=6" },
+    { name = "sphinx", specifier = ">=6,<9" },
     { name = "toml", specifier = "~=0.10.2" },
 ]
 
