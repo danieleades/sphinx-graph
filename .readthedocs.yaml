@@ -6,8 +6,7 @@ build:
     python: "3.12"
   jobs:
     post_install:
-      - pip install uv
-      - uv pip install .[dev]
+      - pip install sphinx-rtd-theme
 
 sphinx:
   configuration: docs/conf.py
