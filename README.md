@@ -17,7 +17,7 @@
 With Sphinx-Graph you define relationships between items in a document. These items form a directed acyclic graph (DAG). The extension:
 
 - Checks for cyclic references
-- Populates items with links to their 'neighbours'
+- Populates items with links to their 'parents' or 'children'
 - (Optionally) tracks a hash of each item to trigger reviews when any parents change
 
 ## Getting Started
@@ -32,8 +32,8 @@ Add it to your Sphinx project's `conf.py`:
 
 ```python
 extensions = [
-# ... other extensions ...
-"sphinx_graph",
+   # ... other extensions ...
+   "sphinx_graph",
 ]
 ```
 
@@ -76,7 +76,7 @@ The `vertex-table` directive generates summary tables of vertices:
 ```rst
 .. vertex-table::
    :query: descendants
-   
+
    uid = "REQ-001"
 ```
 
