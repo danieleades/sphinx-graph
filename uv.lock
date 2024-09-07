@@ -704,7 +704,7 @@ wheels = [
 [[package]]
 name = "sphinx-graph"
 version = "0.2.3"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "rustworkx" },
     { name = "sphinx" },

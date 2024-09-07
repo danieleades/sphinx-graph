@@ -134,3 +134,7 @@ lint.pydocstyle.convention = "google"
 
 [tool.coverage.report]
 exclude_also = ["if TYPE_CHECKING:"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
