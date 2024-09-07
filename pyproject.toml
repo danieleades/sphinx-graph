@@ -39,16 +39,17 @@ dev-dependencies = [
     # testing
     "pytest~=8.0.0",
     "pytest-cov~=5.0.0",
-    "defusedxml~=0.7.1",
-    # transitive dependency required by `sphinx.testing.fixtures`. See https://github.com/sphinx-doc/sphinx/issues/12339
+    "defusedxml~=0.7.1",  # transitive dependency required by `sphinx.testing.fixtures`. See https://github.com/sphinx-doc/sphinx/issues/12339
+
     # docs
+    "myst-parser>=3.0.1",
     "sphinx-rtd-theme~=2.0.0",
+
     # linting
     "mypy~=1.0.1",
     "pre-commit~=3.4.0",
     "types-docutils~=0.21",
     "types-toml~=0.10.8.5",
-    "myst-parser>=3.0.1",
 ]
 
 [tool.mypy]
