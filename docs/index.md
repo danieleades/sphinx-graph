@@ -1,7 +1,10 @@
-# Welcome to sphinx-graph's documentation!
+# Welcome to Sphinx-Graph's documentation!
 
 ```{include} ../README.md
+:start-line: 1
 ```
+
+---
 
 ## Further Information
 

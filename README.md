@@ -91,22 +91,22 @@ This will create a table showing REQ-001 and all its descendants.
 
 ## Comparison with Similar Projects
 
-Sphinx Graph is *heavily* inspired by [Sphinx-Needs](https://github.com/useblocks/sphinx-needs). Sphinx-Graph started life as a proof of concept refactor of Sphinx-Needs using modern python and strict type checking.
+Sphinx Graph is *heavily* inspired by [Sphinx-Needs](https://github.com/useblocks/sphinx-needs). Sphinx-Graph started life as a proof-of-concept refactor of Sphinx-Needs using modern python and strict type checking.
 
-Sphinx-Needs:
+**[Sphinx-Needs](https://github.com/useblocks/sphinx-needs):**
 
 - Sphinx-Needs is a more complex, feature-rich solution for requirements management, but may be heavy-weight for some use-cases.
 - Sphinx-Graph is smaller, more streamlined, and uses modern Python with strict type checking.
 - Sphinx-Graph can track 'suspect links' and force reviews when linked requirements are modified.
 
-Doorstop:
+**[Doorstop](https://github.com/doorstop-dev/doorstop):**
 
 - Doorstop is a command-line tool and Python API for managing requirements as text files.
 - Like Sphinx-Graph, Doorstop is lightweight and version-control friendly.
 - Sphinx-Graph integrates directly with Sphinx documentation, while Doorstop requires additional setup for documentation integration.
 - Sphinx-Graph offers more flexible relationship types between items compared to Doorstop's hierarchical structure.
 
-Traditional Requirements Management Tools (Doors, Enterprise Architect, etc):
+**Traditional Requirements Management Tools (Doors, Enterprise Architect, etc):**
 
 - Sphinx-Graph doesn't require complex workflows or specific expertise to maintain.
 - It's more cost-effective (it's free).
@@ -117,8 +117,10 @@ For more information, see [the docs](https://sphinx-graph.readthedocs.io/en/main
 
 or, build the local docs-
 
-      cd docs
-      uv run make html
+```bash
+cd docs
+uv run make html
+```
 
 ---
 
