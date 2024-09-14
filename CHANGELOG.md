@@ -2,12 +2,6 @@
 
 ## [0.2.4](https://github.com/danieleades/sphinx-graph/compare/v0.2.3...v0.2.4) (2024-09-14)
 
-
-### Bug Fixes
-
-* **version:** correct the package version ([#172](https://github.com/danieleades/sphinx-graph/issues/172)) ([a0acd21](https://github.com/danieleades/sphinx-graph/commit/a0acd212c22c57f3461847bd59ff6db96a9423cf))
-
-
 ### Documentation
 
 * improve entry point ([#175](https://github.com/danieleades/sphinx-graph/issues/175)) ([67a1955](https://github.com/danieleades/sphinx-graph/commit/67a19556dab563714660a5bee25c95dd84be93f5))
