@@ -42,11 +42,13 @@ class Directive(SphinxDirective):
         "require_fingerprints": parse.boolean,
         "type": parse.string,
         "tags": parse.comma_separated_list,
+        "require_parents": parse.boolean,
     }
 
     def run(self) -> Sequence[nodes.Node]:
         """Run the directive and return a Vertex node."""
         uid = self.arguments[0]
+        parents = self.options.get("parents", {})
         content_node = VertexNode(graph_uid=uid)
         nested_parse_with_titles(self.state, self.content, content_node)
 
@@ -62,13 +64,19 @@ class Directive(SphinxDirective):
                 location=(self.env.docname, self.lineno),
             )
 
+        if vertex_config.require_parent and len(parents) < 1:
+            logger.error(
+                f"vertex '{uid}' is required to have at least one parent but has none",
+                location=(self.env.docname, self.lineno),
+            )
+
         state.insert_vertex(
             self.env,
             uid,
             Info(
                 docname=self.env.docname,
                 config=vertex_config,
-                parents=self.options.get("parents", {}),
+                parents=parents,
                 fingerprint=fingerprint,
                 tags=self.options.get("tags", []),
             ),
@@ -87,6 +95,7 @@ class Directive(SphinxDirective):
         """The configuration set on this specific directive."""
         return VertexConfig(
             require_fingerprints=self.options.get("require_fingerprints"),
+            require_parent=self.options.get("require_parents"),
             layout=self.options.get("layout"),
         )
 
