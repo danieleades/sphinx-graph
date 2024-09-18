@@ -18,6 +18,9 @@ jobs:
         os: ["ubuntu-latest"]
         python-version: ["3.9", "3.10", "3.11", "3.12"]
         sphinx-version: ["6.0", "7.0", "8.0"]
+        exclude:
+          - python-version: "3.9"
+            sphinx-version: "8.0"
         include:
           # Check only newish setup for windows
           - os: "windows-latest"
