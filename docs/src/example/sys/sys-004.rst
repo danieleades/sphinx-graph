@@ -1,0 +1,8 @@
+SYS-004
+-------
+
+.. vertex:: SYS-004
+    :type: sys
+    :require_parents: false
+
+    this as 'orphan' system requirement. This wouldn't normally be allowed because of the config in `conf.py` for this type of vertex, but we can override that locally for this specific case

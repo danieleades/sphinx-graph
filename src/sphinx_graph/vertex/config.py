@@ -21,11 +21,14 @@ class Config:
         layout: which of the built-in layouts to use.
             The options are "subtle" (the default) or "transparent".
         regex: A regex pattern to check vertex IDs against.
+        require_parent: Whether the node MUST have at least one parent.
+            This is used to disallow 'orphan' vertices.
     """
 
     require_fingerprints: bool | None = None
     layout: str | None = None
     regex: Pattern[str] | None = None
+    require_parent: bool | None = None
 
     def override(self, other: Config) -> Config:
         """Override a Config by overlaying a second config."""
@@ -37,4 +40,7 @@ class Config:
             ),
             layout=self.layout if other.layout is None else other.layout,
             regex=self.regex if other.regex is None else other.regex,
+            require_parent=self.require_parent
+            if other.require_parent is None
+            else other.require_parent,
         )
