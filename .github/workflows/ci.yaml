@@ -28,7 +28,7 @@ jobs:
       - name: Set up uv
         run: curl -LsSf https://astral.sh/uv/${{ env.UV_VERSION }}/install.sh | sh
       - name: Run Tests
-        run: uv run --frozen --python ${{ matrix.python-version }} --with ${{ matrix.sphinx-version }} pytest
+        run: uv run --frozen --python ${{ matrix.python-version }} --with sphinx~=${{ matrix.sphinx-version }} pytest
 
   lint:
     name: Lint
