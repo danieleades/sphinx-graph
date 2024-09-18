@@ -1,5 +1,9 @@
 version = 1
 requires-python = ">=3.9"
+resolution-markers = [
+    "python_full_version < '3.10'",
+    "python_full_version >= '3.10'",
+]
 
 [[package]]
 name = "alabaster"
@@ -266,7 +270,7 @@ name = "importlib-metadata"
 version = "8.5.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "zipp" },
+    { name = "zipp", marker = "python_full_version < '3.10'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/cd/12/33e59336dca5be0c398a7482335911a33aa0e20776128f038019f1a95f1b/importlib_metadata-8.5.0.tar.gz", hash = "sha256:71522656f0abace1d072b9e5481a48f07c138e00f079c38c8f883823f9c26bd7", size = 55304 }
 wheels = [
@@ -727,7 +731,8 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "rustworkx", specifier = "~=0.15.0" },
-    { name = "sphinx", specifier = ">=6,<9" },
+    { name = "sphinx", marker = "python_full_version < '3.10'", specifier = ">=6,<8" },
+    { name = "sphinx", marker = "python_full_version >= '3.10'", specifier = ">=6,<9" },
     { name = "toml", specifier = "~=0.10.2" },
 ]
 
