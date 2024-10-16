@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/danieleades/sphinx-graph/compare/v0.2.4...v0.3.0) (2024-10-16)
+
+
+### Features
+
+* optionally enforce that vertices must have at least one parent ([#181](https://github.com/danieleades/sphinx-graph/issues/181)) ([15bc43f](https://github.com/danieleades/sphinx-graph/commit/15bc43f3b70d11fd5713e669d8427f6f2bf42f7f))
+
 ## [0.2.4](https://github.com/danieleades/sphinx-graph/compare/v0.2.3...v0.2.4) (2024-09-14)
 
 ### Documentation
