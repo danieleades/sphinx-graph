@@ -78,6 +78,6 @@ def test_invalid_parent(app: Sphinx) -> None:
     app.warningiserror = True
     with pytest.raises(
         SphinxError,
-        match="^vertex '02' has a parent link to '03', but '03' doesn't exist$",
+        match=r"^vertex '02' has a parent link to '03', but '03' doesn't exist$",
     ):
         app.build()

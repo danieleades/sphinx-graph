@@ -5,7 +5,7 @@ on:
   pull_request:
 
 env:
-  UV_VERSION: 0.5.5  # Pin the version of UV
+  UV_VERSION: 0.5.17  # Pin the version of UV
 
 jobs:
   tests:
@@ -25,7 +25,7 @@ jobs:
         include:
           # Check only newish setup for windows
           - os: "windows-latest"
-            python-version: "3.12"
+            python-version: "3.13"
             sphinx-version: "8.0"
     steps:
       - uses: actions/checkout@v4
