@@ -25,7 +25,7 @@ jobs:
         include:
           # Check only newish setup for windows
           - os: "windows-latest"
-            python-version: "3.12"
+            python-version: "3.13"
             sphinx-version: "8.0"
     steps:
       - uses: actions/checkout@v4
