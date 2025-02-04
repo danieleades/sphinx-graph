@@ -7,27 +7,23 @@ from sphinx.errors import SphinxError
 from sphinx_graph import vertex
 
 
-@pytest.mark.sphinx(testroot="vertex")
+@pytest.mark.sphinx(testroot="vertex", warningiserror=True)
 def test_it_builds(app: Sphinx) -> None:
-    app.warningiserror = True
     app.build()
 
 
-@pytest.mark.sphinx(testroot="parallel", parallel=2)
+@pytest.mark.sphinx(testroot="parallel", parallel=2, warningiserror=True)
 def test_it_builds_parallel(app: Sphinx) -> None:
-    app.warningiserror = True
     app.build()
 
 
-@pytest.mark.sphinx(testroot="fingerprints")
+@pytest.mark.sphinx(testroot="fingerprints", warningiserror=True)
 def test_require_fingerprints(app: Sphinx) -> None:
-    app.warningiserror = True
     app.build()
 
 
-@pytest.mark.sphinx(testroot="missing-fingerprint")
+@pytest.mark.sphinx(testroot="missing-fingerprint", warningiserror=True)
 def test_missing_fingerprint(app: Sphinx) -> None:
-    app.warningiserror = True
     with pytest.raises(
         SphinxError,
         match=(
@@ -38,9 +34,8 @@ def test_missing_fingerprint(app: Sphinx) -> None:
         app.build()
 
 
-@pytest.mark.sphinx(testroot="incorrect-fingerprint")
+@pytest.mark.sphinx(testroot="incorrect-fingerprint", warningiserror=True)
 def test_incorrect_fingerprint(app: Sphinx) -> None:
-    app.warningiserror = True
     with pytest.raises(
         SphinxError,
         match=(
@@ -52,9 +47,8 @@ def test_incorrect_fingerprint(app: Sphinx) -> None:
         app.build()
 
 
-@pytest.mark.sphinx(testroot="regex")
+@pytest.mark.sphinx(testroot="regex", warningiserror=True)
 def test_regex(app: Sphinx) -> None:
-    app.warningiserror = True
     with pytest.raises(
         SphinxError,
         match=re.escape(
@@ -64,18 +58,16 @@ def test_regex(app: Sphinx) -> None:
         app.build()
 
 
-@pytest.mark.sphinx(testroot="tags")
+@pytest.mark.sphinx(testroot="tags", warningiserror=True)
 def test_tags_builds(app: Sphinx) -> None:
-    app.warningiserror = True
     app.build()
 
     state = vertex.State.read(app.env)
     assert state.vertices["01"].tags == ["P1", "component::x", "milestone::a"]
 
 
-@pytest.mark.sphinx(testroot="invalid-parent")
+@pytest.mark.sphinx(testroot="invalid-parent", warningiserror=True)
 def test_invalid_parent(app: Sphinx) -> None:
-    app.warningiserror = True
     with pytest.raises(
         SphinxError,
         match="^vertex '02' has a parent link to '03', but '03' doesn't exist$",
