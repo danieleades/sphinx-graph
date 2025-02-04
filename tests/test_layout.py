@@ -37,9 +37,8 @@ def test_comma_separated_list(
     assert output == expected
 
 
-@pytest.mark.sphinx(testroot="layout-unknown")
+@pytest.mark.sphinx(testroot="layout-unknown", warningiserror=True)
 def test_unknown_layout(app: Sphinx) -> None:
-    app.warningiserror = True
     with pytest.raises(
         SphinxError,
         match=r"vertex .* has unknown layout '.*'. Defaulting to '.*' layout.",

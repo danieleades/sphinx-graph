@@ -9,21 +9,18 @@ from sphinx_graph.table.state import State
 from sphinx_graph.vertex.state import DuplicateIdError
 
 
-@pytest.mark.sphinx(testroot="table")
+@pytest.mark.sphinx(testroot="table", warningiserror=True)
 def test_it_builds(app: Sphinx) -> None:
-    app.warningiserror = True
     app.build()
 
 
-@pytest.mark.sphinx(testroot="table-query")
+@pytest.mark.sphinx(testroot="table-query", warningiserror=True)
 def test_query_builds(app: Sphinx) -> None:
-    app.warningiserror = True
     app.build()
 
 
-@pytest.mark.sphinx(testroot="table-query-unknown")
+@pytest.mark.sphinx(testroot="table-query-unknown", warningiserror=True)
 def test_query_unknown_fails(app: Sphinx) -> None:
-    app.warningiserror = True
     with pytest.raises(
         ConfigError,
         match="no query registered with name 'unknown'",

@@ -5,9 +5,8 @@ from sphinx.errors import SphinxError
 from sphinx_graph.vertex.state import DuplicateIdError, State
 
 
-@pytest.mark.sphinx(testroot="cycle", freshenv=True)
+@pytest.mark.sphinx(testroot="cycle", freshenv=True, warningiserror=True)
 def test_dependency_cycle(app: Sphinx) -> None:
-    app.warningiserror = True
     with pytest.raises(
         SphinxError,
         match=(
@@ -18,16 +17,14 @@ def test_dependency_cycle(app: Sphinx) -> None:
         app.build()
 
 
-@pytest.mark.sphinx(testroot="duplicate-ids")
+@pytest.mark.sphinx(testroot="duplicate-ids", warningiserror=True)
 def test_duplicate_ids(app: Sphinx) -> None:
-    app.warningiserror = True
     with pytest.raises(DuplicateIdError):
         app.build()
 
 
-@pytest.mark.sphinx(testroot="vertex")
+@pytest.mark.sphinx(testroot="vertex", warningiserror=True)
 def test_vertices(app: Sphinx) -> None:
-    app.warningiserror = True
     app.build()
     state = State.read(app.env)
     expected_len = 5
