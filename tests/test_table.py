@@ -36,7 +36,7 @@ def test_duplicate_tables_not_allowed() -> None:
 
     with pytest.raises(
         DuplicateIdError,
-        match="^Vertex table .* already exists.$",
+        match=r"^Vertex table .* already exists.$",
     ):
         # try to insert an existing uuid
         state.insert(uuid, info=Info(docname="docname", query=None, args={}))
