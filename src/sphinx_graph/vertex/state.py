@@ -231,6 +231,6 @@ def build_graph_edges(
         suffix = ", ".join(
             f"[{uids[0]} -> {' -> '.join(uids[1:])} -> {uids[0]}]" for uids in cycles
         )
-        logger.exception(
+        logger.error(
             f"vertices must not have cyclic dependencies. cycles detected: {suffix}"
         )
