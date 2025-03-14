@@ -63,6 +63,6 @@ nitpick_ignore = {
     (
         # see https://github.com/sphinx-doc/sphinx/issues/12286
         "py:class",
-        "rx.PyDiGraph",
+        "rustworkx.PyDiGraph",
     ),
 }
