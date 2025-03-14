@@ -10,8 +10,8 @@ def test_dependency_cycle(app: Sphinx) -> None:
     with pytest.raises(
         SphinxError,
         match=(
-            "^vertices must not have cyclic dependencies. cycles detected: \\[REQ-03"
-            " -> REQ-01 -> REQ-02 -> REQ-03\\]$"
+            r"^vertices must not have cyclic dependencies. cycles detected: \[REQ-03"
+            r" -> REQ-01 -> REQ-02 -> REQ-03\]$"
         ),
     ):
         app.build()
