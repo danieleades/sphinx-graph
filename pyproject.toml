@@ -5,7 +5,7 @@ description = "'Sphinx-Graph' is a plain-text, VCS-friendly, requirements manage
 authors = [{ name = "Daniel Eades", email = "danieleades@hotmail.com" }]
 license = { text = "MIT" }
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 keywords = ["sphinx, requirements", "documentation", "plain-text"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -15,7 +15,6 @@ classifiers = [
     "Topic :: Utilities",
     "Topic :: Documentation",
     "Topic :: Utilities",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -27,8 +26,7 @@ classifiers = [
 
 dependencies = [
     "rustworkx~=0.16.0",
-    "sphinx>=6,<8; python_version < '3.10'",
-    "sphinx>=6,<9; python_version >= '3.10'",
+    "sphinx>=7",
     "toml~=0.10.2",
 ]
 
