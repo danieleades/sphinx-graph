@@ -12,8 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up uv
-        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: 0.8.2
       - name: Install Dependencies
         run: uv sync --frozen
       - run: uv run pre-commit autoupdate
