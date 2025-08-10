@@ -43,7 +43,7 @@ dev = [
 
     # linting
     "mypy~=1.17.0",
-    "pre-commit~=4.2.0",
+    "pre-commit~=4.3.0",
     "types-docutils~=0.21",
     "types-toml~=0.10.8.5",
 ]
