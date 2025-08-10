@@ -1,1 +1,1 @@
-uv.lock binary
+uv.lock -diff merge=ours
