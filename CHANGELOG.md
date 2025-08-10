@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.0](https://github.com/danieleades/sphinx-graph/compare/v0.2.4...v0.3.0) (2025-08-10)
+
+
+### Features
+
+* optionally enforce that vertices must have at least one parent ([#181](https://github.com/danieleades/sphinx-graph/issues/181)) ([15bc43f](https://github.com/danieleades/sphinx-graph/commit/15bc43f3b70d11fd5713e669d8427f6f2bf42f7f))
+
+
+### Bug Fixes
+
+* **ci:** update pre-commit autoupdate script ([#198](https://github.com/danieleades/sphinx-graph/issues/198)) ([de5a7d4](https://github.com/danieleades/sphinx-graph/commit/de5a7d4f1562401a724cf8326f233a35480cdd42))
+* repair lockfile ([#199](https://github.com/danieleades/sphinx-graph/issues/199)) ([5ad63b9](https://github.com/danieleades/sphinx-graph/commit/5ad63b9e0c0ba8c8ac73449812f75fd315725488))
+
 ## [0.2.4](https://github.com/danieleades/sphinx-graph/compare/v0.2.3...v0.2.4) (2024-09-14)
 
 ### Documentation
