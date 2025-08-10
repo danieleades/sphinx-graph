@@ -32,3 +32,19 @@ def test_vertices(app: Sphinx) -> None:
     expected_len = 5
     assert len(state.vertices) == expected_len
     assert len(state.node_ids) == expected_len
+
+
+@pytest.mark.sphinx(
+    testroot="missing-required-parent",
+    freshenv=True,
+    warningiserror=True,
+    exception_on_warning=True,
+)
+def test_missing_required_parent(app: Sphinx) -> None:
+    with pytest.raises(
+        SphinxError,
+        match=(
+            r"vertex 'SYS-002' is required to have at least one parent but has none"
+        ),
+    ):
+        app.build()
