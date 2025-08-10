@@ -2,12 +2,8 @@
 
 from __future__ import annotations
 
-from typing import TypeVar
 
-T = TypeVar("T")
-
-
-def unwrap(option: T | None) -> T:
+def unwrap[T](option: T | None) -> T:
     """Unwrap an optional value.
 
     Args:
