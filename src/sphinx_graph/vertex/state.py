@@ -7,11 +7,10 @@ from contextlib import contextmanager
 from typing import TYPE_CHECKING
 
 import rustworkx as rx
-from sphinx.errors import DocumentError
+from sphinx.errors import DocumentError, SphinxError
 from sphinx.util import logging
 
 from sphinx_graph.vertex.info import Info
-from sphinx.errors import SphinxError
 
 if TYPE_CHECKING:
     from sphinx.application import Sphinx
@@ -204,13 +203,13 @@ def build_graph_edges(
             try:
                 parent_node_id, parent = vertices[parent_uid]
                 graph.add_edge(parent_node_id, node_id, fingerprint)
-            except KeyError:
+            except KeyError as e:
                 msg = (
                     f"vertex '{uid}' has a parent link to '{parent_uid}',"
                     f" but '{parent_uid}' doesn't exist"
                 )
-                logger.error(msg)
-                raise SphinxError(msg)
+                logger.exception(msg)
+                raise SphinxError(msg) from e
             if fingerprints_required and fingerprint is None:
                 logger.warning(
                     f"link fingerprints are required, but {uid} doesn't have a"

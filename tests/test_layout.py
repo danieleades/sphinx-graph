@@ -37,7 +37,9 @@ def test_comma_separated_list(
     assert output == expected
 
 
-@pytest.mark.sphinx(testroot="layout-unknown", warningiserror=True, exception_on_warning=True)
+@pytest.mark.sphinx(
+    testroot="layout-unknown", warningiserror=True, exception_on_warning=True
+)
 def test_unknown_layout(app: Sphinx) -> None:
     with pytest.raises(
         SphinxError,
