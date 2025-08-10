@@ -7,6 +7,7 @@ import hashlib
 from typing import TYPE_CHECKING, ClassVar
 
 from docutils import nodes
+from sphinx.errors import SphinxError
 from sphinx.util import logging
 from sphinx.util.docutils import SphinxDirective
 from sphinx.util.nodes import nested_parse_with_titles
@@ -58,17 +59,25 @@ class Directive(SphinxDirective):
 
         vertex_config = self.vertex_config()
         if vertex_config.regex and not vertex_config.regex.match(uid):
-            logger.error(
+            msg = (
                 f"vertex '{uid}' doesn't satisfy the configured regex"
                 f" ('{vertex_config.regex.pattern}')",
+            )
+            logger.error(
+                msg,
                 location=(self.env.docname, self.lineno),
             )
+            raise SphinxError(msg)
 
         if vertex_config.require_parent and len(parents) < 1:
-            logger.error(
+            msg = (
                 f"vertex '{uid}' is required to have at least one parent but has none",
+            )
+            logger.error(
+                msg,
                 location=(self.env.docname, self.lineno),
             )
+            raise SphinxError(msg)
 
         state.insert_vertex(
             self.env,

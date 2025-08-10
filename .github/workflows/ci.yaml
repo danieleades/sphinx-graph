@@ -5,7 +5,7 @@ on:
   pull_request:
 
 env:
-  UV_VERSION: 0.8.2  # Pin the version of UV
+  UV_VERSION: 0.8.3  # Pin the version of UV
 
 jobs:
   tests:
@@ -16,12 +16,8 @@ jobs:
     strategy:
       matrix:
         os: ["ubuntu-latest"]
-        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
-        sphinx-version: ["6.0", "7.0", "8.0"]
-        exclude:
-          # sphinx version 8.0 requires python>=3.10
-          - python-version: "3.9"
-            sphinx-version: "8.0"
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        sphinx-version: ["7.0", "8.0"]
         include:
           # Check only newish setup for windows
           - os: "windows-latest"
@@ -55,7 +51,7 @@ jobs:
         version: ${{ env.UV_VERSION }}
     - name: Build docs
       working-directory: docs/
-      run: uv run --frozen make html SPHINXOPTS="-W --keep-going -n"
+      run: uv run --frozen make html SPHINXOPTS="-W --keep-going -n --exception-on-warning"
 
   coverage:
     runs-on: ubuntu-latest

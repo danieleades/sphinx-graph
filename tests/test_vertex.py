@@ -22,7 +22,9 @@ def test_require_fingerprints(app: Sphinx) -> None:
     app.build()
 
 
-@pytest.mark.sphinx(testroot="missing-fingerprint", warningiserror=True)
+@pytest.mark.sphinx(
+    testroot="missing-fingerprint", warningiserror=True, exception_on_warning=True
+)
 def test_missing_fingerprint(app: Sphinx) -> None:
     with pytest.raises(
         SphinxError,
@@ -34,7 +36,9 @@ def test_missing_fingerprint(app: Sphinx) -> None:
         app.build()
 
 
-@pytest.mark.sphinx(testroot="incorrect-fingerprint", warningiserror=True)
+@pytest.mark.sphinx(
+    testroot="incorrect-fingerprint", warningiserror=True, exception_on_warning=True
+)
 def test_incorrect_fingerprint(app: Sphinx) -> None:
     with pytest.raises(
         SphinxError,
