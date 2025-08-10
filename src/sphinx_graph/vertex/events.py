@@ -55,6 +55,7 @@ def relative_uris(
     return (
         vertex_reference(builder, from_docname, vertices, target_uid)
         for target_uid in target_uids
+        if target_uid in vertices  # <-- guard missing vertices
     )
 
 

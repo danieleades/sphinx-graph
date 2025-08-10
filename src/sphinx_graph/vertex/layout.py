@@ -129,7 +129,7 @@ def apply_formatting(
     if layout is None:
         layout = DEFAULT
     elif layout not in LAYOUTS:
-        logger.error(
+        logger.warning(
             f"vertex {uid} has unknown layout '{layout}'. Defaulting to '{DEFAULT}'"
             " layout.",
         )

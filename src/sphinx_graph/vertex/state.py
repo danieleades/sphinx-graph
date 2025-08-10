@@ -11,6 +11,7 @@ from sphinx.errors import DocumentError
 from sphinx.util import logging
 
 from sphinx_graph.vertex.info import Info
+from sphinx.errors import SphinxError
 
 if TYPE_CHECKING:
     from sphinx.application import Sphinx
@@ -202,11 +203,14 @@ def build_graph_edges(
         for parent_uid, fingerprint in info.parents.items():
             try:
                 parent_node_id, parent = vertices[parent_uid]
+                graph.add_edge(parent_node_id, node_id, fingerprint)
             except KeyError:
-                logger.exception(
+                msg = (
                     f"vertex '{uid}' has a parent link to '{parent_uid}',"
                     f" but '{parent_uid}' doesn't exist"
                 )
+                logger.error(msg)
+                raise SphinxError(msg)
             if fingerprints_required and fingerprint is None:
                 logger.warning(
                     f"link fingerprints are required, but {uid} doesn't have a"
@@ -221,9 +225,6 @@ def build_graph_edges(
                     f" {parent_uid}'s fingerprint is '{parent.fingerprint}'.\n{uid}"
                     " should be reviewed, and the link fingerprint manually updated.",
                 )
-
-            graph.add_edge(parent_node_id, node_id, fingerprint)
-
     cycles = [
         [graph[node_id] for node_id in node_ids] for node_ids in rx.simple_cycles(graph)
     ]
@@ -231,6 +232,6 @@ def build_graph_edges(
         suffix = ", ".join(
             f"[{uids[0]} -> {' -> '.join(uids[1:])} -> {uids[0]}]" for uids in cycles
         )
-        logger.error(
+        logger.warning(
             f"vertices must not have cyclic dependencies. cycles detected: {suffix}"
         )

@@ -5,7 +5,7 @@ from sphinx.errors import SphinxError
 from sphinx_graph.vertex.state import DuplicateIdError, State
 
 
-@pytest.mark.sphinx(testroot="cycle", freshenv=True, warningiserror=True)
+@pytest.mark.sphinx(testroot="cycle", freshenv=True, warningiserror=True, exception_on_warning=True)
 def test_dependency_cycle(app: Sphinx) -> None:
     with pytest.raises(
         SphinxError,
