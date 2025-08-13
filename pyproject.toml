@@ -25,7 +25,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "rustworkx~=0.16.0",
+    "rustworkx~=0.17.1",
     "sphinx>=7,<9",
     "toml~=0.10.2",
 ]
