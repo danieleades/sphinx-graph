@@ -33,10 +33,10 @@ class State:
     tables: dict[UUID, table.Info]
 
     def insert(self, uid: UUID, info: Info) -> None:
-        """Insert a vertex into the context.
+        """Insert a table definition into the context.
 
         Raises:
-            DuplicateIdError: If the vertex already exists.
+            DuplicateIdError: If the table already exists.
         """
         if uid in self.tables:
             err_msg = f"Vertex table {uid} already exists."
