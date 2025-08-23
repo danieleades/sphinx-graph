@@ -40,8 +40,8 @@ class Directive(SphinxDirective):
         """Run the directive and return a Vertex node."""
         uid = uuid.uuid4()
         node = TableNode(graph_uid=uid)
-
-        toml.loads("\n".join(self.content))
+        # Parse TOML args once (also validates syntax)
+        args = toml.loads("\n".join(self.content))
 
         with State.get(self.env) as state:
             state.insert(
@@ -49,7 +49,7 @@ class Directive(SphinxDirective):
                 Info(
                     docname=self.env.docname,
                     query=self.options.get("query"),
-                    args=toml.loads("\n".join(self.content)),
+                    args=args,
                 ),
             )
 

@@ -21,6 +21,7 @@ if TYPE_CHECKING:
     from sphinx.builders import Builder
 
 __all__ = [
+    "QUERIES",
     "register",
 ]
 
@@ -31,7 +32,7 @@ def relatives(
     state: vertex.State,
     uid: str,
 ) -> tuple[Iterable[nodes.reference], Iterable[nodes.reference]]:
-    """Find the realtive URIs of the immediate 'relatives' of a given vertex.
+    """Find the relative URIs of the immediate neighbours of a vertex.
 
     Args:
         builder: The sphinx builder instance
@@ -40,8 +41,8 @@ def relatives(
         uid: the UID of the vertex
 
     Returns:
-        a tuple of (parents, children) where each is an iterable over
-        (target_uid, relative_uri)
+        A tuple of (parents, children) where each is an iterable of
+        ``docutils.nodes.reference`` objects.
     """
     info = state.vertices[uid]
     [parents, children] = [
@@ -56,8 +57,8 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
     builder = app.builder
     state = State.read(app.env)
     vertex_state = vertex.State.read(app.env)
-    queries = QUERIES
-    queries.update(app.config.graph_config.queries)
+    # Merge built-in and user queries without mutating the global registry
+    queries = {**QUERIES, **app.config.graph_config.queries}
     for node in doctree.findall(TableNode):
         uid = node["graph_uid"]
         info = state.tables[uid]

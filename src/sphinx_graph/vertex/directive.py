@@ -33,7 +33,7 @@ __all__ = [
 
 
 class Directive(SphinxDirective):
-    """An RST node representing a To-Do item."""
+    """An RST node representing a Vertex."""
 
     has_content = True
     required_arguments = 1

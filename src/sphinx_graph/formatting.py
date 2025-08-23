@@ -1,4 +1,4 @@
-"""Helper functions for formating vertices into docutils nodes."""
+"""Helper functions for formatting vertices into docutils nodes."""
 
 from __future__ import annotations
 

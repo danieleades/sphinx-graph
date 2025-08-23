@@ -23,6 +23,7 @@ __all__ = [
     "Config",
     "Query",
     "VertexConfig",
+    "table",
     "vertex",
 ]
 
