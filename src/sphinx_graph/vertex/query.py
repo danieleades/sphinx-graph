@@ -3,10 +3,16 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Iterable
+from typing import TYPE_CHECKING, Concatenate, ParamSpec
 
-from sphinx_graph.vertex.state import State
+if TYPE_CHECKING:
+    from sphinx_graph.vertex.state import State
 
-Query = Callable[[State], Iterable[str]]
+P = ParamSpec("P")
+
+# Enforce that the first positional parameter is a `State`, while allowing
+# arbitrary additional positional/keyword parameters via `ParamSpec`.
+Query = Callable[Concatenate["State", P], Iterable[str]]
 
 
 def noop(state: State) -> Iterable[str]:

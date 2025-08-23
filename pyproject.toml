@@ -55,7 +55,7 @@ Documentation = "https://sphinx-graph.readthedocs.io/en/latest/index.html"
 [tool.mypy]
 strict = true
 show_error_codes = true
-files = ["src", "tests"]
+files = ["src", "tests", "docs"]
 exclude = "tests/roots"
 no_implicit_reexport = true
 

@@ -8,7 +8,9 @@ if TYPE_CHECKING:
     from sphinx_graph.vertex import State
 
 
-def family(state: State, *, uid: str, include_self: bool = False) -> Iterable[str]:
+def family(
+    state: State, *, uid: str, include_self: bool = False, **_kwargs: object
+) -> Iterable[str]:
     """Recursively find all direct parents and descendants of the given node."""
     if include_self:
         yield uid
