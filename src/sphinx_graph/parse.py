@@ -41,7 +41,7 @@ def parents(value: str | None) -> dict[str, str | None]:
         if ":" in token:
             subtokens = token.split(":", maxsplit=1)
             uid = subtokens[0]
-            fingerprint = subtokens[1]
+            fingerprint = subtokens[1] or None
         else:
             uid = token
             fingerprint = None
