@@ -50,8 +50,15 @@ class Config:
             This is mapping from type name to
             :py:class:`sphinx_graph.vertex.config.Config`
         queries: Functions used to filter and sort vertices for display in tables.
-            A 'query' is a method which accepts a `sphinx_graph.vertex.State` and
-            returns a list of vertex UIDs (typed as `sphinx_graph.Query`).
+            A query is a :py:data:`sphinx_graph.vertex.Query` — a callable whose
+            first parameter is :py:class:`sphinx_graph.vertex.state.State` and
+            which returns an iterable of vertex UIDs (``Iterable[str]``).
+
+            Queries may declare additional parameters (typically keyword-only).
+            When used by the ``vertex-table`` directive, keyword arguments are
+            taken from the directive body (parsed as TOML) and passed through to
+            the query function. Prefer keyword-only parameters (``*``) and
+            provide defaults where appropriate.
 
             It is used for filtering and sorting vertices for display in a
             'vertex table'.
@@ -62,8 +69,9 @@ class Config:
 
                 from sphinx_graph.vertex import State
 
-                def my_query(state: State) -> Iterable[str]:
-                    # TODO: parse the 'State' object and return a list of vertex UIDs
+                def my_query(state: State, *, uid: str, limit: int = 10) -> Iterable[str]:
+                    # parse the 'State' object and return a list of vertex UIDs
+                    # using values provided by the directive body
                     # ...
 
             .. code:: python
@@ -76,10 +84,20 @@ class Config:
 
 
                 graph_config = Config(
-                    queries = {
+                    queries={
                         "my_query": my_query,
                     }
                 )
+
+            In a document, reference the query and pass arguments via TOML:
+
+            .. code:: rst
+
+                .. vertex-table::
+                   :query: my_query
+
+                   uid = "REQ-001"
+                   limit = 20
 
             .. warning::
 
