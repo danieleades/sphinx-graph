@@ -57,7 +57,6 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
     builder = app.builder
     state = State.read(app.env)
     vertex_state = vertex.State.read(app.env)
-    # Merge built-in and user queries without mutating the global registry
     queries = {**QUERIES, **app.config.graph_config.queries}
     for node in doctree.findall(TableNode):
         uid = node["graph_uid"]
