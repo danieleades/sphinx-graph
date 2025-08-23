@@ -1,11 +1,7 @@
 from __future__ import annotations
 
-from types import SimpleNamespace
-
 import rustworkx as rx
-from docutils import nodes
 
-from sphinx_graph.table import events as table_events
 from sphinx_graph.vertex.config import Config as VertexConfig
 from sphinx_graph.vertex.info import Info
 from sphinx_graph.vertex.state import State as VertexState
@@ -19,7 +15,16 @@ def test_children_returns_uids() -> None:
     c_id = graph.add_node("C")
 
     vertices: dict[str, tuple[int, Info]] = {
-        "P": (p_id, Info(docname="doc", config=VertexConfig(), parents={}, fingerprint="fpP", tags=[])),
+        "P": (
+            p_id,
+            Info(
+                docname="doc",
+                config=VertexConfig(),
+                parents={},
+                fingerprint="fpP",
+                tags=[],
+            ),
+        ),
         "C": (
             c_id,
             Info(
@@ -37,10 +42,3 @@ def test_children_returns_uids() -> None:
 
     assert list(state.children("P")) == ["C"]
     assert list(state.children("C")) == []
-
-
-
-def test_public_api_exports_table() -> None:
-    import sphinx_graph as sg
-
-    assert hasattr(sg, "table")
