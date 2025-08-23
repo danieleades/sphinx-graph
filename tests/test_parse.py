@@ -34,6 +34,7 @@ def test_parse_boolean(
     [
         (None, {}),
         ("REQ-01", {"REQ-01": None}),
+        ("REQ-01:", {"REQ-01": None}),
         ("REQ-01:1234", {"REQ-01": "1234"}),
         (
             "REQ-01:1234, REQ-02,REQ-03:5678",
