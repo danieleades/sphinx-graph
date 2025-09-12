@@ -42,7 +42,7 @@ dev = [
     "sphinx-rtd-theme~=3.0.2",
 
     # linting
-    "mypy~=1.17.0",
+    "mypy~=1.18.1",
     "pre-commit~=4.3.0",
     "types-docutils~=0.21",
     "types-toml~=0.10.8.5",
