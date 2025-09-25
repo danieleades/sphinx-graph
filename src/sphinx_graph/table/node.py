@@ -1,6 +1,6 @@
-"""Docutils Vertex node.
+"""Docutils vertex-table node.
 
-This node is used as a placeholder only, and is replaced after parsing the entire graph.
+This node is a placeholder and is replaced after parsing the entire graph.
 """
 
 from __future__ import annotations
@@ -9,4 +9,4 @@ from docutils import nodes
 
 
 class TableNode(nodes.General, nodes.Element):
-    """An RST node representing a Vertex."""
+    """An RST node representing a table of vertices."""
