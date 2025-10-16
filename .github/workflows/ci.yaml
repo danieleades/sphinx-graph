@@ -25,7 +25,7 @@ jobs:
             sphinx-version: "8.0"
     steps:
       - uses: actions/checkout@v5
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
         with:
           version: ${{ env.UV_VERSION }}
       - name: Run Tests
@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
         with:
           version: ${{ env.UV_VERSION }}
       - run: uv run --frozen pre-commit run --all-files
@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v5
-    - uses: astral-sh/setup-uv@v6
+    - uses: astral-sh/setup-uv@v7
       with:
         version: ${{ env.UV_VERSION }}
     - name: Build docs
@@ -57,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
         with:
           version: ${{ env.UV_VERSION }}
       - name: Collect coverage
