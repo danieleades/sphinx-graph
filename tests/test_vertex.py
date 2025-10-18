@@ -7,6 +7,11 @@ from sphinx.errors import SphinxError
 from sphinx_graph import vertex
 
 
+@pytest.mark.sphinx(testroot="empty", warningiserror=True)
+def test_empty_project_builds(app: Sphinx) -> None:
+    app.build()
+
+
 @pytest.mark.sphinx(testroot="vertex", warningiserror=True)
 def test_it_builds(app: Sphinx) -> None:
     app.build()
