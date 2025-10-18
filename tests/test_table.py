@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+from typing import Callable
 from uuid import uuid4
 
 import pytest
@@ -40,3 +43,25 @@ def test_duplicate_tables_not_allowed() -> None:
     ):
         # try to insert an existing uuid
         state.insert(uuid, info=Info(docname="docname", query=None, args={}))
+
+
+@pytest.mark.sphinx("html")
+def test_query_config_isolation(make_app: Callable[..., Sphinx]) -> None:
+    from sphinx_graph.vertex import query as query_module
+
+    original = query_module.QUERIES.copy()
+    apps: list[Sphinx] = []
+
+    try:
+        app = make_app(testroot="table-query")
+        apps.append(app)
+        app.build()
+        assert query_module.QUERIES == original
+
+        app = make_app(testroot="table-query-alt")
+        apps.append(app)
+        app.build()
+        assert query_module.QUERIES == original
+    finally:
+        for app in apps:
+            app.cleanup()
