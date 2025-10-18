@@ -1,8 +1,12 @@
+from types import SimpleNamespace
+
 import pytest
 from sphinx.application import Sphinx
 from sphinx.errors import SphinxError
 
-from sphinx_graph.vertex.state import DuplicateIdError, State
+from sphinx_graph.vertex.config import Config
+from sphinx_graph.vertex.info import Info
+from sphinx_graph.vertex.state import DuplicateIdError, State, purge
 
 
 @pytest.mark.sphinx(
@@ -48,3 +52,20 @@ def test_missing_required_parent(app: Sphinx) -> None:
         ),
     ):
         app.build()
+
+
+def test_purge_removes_stale_vertices() -> None:
+    env = SimpleNamespace(
+        graph_vertices_tmp={
+            "keep": Info("doc2", Config(), {}, "fingerprint", ["tag"]),
+            "drop": Info("doc1", Config(), {}, "fingerprint", ["tag"]),
+        }
+    )
+    vertices_alias = env.graph_vertices_tmp
+    keep_info = env.graph_vertices_tmp["keep"]
+
+    purge(None, env, "doc1")
+
+    assert env.graph_vertices_tmp is vertices_alias
+    assert "drop" not in env.graph_vertices_tmp
+    assert env.graph_vertices_tmp["keep"] is keep_info

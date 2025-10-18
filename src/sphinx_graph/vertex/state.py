@@ -45,9 +45,11 @@ def purge(_app: Sphinx, env: BuildEnvironment, docname: str) -> None:
     If there are vertices left in the document, they will be added again during parsing.
     """
     with _vertices_tmp(env) as vertices:
-        vertices = {  # noqa: PLW2901
+        filtered_vertices = {
             uid: vert for uid, vert in vertices.items() if vert.docname != docname
         }
+        vertices.clear()
+        vertices.update(filtered_vertices)
 
 
 def merge(
