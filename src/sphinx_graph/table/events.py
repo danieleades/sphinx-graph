@@ -56,8 +56,7 @@ def process(app: Sphinx, doctree: nodes.document, _fromdocname: str) -> None:
     builder = app.builder
     state = State.read(app.env)
     vertex_state = vertex.State.read(app.env)
-    queries = QUERIES
-    queries.update(app.config.graph_config.queries)
+    queries = {**QUERIES, **app.config.graph_config.queries}
     for node in doctree.findall(TableNode):
         uid = node["graph_uid"]
         info = state.tables[uid]
