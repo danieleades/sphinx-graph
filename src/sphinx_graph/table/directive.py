@@ -6,6 +6,7 @@ import uuid
 from typing import TYPE_CHECKING, ClassVar
 
 import toml
+from sphinx.errors import SphinxError
 from sphinx.util import logging
 from sphinx.util.docutils import SphinxDirective
 
@@ -41,7 +42,16 @@ class Directive(SphinxDirective):
         uid = uuid.uuid4()
         node = TableNode(graph_uid=uid)
 
-        toml.loads("\n".join(self.content))
+        content = "\n".join(self.content)
+        try:
+            args = toml.loads(content)
+        except toml.TomlDecodeError as exc:
+            msg = f"invalid TOML in 'vertex-table' directive: {exc}"
+            logger.error(
+                msg,
+                location=(self.env.docname, self.lineno),
+            )
+            raise SphinxError(msg) from exc
 
         with State.get(self.env) as state:
             state.insert(
@@ -49,7 +59,7 @@ class Directive(SphinxDirective):
                 Info(
                     docname=self.env.docname,
                     query=self.options.get("query"),
-                    args=toml.loads("\n".join(self.content)),
+                    args=args,
                 ),
             )
 

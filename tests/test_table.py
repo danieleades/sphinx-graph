@@ -2,7 +2,7 @@ from uuid import uuid4
 
 import pytest
 from sphinx.application import Sphinx
-from sphinx.errors import ConfigError
+from sphinx.errors import ConfigError, SphinxError
 
 from sphinx_graph.table.info import Info
 from sphinx_graph.table.state import State
@@ -25,6 +25,12 @@ def test_query_unknown_fails(app: Sphinx) -> None:
         ConfigError,
         match="no query registered with name 'unknown'",
     ):
+        app.build()
+
+
+@pytest.mark.sphinx(testroot="table-invalid-toml", warningiserror=True)
+def test_invalid_toml_fails(app: Sphinx) -> None:
+    with pytest.raises(SphinxError, match="vertex-table"):
         app.build()
 
 

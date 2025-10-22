@@ -1,0 +1,3 @@
+.. vertex-table::
+
+   invalid = [[
