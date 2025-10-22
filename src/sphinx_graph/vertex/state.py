@@ -75,7 +75,7 @@ def build_and_check_graph(env: BuildEnvironment) -> State:
 
     Also checks the graph for consistency.
     """
-    vertices_tmp: dict[str, Info] = env.graph_vertices_tmp  # type: ignore[attr-defined]
+    vertices_tmp: dict[str, Info] = getattr(env, "graph_vertices_tmp", {})
     vertices: dict[str, tuple[int, Info]] = {}
     graph: rx.PyDiGraph[str, str | None] = rx.PyDiGraph()
 
