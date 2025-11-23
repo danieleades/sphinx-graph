@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/danieleades/sphinx-graph/compare/v0.3.0...v0.3.1) (2025-11-23)
+
+
+### Bug Fixes
+
+* **deps:** update dependency rustworkx to ~=0.17.1 ([#225](https://github.com/danieleades/sphinx-graph/issues/225)) ([1dabab3](https://github.com/danieleades/sphinx-graph/commit/1dabab30c19d42462407d7d08e94baac66e76096))
+
 ## [0.3.0](https://github.com/danieleades/sphinx-graph/compare/v0.2.4...v0.3.0) (2025-08-10)
 
 
