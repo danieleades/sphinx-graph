@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.2](https://github.com/danieleades/sphinx-graph/compare/v0.3.1...v0.3.2) (2025-11-24)
+
+
+### Bug Fixes
+
+* trigger release ([f60391a](https://github.com/danieleades/sphinx-graph/commit/f60391a8ba23df015990838215fea9e2a05d59f1))
+
 ## [0.3.1](https://github.com/danieleades/sphinx-graph/compare/v0.3.0...v0.3.1) (2025-11-23)
 
 
