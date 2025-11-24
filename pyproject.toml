@@ -1,6 +1,6 @@
 [project]
 name = "sphinx-graph"
-version = "0.3.1"
+version = "0.3.2"
 description = "'Sphinx-Graph' is a plain-text, VCS-friendly, requirements management tool."
 authors = [{ name = "Daniel Eades", email = "danieleades@hotmail.com" }]
 license = { text = "MIT" }
