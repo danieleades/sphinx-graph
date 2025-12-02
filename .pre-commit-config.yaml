@@ -11,8 +11,8 @@ repos:
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: v0.14.7
     hooks:
-      - id: ruff
-        args: [--fix, --preview]
+      - id: ruff-check
+        args: [--fix, --unsafe-fixes, --preview]
       - id: ruff-format
         args: [--preview]
 
