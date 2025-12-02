@@ -5,7 +5,7 @@ description = "'Sphinx-Graph' is a plain-text, VCS-friendly, requirements manage
 authors = [{ name = "Daniel Eades", email = "danieleades@hotmail.com" }]
 license = { text = "MIT" }
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 keywords = ["sphinx, requirements", "documentation", "plain-text"]
 classifiers = [
     "Development Status :: 4 - Beta",
