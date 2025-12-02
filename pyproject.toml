@@ -13,8 +13,6 @@ classifiers = [
     "Topic :: Documentation",
     "Topic :: Documentation :: Sphinx",
     "Topic :: Utilities",
-    "Topic :: Documentation",
-    "Topic :: Utilities",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -26,7 +24,7 @@ classifiers = [
 
 dependencies = [
     "rustworkx~=0.17.1",
-    "sphinx>=7,<9",
+    "sphinx>=7,<10",
     "toml~=0.10.2",
 ]
 
