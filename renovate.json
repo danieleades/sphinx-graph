@@ -2,16 +2,27 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "dependencyDashboard": true,
   "semanticCommits": "enabled",
-  "schedule": ["before 5am every weekday"],
-  "enabledManagers": ["pep621", "pre-commit", "custom.regex", "github-actions"],
+  "schedule": [
+    "before 5am every weekday"
+  ],
+  "enabledManagers": [
+    "pep621",
+    "pre-commit",
+    "custom.regex",
+    "github-actions"
+  ],
   "lockFileMaintenance": {
     "enabled": true,
-    "schedule": ["before 5am on the first day of the month"]
+    "schedule": [
+      "before 5am on the first day of the month"
+    ]
   },
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["^\\.github/workflows/.*\\.ya?ml$"],
+      "managerFilePatterns": [
+        "/^\\.github/workflows/.*\\.ya?ml$/"
+      ],
       "matchStrings": [
         "UV_VERSION:\\s*['\"]?(?<currentValue>\\d+\\.\\d+\\.\\d+)['\"]?"
       ],
