@@ -1,5 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "dependencyDashboard": true,
   "semanticCommits": "enabled",
   "schedule": ["before 5am every weekday"],
   "enabledManagers": ["pep621", "pre-commit", "custom.regex", "github-actions"],
