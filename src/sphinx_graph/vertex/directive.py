@@ -60,8 +60,10 @@ class Directive(SphinxDirective):
         vertex_config = self.vertex_config()
         if vertex_config.regex and not vertex_config.regex.match(uid):
             msg = (
-                f"vertex '{uid}' doesn't satisfy the configured regex"
-                f" ('{vertex_config.regex.pattern}')",
+                (
+                    f"vertex '{uid}' doesn't satisfy the configured regex"
+                    f" ('{vertex_config.regex.pattern}')"
+                ),
             )
             logger.error(
                 msg,
@@ -129,7 +131,8 @@ class Directive(SphinxDirective):
         3. directive configuration (local config set on the directive)
         """
         return (
-            self._default_config()
+            self
+            ._default_config()
             .override(self._type_config())
             .override(self._directive_config())
         )
