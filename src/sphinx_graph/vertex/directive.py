@@ -60,10 +60,8 @@ class Directive(SphinxDirective):
         vertex_config = self.vertex_config()
         if vertex_config.regex and not vertex_config.regex.match(uid):
             msg = (
-                (
-                    f"vertex '{uid}' doesn't satisfy the configured regex"
-                    f" ('{vertex_config.regex.pattern}')"
-                ),
+                f"vertex '{uid}' doesn't satisfy the configured regex"
+                f" ('{vertex_config.regex.pattern}')"
             )
             logger.error(
                 msg,
@@ -72,9 +70,7 @@ class Directive(SphinxDirective):
             raise SphinxError(msg)
 
         if vertex_config.require_parent and len(parents) < 1:
-            msg = (
-                f"vertex '{uid}' is required to have at least one parent but has none",
-            )
+            msg = f"vertex '{uid}' is required to have at least one parent but has none"
             logger.error(
                 msg,
                 location=(self.env.docname, self.lineno),
