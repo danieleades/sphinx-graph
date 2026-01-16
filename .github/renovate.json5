@@ -34,8 +34,8 @@
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": [
-        "/^\\.github/workflows/.*\\.ya?ml$/"
+      "fileMatch": [
+        "^\\.github/workflows/.*\\.ya?ml$"
       ],
       "matchStrings": [
         "UV_VERSION:\\s*['\"]?(?<currentValue>\\d+\\.\\d+\\.\\d+)['\"]?"
