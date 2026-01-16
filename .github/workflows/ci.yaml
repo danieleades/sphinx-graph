@@ -68,3 +68,24 @@ jobs:
           files: coverage.xml
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  ci-summary:
+    name: CI Summary
+    if: always()
+    needs: [tests, lint, docs, coverage]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if any required job failed
+        run: |
+          results=(
+            "${{ needs.tests.result }}"
+            "${{ needs.lint.result }}"
+            "${{ needs.docs.result }}"
+            "${{ needs.coverage.result }}"
+          )
+          for r in "${results[@]}"; do
+            if [[ "$r" != "success" ]]; then
+              echo "Failing because a required job did not succeed: $r"
+              exit 1
+            fi
+          done
