@@ -1,15 +1,29 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "dependencyDashboard": true,
-  "semanticCommits": "enabled",
-  "schedule": [
-    "before 5am every weekday"
+  "extends": [
+    "config:recommended"
   ],
+  "automerge": true,
   "enabledManagers": [
     "pep621",
     "pre-commit",
     "custom.regex",
     "github-actions"
+  ],
+  // Security advisories should be proposed immediately, regardless of schedule.
+  "vulnerabilityAlerts": {
+    "enabled": true
+  },
+  "osvVulnerabilityAlerts": true,
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "security"
+      ],
+      "schedule": [
+        "at any time"
+      ]
+    }
   ],
   "lockFileMaintenance": {
     "enabled": true,
