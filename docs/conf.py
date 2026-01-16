@@ -66,3 +66,6 @@ nitpick_ignore = {
         "rustworkx.PyDiGraph",
     ),
 }
+nitpick_ignore_regex = [
+    ("py:class", r"dict\[.*"),
+]
