@@ -1,47 +1,46 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:recommended',
   ],
-  "automerge": true,
-  "enabledManagers": [
-    "pep621",
-    "pre-commit",
-    "custom.regex",
-    "github-actions"
+  automerge: true,
+  enabledManagers: [
+    'pep621',
+    'pre-commit',
+    'custom.regex',
+    'github-actions',
   ],
-  // Security advisories should be proposed immediately, regardless of schedule.
-  "vulnerabilityAlerts": {
-    "enabled": true
+  vulnerabilityAlerts: {
+    enabled: true,
   },
-  "osvVulnerabilityAlerts": true,
-  "packageRules": [
+  osvVulnerabilityAlerts: true,
+  packageRules: [
     {
-      "matchUpdateTypes": [
-        "security"
+      matchUpdateTypes: [
+        'security',
       ],
-      "schedule": [
-        "at any time"
-      ]
-    }
+      schedule: [
+        'at any time',
+      ],
+    },
   ],
-  "lockFileMaintenance": {
-    "enabled": true,
-    "schedule": [
-      "before 5am on the first day of the month"
-    ]
+  lockFileMaintenance: {
+    enabled: true,
+    schedule: [
+      'before 5am on the first day of the month',
+    ],
   },
-  "customManagers": [
+  customManagers: [
     {
-      "customType": "regex",
-      "fileMatch": [
-        "^\\.github/workflows/.*\\.ya?ml$"
+      customType: 'regex',
+      managerFilePatterns: [
+        '/^\\.github/workflows/.*\\.ya?ml$/',
       ],
-      "matchStrings": [
-        "UV_VERSION:\\s*['\"]?(?<currentValue>\\d+\\.\\d+\\.\\d+)['\"]?"
+      matchStrings: [
+        'UV_VERSION:\\s*[\'"]?(?<currentValue>\\d+\\.\\d+\\.\\d+)[\'"]?',
       ],
-      "datasourceTemplate": "pypi",
-      "depNameTemplate": "uv"
-    }
-  ]
+      datasourceTemplate: 'pypi',
+      depNameTemplate: 'uv',
+    },
+  ],
 }
