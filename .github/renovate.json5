@@ -10,6 +10,9 @@
     'custom.regex',
     'github-actions',
   ],
+  pre-commit: {
+    enabled: true,
+  },
   vulnerabilityAlerts: {
     enabled: true,
   },
