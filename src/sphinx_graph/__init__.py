@@ -10,6 +10,7 @@ adding it to ``conf.py``:
     ]
 """
 
+from . import vertex
 from ._setup import setup
 from .config import Config
 from .vertex import Config as VertexConfig
@@ -20,4 +21,5 @@ __all__ = [
     "Query",
     "VertexConfig",
     "setup",
+    "vertex",
 ]
