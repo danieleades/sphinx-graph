@@ -10,7 +10,7 @@
     'custom.regex',
     'github-actions',
   ],
-  pre-commit: {
+  "pre-commit": {
     enabled: true,
   },
   vulnerabilityAlerts: {
