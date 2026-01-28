@@ -1,3 +1,5 @@
+"""query requirements 'family' members."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
