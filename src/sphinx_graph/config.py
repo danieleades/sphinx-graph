@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
-from sphinx_graph import vertex
+from sphinx_graph.vertex import Config as VertexConfig
 
 if TYPE_CHECKING:
     from sphinx_graph.vertex.query import Query
@@ -42,13 +42,13 @@ class Config:
 
     Args:
         vertex_config: Default configuration to apply to all vertices.
-            This is an instance of :py:class:`sphinx_graph.vertex.config.Config`.
+            This is an instance of :py:class:`sphinx_graph.VertexConfig`.
             The default configuration is overridden by any config set for a
             specific 'type' of vertex. That is in turn overridden by any configuration
             set directly on the vertex directive.
         types: Set default directive configuration for 'types' of vertices.
             This is mapping from type name to
-            :py:class:`sphinx_graph.vertex.config.Config`
+            :py:class:`sphinx_graph.VertexConfig`
         queries: Functions used to filter and sort vertices for display in tables.
             A 'query' is a method which accepts a `sphinx_graph.vertex.State` and
             returns a list of vertex UIDs (typed as `sphinx_graph.Query`).
@@ -87,6 +87,6 @@ class Config:
                 MUST be defined in a different file and imported into *conf.py*.
     """
 
-    vertex_config: vertex.Config = field(default_factory=vertex.Config)
-    types: dict[str, vertex.Config] = field(default_factory=dict)
+    vertex_config: VertexConfig = field(default_factory=VertexConfig)
+    types: dict[str, VertexConfig] = field(default_factory=dict)
     queries: dict[str, Query] = field(default_factory=dict)

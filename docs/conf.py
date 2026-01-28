@@ -65,6 +65,8 @@ nitpick_ignore = {
         "py:class",
         "rustworkx.PyDiGraph",
     ),
+    ("py:class", "sphinx.application.Sphinx"),
+    ("py:class", "sphinx_graph._setup.ExtensionMetadata"),
 }
 nitpick_ignore_regex = [
     ("py:class", r"dict\[.*"),
