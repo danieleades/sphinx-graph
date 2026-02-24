@@ -19,28 +19,54 @@ Queries
 
 Sphinx-Graph supports using 'queries' to sort and filter the vertices displayed in a vertex table.
 
-A query is a python function with a signature of
+A query is a Python function with the signature:
 
 .. code-block:: python
 
     Callable[[sphinx_graph.vertex.State], Iterable[str]]
 
-where :py:class:`sphinx_graph.vertex.state.State` captures the list of available vertices and their associated info parsed from the
-document tree, as well as a networkx.DiGraph of the relationships between vertex nodes. The return value is a list of the vertices to display,
-in the order in which they should be displayed.
+:py:class:`sphinx_graph.vertex.State` provides access to all vertices and the graph of relationships between them.
+The return value is the list of vertex UIDs to display, in order.
 
-The query may also accept additional keyword arguments (with or without defaults).
+Queries may also accept additional keyword arguments (with or without defaults), which are passed in from the directive body using TOML syntax.
 
-Queries are defined in the global configuration in *conf.py* and then referenced in the 'vertex-table' directive.
-See :py:class:`sphinx_graph.config.Config` for details.
+Writing a query
+---------------
 
-Keyword arguments are parsed from the body of the directive in the TOML format.
+Define the query function in a separate module (not directly in *conf.py*), then register it under a name in *conf.py*:
+
+.. code-block:: python
+
+    # my_queries.py
+
+    from collections.abc import Iterable
+    from sphinx_graph.vertex import State
+
+    def by_tag(state: State, *, tag: str) -> Iterable[str]:
+        """Return all vertices that have a given tag."""
+        return (
+            uid for uid, info in state.vertices.items()
+            if tag in info.tags
+        )
+
+.. code-block:: python
+
+    # conf.py
+
+    from sphinx_graph import Config
+    from my_queries import by_tag
+
+    graph_config = Config(
+        queries={"by_tag": by_tag},
+    )
+
+Then reference the query by name in a ``vertex-table`` directive:
 
 .. code-block:: rst
 
     .. vertex-table::
-        :my_query:
+        :by_tag:
 
-        # TOML syntax is used to pass in kwargs for the query
-        kwarg1 = "value"
-        kwarg2 = 1234
+        tag = "my-tag"
+
+Keyword arguments are parsed from the directive body as TOML.
