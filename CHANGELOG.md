@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.4](https://github.com/danieleades/sphinx-graph/compare/v0.3.3...v0.3.4) (2026-03-01)
+
+
+### Bug Fixes
+
+* **ci:** add missing quotes to renovate config ([#302](https://github.com/danieleades/sphinx-graph/issues/302)) ([c9e1c25](https://github.com/danieleades/sphinx-graph/commit/c9e1c25f9f0bd5d82ea250a437016315f5924be9))
+* **docs:** update nitpick config to suppress upstream issue ([#296](https://github.com/danieleades/sphinx-graph/issues/296)) ([d2a4e40](https://github.com/danieleades/sphinx-graph/commit/d2a4e40647656f0bf231243ca43125acf919209e))
+
+
+### Documentation
+
+* improve documentation for 'queries' ([#318](https://github.com/danieleades/sphinx-graph/issues/318)) ([2e4c46b](https://github.com/danieleades/sphinx-graph/commit/2e4c46bd7bce3b4e72893e01372fb2646ffce9f1))
+
 ## [0.3.3](https://github.com/danieleades/sphinx-graph/compare/v0.3.2...v0.3.3) (2026-01-16)
 
 
