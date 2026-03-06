@@ -65,7 +65,7 @@ Then reference the query by name in a ``vertex-table`` directive:
 .. code-block:: rst
 
     .. vertex-table::
-        :by_tag:
+        :query: by_tag
 
         tag = "my-tag"
 
