@@ -32,7 +32,7 @@ dependencies = [
 dev = [
     # testing
     "pytest~=9.0.1",
-    "pytest-cov~=7.0.0",
+    "pytest-cov~=7.1.0",
     "defusedxml~=0.7.1", # transitive dependency required by `sphinx.testing.fixtures`. See https://github.com/sphinx-doc/sphinx/issues/12339
 
     # docs
