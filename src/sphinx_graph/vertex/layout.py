@@ -77,14 +77,11 @@ def transparent(helper: FormatHelper) -> nodes.Node:
     return helper.info.content
 
 
-def subtle(helper: FormatHelper) -> nodes.Node:
-    """Format a vertex Node as a docutils node using a 'subtle' layout.
+def _format_vertex(helper: FormatHelper, one_liner: nodes.Element) -> nodes.Node:
+    """Format a vertex Node as a docutils node using a provided layout.
 
-    This layout attempts to include all the vertex info, but minimise the impact
-    on the layout of the document.
+    This layout attempts to include all the vertex info.
     """
-    one_liner = nodes.subscript()
-
     one_liner += nodes.Text(helper.uid)
 
     parents = helper.parent_list()
@@ -111,12 +108,40 @@ def subtle(helper: FormatHelper) -> nodes.Node:
     return paragraph
 
 
+def subtle(helper: FormatHelper) -> nodes.Node:
+    """Format a vertex Node as a docutils node using a 'subtle' layout.
+
+    This layout attempts to minimise the impact on the layout of the document.
+    """
+    return _format_vertex(helper, nodes.subscript())
+
+
+def normal(helper: FormatHelper) -> nodes.Node:
+    """Format a vertex Node as a docutils node using a 'normal' layout.
+
+    This layout allows long lists of parents in PDF files. However, it may add
+    linebreaks within links if they contain hyphens.
+    """
+    return _format_vertex(helper, nodes.inline())
+
+
+def literal(helper: FormatHelper) -> nodes.Node:
+    """Format a vertex Node as a docutils node using a 'literal' layout.
+
+    This layout allows long lists of parents in PDF files. The vertex info is
+    formatted with a monospace font (essentially as code).
+    """
+    return _format_vertex(helper, nodes.literal())
+
+
 Formatter = Callable[[FormatHelper], nodes.Node]
 
 
 LAYOUTS: dict[str, Formatter] = {
     "transparent": transparent,
     "subtle": subtle,
+    "normal": normal,
+    "literal": literal,
 }
 
 
