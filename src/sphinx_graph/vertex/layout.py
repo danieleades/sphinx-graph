@@ -122,7 +122,7 @@ def normal(helper: FormatHelper) -> nodes.Node:
     This layout allows long lists of parents in PDF files. However, it may add
     linebreaks within links if they contain hyphens.
     """
-    return _format_vertex(helper, nodes.normal())
+    return _format_vertex(helper, nodes.inline())
 
 
 def literal(helper: FormatHelper) -> nodes.Node:
