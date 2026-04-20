@@ -62,11 +62,7 @@ def test_subtle_layout_html(app: Sphinx) -> None:
 
 @pytest.mark.sphinx(testroot="vertex", buildername="latex", warningiserror=True)
 def test_subtle_layout_latex(app: Sphinx) -> None:
-    r"""The subtle layout emits a DUrole whose LaTeX macro uses \textsubscript.
-
-    \textsubscript is text-mode, so long parent/child lists wrap across lines
-    in the PDF output. Math-mode subscript ($_{...}$) would not wrap.
-    """
+    """The subtle layout emits a DUrole macro that renders smaller text."""
     app.build()
 
     tex_files = list(Path(app.outdir).glob("*.tex"))
@@ -78,4 +74,4 @@ def test_subtle_layout_latex(app: Sphinx) -> None:
         r"\expandafter\providecommand\csname DUrolesphinx-graph-subtle\endcsname"
         in output
     )
-    assert r"\textsubscript" in output
+    assert r"{\small #1}" in output

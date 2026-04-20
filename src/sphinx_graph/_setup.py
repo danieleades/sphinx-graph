@@ -13,10 +13,8 @@ _STATIC_DIR = Path(__file__).parent / "static"
 _CSS_FILENAME = "sphinx-graph.css"
 
 _LATEX_PREAMBLE = (
-    r"% sphinx-graph: render the 'subtle' inline role as text-mode subscript"
-    "\n"
     r"\expandafter\providecommand\csname DUrolesphinx-graph-subtle\endcsname"
-    r"[1]{\textsubscript{#1}}"
+    r"[1]{{\small #1}}"
     "\n"
 )
 
