@@ -83,7 +83,7 @@ def subtle(helper: FormatHelper) -> nodes.Node:
     This layout attempts to include all the vertex info, but minimise the impact
     on the layout of the document.
     """
-    one_liner = nodes.subscript()
+    one_liner = nodes.inline(classes=["sphinx-graph-subtle"])
 
     one_liner += nodes.Text(helper.uid)
 
